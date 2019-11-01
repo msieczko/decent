@@ -26,7 +26,7 @@ contract CourierService {
         address receiver;
         uint courierDeposit;
         uint courierAward;
-        uint32 deliveryDeadline;
+        uint32 deliveryDeadline;    // Only in OFFER, PICKUP_DECLARED and OFFER_CANCELED states this field has a different meaning - maxDeliveryTime
         uint32 pickupDeadline;
         string detailsHash;
         address courier;
@@ -58,7 +58,7 @@ contract CourierService {
         address receiver,
         uint courierDeposit,
         uint courierAward,
-        uint32 deliveryDeadline,
+        uint32 maxDeliveryTime,
         string calldata detailsHash
     ) external payable returns (uint deliveryId) {
         require(msg.value >= courierAward + courierDeposit / 2, "ERR01: Insufficient funds");
@@ -70,7 +70,7 @@ contract CourierService {
             receiver: receiver,
             courierDeposit: courierDeposit,
             courierAward: courierAward,
-            deliveryDeadline: deliveryDeadline,
+            deliveryDeadline: maxDeliveryTime,
             pickupDeadline: 0,
             detailsHash: detailsHash,
             courier: address(0)
