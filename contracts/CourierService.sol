@@ -36,7 +36,7 @@ contract CourierService {
     Delivery[] deliveries; // all deliveries
     mapping(address => uint[]) senderDeliveries; // senderAddress => list of ids of deliveries he's involved in
     mapping(address => uint[]) courierDeliveries; // courierAddress => list of ids of deliveries he's involved in
-    mapping(uint => uint) deposits;  // deliveryId => Wei
+    mapping(uint => uint) deposits;  // deliveryId => Wei  // TODO currently unused - set in functions or remove if unnecessary
 
     event DeliveryCreated(uint indexed deliveryId);
     event DeliveryCanceled(uint indexed deliveryId);
@@ -80,6 +80,7 @@ contract CourierService {
             detailsHash: detailsHash,
             courier: address(0)
         }));
+        senderDeliveries[msg.sender].push(deliveryId);
         emit DeliveryCreated(deliveryId);
     }
 
@@ -113,6 +114,7 @@ contract CourierService {
         delivery.deliveryDeadline += now; // deliveryDeadline = now + maxDeliveryTime
         delivery.pickupDeadline = 0;
         delivery.courier = msg.sender;
+        courierDeliveries[msg.sender].push(deliveryId);
         emit PackagePickedUp(deliveryId);
     }
 }
