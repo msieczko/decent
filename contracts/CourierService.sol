@@ -55,6 +55,10 @@ contract CourierService {
         _;
     }
 
+    constructor() {
+        deliveries.length = 1;
+    }
+
     function createDeliveryOrder(
         address receiver,
         uint courierDeposit,
