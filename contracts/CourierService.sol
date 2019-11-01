@@ -1,4 +1,4 @@
-pragma solidity ^0.5.12;
+pragma solidity ^0.5.11;
 
 contract CourierService {
     uint nextDeliveryId = 1;
@@ -8,14 +8,14 @@ contract CourierService {
         PICKUP_DECLARED,
         IN_DELIVERY,
         DELIVERED,
-        
+
         OFFER_CANCELED,
         RETURNED,
 
         COURIER_REFUND_CLAIM,
         COURIER_REFUNDED,
         SENDER_REQUESTED_RETURN,
-        SENDER_REFUNDED,
+        SENDER_REFUNDED
     }
 
     struct Delivery {
@@ -25,6 +25,7 @@ contract CourierService {
         address receiver;
         uint courierDeposit;
         uint courierAward;
+        uint32 deliveryDeadline;
         string detailsHash;
         address courier;
     }
@@ -38,10 +39,11 @@ contract CourierService {
     event DeliveryCreted(uint indexed deliveryId);
 
     function createDeliveryOrder(
-        address receiver, 
-        uint courierDeposit, 
-        uint courierAward, 
-        string detailsHash
+        address receiver,
+        uint courierDeposit,
+        uint courierAward,
+        uint32 deliveryDeadline,
+        string calldata detailsHash
     ) external payable returns (uint deliveryId) {
         require(msg.value >= courierAward + courierDeposit / 2, "ERR01: Insufficient funds");
 
@@ -51,10 +53,12 @@ contract CourierService {
             id: deliveryId,
             deliveryState: DeliveryState.OFFER,
             sender: msg.sender,
-            receiver: receiver
-            courierDeposit: courierDeposit
-            courierAward: courierAward
-            detailsHash: detailsHash
+            receiver: receiver,
+            courierDeposit: courierDeposit,
+            courierAward: courierAward,
+            deliveryDeadline: deliveryDeadline,
+            detailsHash: detailsHash,
+            courier: address(0)
         }));
 
         emit DeliveryCreted(deliveryId);
