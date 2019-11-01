@@ -54,7 +54,7 @@ contract CourierService {
         _;
     }
 
-    constructor() {
+    constructor() public {
         deliveries.length = 1;
     }
 
@@ -110,7 +110,7 @@ contract CourierService {
         require(msg.value >= delivery.courierDeposit, "ERR01: Insufficient funds");
         delivery.state = DeliveryState.IN_DELIVERY;
         delivery.courierDeposit = msg.value;
-        delivery.deliveryDeadline += now; // deliveryDeadline = now + maxDeliveryTime
+        delivery.deliveryDeadline += uint32(now); // deliveryDeadline = now + maxDeliveryTime
         delivery.pickupDeadline = 0;
         delivery.courier = msg.sender;
         courierDeliveries[msg.sender].push(deliveryId);
