@@ -8,13 +8,14 @@ contract CourierService {
         PICKUP_DECLARED,
         IN_DELIVERY,
         DELIVERED,
-
         OFFER_CANCELED,
         RETURNED,
 
         COURIER_REFUND_CLAIM,
         COURIER_REFUNDED,
         SENDER_REQUESTED_RETURN,
+        SENDER_PARTIALLY_REFUNDED,
+        DELIVERY_TIME_PASSED,
         SENDER_REFUNDED
     }
 
