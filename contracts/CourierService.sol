@@ -37,7 +37,7 @@ contract CourierService {
     mapping(address => uint[]) courierDeliveries;
     mapping(uint => uint) deposits;  // deliveryId => Wei
 
-    event DeliveryCreted(uint indexed deliveryId);
+    event DeliveryCreated(uint indexed deliveryId);
     event DeliveryCanceled(uint indexed deliveryId);
 
     modifier onlyInState(DeliveryState state, uint deliveryId) {
@@ -66,7 +66,7 @@ contract CourierService {
             detailsHash: detailsHash,
             courier: address(0)
         }));
-        emit DeliveryCreted(deliveryId);
+        emit DeliveryCreated(deliveryId);
     }
 
     function cancelDeliveryOrder(uint deliveryId) external onlyInState(DeliveryState.OFFER, deliveryId) {
