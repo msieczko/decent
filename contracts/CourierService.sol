@@ -32,10 +32,10 @@ contract CourierService {
         address courier;
     }
 
-    uint[] offers;
-    Delivery[] deliveries;
-    mapping(address => uint[]) senderDeliveries;
-    mapping(address => uint[]) courierDeliveries;
+    uint[] offers; // list of ids of all deliveries in OFFER state
+    Delivery[] deliveries; // all deliveries
+    mapping(address => uint[]) senderDeliveries; // senderAddress => list of ids of deliveries he's involved in
+    mapping(address => uint[]) courierDeliveries; // courierAddress => list of ids of deliveries he's involved in
     mapping(uint => uint) deposits;  // deliveryId => Wei
 
     event DeliveryCreated(uint indexed deliveryId);
