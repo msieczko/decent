@@ -38,6 +38,13 @@ contract CourierService {
     mapping(uint => uint) deposits;  // deliveryId => Wei
 
     event DeliveryCreted(uint indexed deliveryId);
+    event DeliveryCanceled(uint indexed deliveryId);
+
+    modifier onlyInState(DeliveryState state, uint deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        require(delivery.state == state, "ERR02: Incorrect state of the delivery");
+        _;
+    }
 
     function createDeliveryOrder(
         address receiver,
@@ -60,6 +67,12 @@ contract CourierService {
             courier: address(0)
         }));
         emit DeliveryCreted(deliveryId);
+    }
+
+    function cancelDeliveryOrder(uint deliveryId) external onlyInState(DeliveryState.OFFER, deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        delivery.state = DeliveryState.OFFER_CANCELED;
+        emit DeliveryCanceled(deliveryId);
     }
 
 
