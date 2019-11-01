@@ -41,6 +41,7 @@ contract CourierService {
     event DeliveryCreated(uint indexed deliveryId);
     event DeliveryCanceled(uint indexed deliveryId);
     event PickupDeclared(uint indexed deliveryId, address indexed courier);
+    event PackagePickedUp(uint indexed deliveryId);
 
     modifier onlyInState(DeliveryState state, uint deliveryId) {
         Delivery storage delivery = deliveries[deliveryId];
@@ -95,5 +96,19 @@ contract CourierService {
         emit PickupDeclared(deliveryId, msg.sender);
     }
 
-
+    function pickupPackage(
+        uint deliveryId
+    ) external payable onlyInStates(DeliveryState.OFFER, DeliveryState.PICKUP_DECLARED, deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        if (delivery.state == DeliveryState.PICKUP_DECLARED && now < delivery.pickupDeadline) {
+            require(msg.sender == delivery.courier, "ERR04: Package pickup is reserved for another courier");
+        }
+        require(msg.value >= delivery.courierDeposit, "ERR01: Insufficient funds");
+        delivery.state = DeliveryState.IN_DELIVERY;
+        delivery.courierDeposit = msg.value;
+        delivery.deliveryDeadline += now; // deliveryDeadline = now + maxDeliveryTime
+        delivery.pickupDeadline = 0;
+        delivery.courier = msg.sender;
+        emit PackagePickedUp(deliveryId);
+    }
 }
