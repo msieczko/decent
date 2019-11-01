@@ -27,6 +27,7 @@ contract CourierService {
         uint courierDeposit;
         uint courierAward;
         uint32 deliveryDeadline;
+        uint32 pickupDeadline;
         string detailsHash;
         address courier;
     }
@@ -39,10 +40,17 @@ contract CourierService {
 
     event DeliveryCreated(uint indexed deliveryId);
     event DeliveryCanceled(uint indexed deliveryId);
+    event PickupDeclared(uint indexed deliveryId, address indexed courier);
 
     modifier onlyInState(DeliveryState state, uint deliveryId) {
         Delivery storage delivery = deliveries[deliveryId];
         require(delivery.state == state, "ERR02: Incorrect state of the delivery");
+        _;
+    }
+
+    modifier onlyInStates(DeliveryState state1, DeliveryState state2, uint deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        require(delivery.state == state1 || delivery.state == state2, "ERR02: Incorrect state of the delivery");
         _;
     }
 
@@ -63,6 +71,7 @@ contract CourierService {
             courierDeposit: courierDeposit,
             courierAward: courierAward,
             deliveryDeadline: deliveryDeadline,
+            pickupDeadline: 0,
             detailsHash: detailsHash,
             courier: address(0)
         }));
@@ -75,6 +84,16 @@ contract CourierService {
         emit DeliveryCanceled(deliveryId);
     }
 
+    function declarePickup(
+        uint deliveryId
+    ) external onlyInStates(DeliveryState.OFFER, DeliveryState.PICKUP_DECLARED, deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        require(delivery.pickupDeadline < now, "ERR03: Cannot redeclare: pickup deadline has not passed yet");
+        delivery.state = DeliveryState.PICKUP_DECLARED;
+        delivery.courier = msg.sender;
+        delivery.pickupDeadline = uint32(now + 60 minutes);
+        emit PickupDeclared(deliveryId, msg.sender);
+    }
 
 
 }
