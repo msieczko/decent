@@ -21,7 +21,7 @@ contract CourierService {
 
     struct Delivery {
         uint id;
-        DeliveryState deliveryState;
+        DeliveryState state;
         address sender;
         address receiver;
         uint courierDeposit;
@@ -47,12 +47,10 @@ contract CourierService {
         string calldata detailsHash
     ) external payable returns (uint deliveryId) {
         require(msg.value >= courierAward + courierDeposit / 2, "ERR01: Insufficient funds");
-
         deliveryId = nextDeliveryId++;
-
         deliveries.push(Delivery({
             id: deliveryId,
-            deliveryState: DeliveryState.OFFER,
+            state: DeliveryState.OFFER,
             sender: msg.sender,
             receiver: receiver,
             courierDeposit: courierDeposit,
@@ -61,7 +59,6 @@ contract CourierService {
             detailsHash: detailsHash,
             courier: address(0)
         }));
-
         emit DeliveryCreted(deliveryId);
     }
 
