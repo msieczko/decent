@@ -1,7 +1,7 @@
-@startuml DeliveryState
+@startuml delivery-states
 hide empty description
 
-title DeliveryState
+title Delivery States
 
 state HappyPath {
     [*] -> OFFER
