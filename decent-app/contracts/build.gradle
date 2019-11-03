@@ -11,16 +11,16 @@ sourceSets {
     main {
         solidity {
             srcDir {
-                '../../decent-contracts/src'
+                '../../decent-contracts/src2'
             }
         }
     }
 }
 
 solidity {
-    version = '0.5.7'
+    version = '0.4.25'
 }
 
 dependencies {
-    implementation 'org.ethereum:solcJ-all:0.5.7'
+    implementation 'org.ethereum:solcJ-all:0.4.25'
 }
