@@ -1,0 +1,5 @@
+<lint>
+    <issue id="InvalidPackage">
+        <ignore path="**/bcprov-jdk15on-1.60.jar"/>
+    </issue>
+</lint>
