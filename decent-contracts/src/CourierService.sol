@@ -1,4 +1,4 @@
-pragma solidity ^0.5.11;
+pragma solidity ^0.5.7;
 
 contract CourierService {
     uint nextDeliveryId = 1;

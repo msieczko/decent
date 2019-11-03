@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'org.web3j' version '4.3.0'
+}
+
+web3j {
+    generatedPackageName = 'eu.bwbw.decent.contracts.generated'
+}
+
+sourceSets {
+    main {
+        solidity {
+            srcDir {
+                '../../decent-contracts/src'
+            }
+        }
+    }
+}
+
+solidity {
+    version = '0.5.7'
+}
+
+dependencies {
+    implementation 'org.ethereum:solcJ-all:0.5.7'
+}
