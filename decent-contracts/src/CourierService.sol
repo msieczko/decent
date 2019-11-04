@@ -26,25 +26,28 @@ contract CourierService {
     struct Delivery {
         uint id;
         DeliveryState state;
-        address sender;
+        address payable sender;
         address receiver;
+        uint senderDeposit;
         uint courierDeposit;
         uint courierAward;
         uint32 deliveryDeadline;    // Only in OFFER, PICKUP_DECLARED and OFFER_CANCELED states this field has a different meaning - maxDeliveryTime
         uint32 pickupDeadline;
-        string detailsHash;
-        address courier;
+        bytes32 detailsHash;
+        address payable courier;
     }
 
     Delivery[] deliveries; // all deliveries
     mapping(address => uint[]) senderDeliveries; // senderAddress => list of ids of deliveries he's involved in
     mapping(address => uint[]) courierDeliveries; // courierAddress => list of ids of deliveries he's involved in
-    mapping(uint => uint) deposits;  // deliveryId => Wei  // TODO currently unused - set in functions or remove if unnecessary
+    mapping(address => uint) pendingWithdrawals;
 
     event DeliveryCreated(uint indexed deliveryId);
     event DeliveryCanceled(uint indexed deliveryId);
     event PickupDeclared(uint indexed deliveryId, address indexed courier);
     event PackagePickedUp(uint indexed deliveryId);
+    event PackageDelivered(uint indexed deliveryId);
+    event FundsWithdrawn(address indexed by, uint value);
 
     modifier onlyInState(DeliveryState state, uint deliveryId) {
         Delivery storage delivery = deliveries[deliveryId];
@@ -58,6 +61,12 @@ contract CourierService {
         _;
     }
 
+    modifier onlyCourier(uint deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        require(msg.sender == delivery.courier, "ERR05: Unauthorised");
+        _;
+    }
+
     constructor() public {
         deliveries.length = 1;
     }
@@ -67,7 +76,7 @@ contract CourierService {
         uint courierDeposit,
         uint courierAward,
         uint32 maxDeliveryTime,
-        string calldata detailsHash
+        bytes32 detailsHash
     ) external payable returns (uint deliveryId) {
         require(msg.value >= courierAward + courierDeposit / 2, "ERR01: Insufficient funds");
         deliveryId = nextDeliveryId++;
@@ -76,6 +85,7 @@ contract CourierService {
             state: DeliveryState.OFFER,
             sender: msg.sender,
             receiver: receiver,
+            senderDeposit: msg.value - courierAward,
             courierDeposit: courierDeposit,
             courierAward: courierAward,
             deliveryDeadline: maxDeliveryTime,
@@ -119,5 +129,23 @@ contract CourierService {
         delivery.courier = msg.sender;
         courierDeliveries[msg.sender].push(deliveryId);
         emit PackagePickedUp(deliveryId);
+    }
+
+    function deliverPackage(
+        uint deliveryId,
+        bytes memory receiverSignature
+    ) public onlyCourier(deliveryId) onlyInState(DeliveryState.IN_DELIVERY, deliveryId) {
+        Delivery storage delivery = deliveries[deliveryId];
+        require(delivery.detailsHash.recover(receiverSignature) == delivery.receiver, "ERR06: Incorrect signature");
+        delivery.state = DeliveryState.DELIVERED;
+        pendingWithdrawals[delivery.courier] += delivery.courierDeposit + delivery.courierAward;
+        pendingWithdrawals[delivery.sender] += delivery.senderDeposit;
+        emit PackageDelivered(deliveryId);
+    }
+
+    function withdraw() external {
+        uint amount = pendingWithdrawals[msg.sender];
+        pendingWithdrawals[msg.sender] = 0;
+        msg.sender.transfer(amount);
     }
 }
