@@ -1,6 +1,10 @@
 pragma solidity ^0.5.7;
 
+import "./cryptography/ECDSA.sol";
+
 contract CourierService {
+    using ECDSA for bytes32;
+
     uint nextDeliveryId = 1;
 
     enum DeliveryState {

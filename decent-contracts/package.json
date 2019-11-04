@@ -5,9 +5,6 @@
   "scripts": {
     "build": "waffle waffle.js"
   },
-  "dependencies": {
-    "openzeppelin-solidity": "^2.4.0"
-  },
   "devDependencies": {
     "ethereum-waffle": "^2.1.0"
   }
