@@ -3,9 +3,27 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "waffle waffle.js"
+    "prebuild": "yarn clean",
+    "build": "yarn build:compile && yarn build:types",
+    "build:compile": "waffle waffle.js",
+    "build:types": "typechain --target ethers --outDir build/contract-types 'build/contracts/*.json'",
+    "test": "yarn build && yarn test:nobuild",
+    "test:nobuild": "mocha -r ts-node/register -t 10000 'test/**/*.ts'",
+    "clean": "rimraf build"
   },
   "devDependencies": {
-    "ethereum-waffle": "^2.1.0"
+    "@types/chai": "^4.2.4",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "ethereum-waffle": "^2.1.0",
+    "ethers": "^4.0.39",
+    "mocha": "^6.2.2",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.4.1",
+    "typechain": "^1.0.3",
+    "typechain-target-ethers": "^1.0.1",
+    "typescript": "^3.6.4"
   }
 }
