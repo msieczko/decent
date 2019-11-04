@@ -36,3 +36,4 @@ jobs:
         with:
           arguments: build
           build-root-directory: decent-app
+          wrapper-directory: decent-app
