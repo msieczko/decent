@@ -1,6 +1,11 @@
 {
-    "name": "@decent/contracts",
-    "version": "0.0.1",
-    "private": true
+  "name": "@decent/contracts",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "openzeppelin-solidity": "^2.4.0"
+  },
+  "devDependencies": {
+    "ethereum-waffle": "^2.1.0"
   }
-  
+}
