@@ -2,6 +2,9 @@
   "name": "@decent/contracts",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "build": "waffle waffle.js"
+  },
   "dependencies": {
     "openzeppelin-solidity": "^2.4.0"
   },
