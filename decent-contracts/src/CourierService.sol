@@ -37,10 +37,10 @@ contract CourierService {
         address payable courier;
     }
 
-    Delivery[] deliveries; // all deliveries
-    mapping(address => uint[]) senderDeliveries; // senderAddress => list of ids of deliveries he's involved in
-    mapping(address => uint[]) courierDeliveries; // courierAddress => list of ids of deliveries he's involved in
-    mapping(address => uint) pendingWithdrawals;
+    Delivery[] public deliveries; // all deliveries
+    mapping(address => uint[]) public senderDeliveries; // senderAddress => list of ids of deliveries he's involved in
+    mapping(address => uint[]) public courierDeliveries; // courierAddress => list of ids of deliveries he's involved in
+    mapping(address => uint) public pendingWithdrawals;
 
     event DeliveryCreated(uint indexed deliveryId);
     event DeliveryCanceled(uint indexed deliveryId);
