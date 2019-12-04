@@ -38,71 +38,75 @@ describe('CourierService contract', function () {
     ({provider, sender, courier, receiver, asSender, asCourier, asReceiver} = await loadFixture(fixture));
   });
 
-  describe('createDeliveryOrder', function () {
-    const courierDeposit = parseEther('1');
-    const courierAward = parseEther('0.2');
-    const senderDeposit = courierDeposit.div(2);
+  describe('Individual functions', function () {
 
-    it('emits DeliveryCreated event', async function () {
-      const tx = asSender.createDeliveryOrder(
-        receiver.address,
-        courierDeposit,
-        courierAward,
-        bigNumberify(HOUR),
-        id('some data'),
-        {
-          value: senderDeposit.add(courierAward)
-        }
-      );
-      await expect(tx)
-        .to.emit(asSender, 'DeliveryCreated')
-        .withArgs(1);
-    });
+    describe('createDeliveryOrder', function () {
+      const courierDeposit = parseEther('1');
+      const courierAward = parseEther('0.2');
+      const senderDeposit = courierDeposit.div(2);
 
-    it('creates and stores delivery object', async function () {
-      const tx = await asSender.createDeliveryOrder(
-        receiver.address,
-        courierDeposit,
-        courierAward,
-        bigNumberify(HOUR),
-        id('some data'),
-        {
-          value: senderDeposit.add(courierAward)
-        }
-      );
-      await tx.wait();
+      it('emits DeliveryCreated event', async function () {
+        const tx = asSender.createDeliveryOrder(
+          receiver.address,
+          courierDeposit,
+          courierAward,
+          bigNumberify(HOUR),
+          id('some data'),
+          {
+            value: senderDeposit.add(courierAward)
+          }
+        );
+        await expect(tx)
+          .to.emit(asSender, 'DeliveryCreated')
+          .withArgs(1);
+      });
 
-      const delivery: Delivery = {
-        id: bigNumberify(1),
-        state: DeliveryState.OFFER,
-        sender: sender.address,
-        receiver: receiver.address,
-        senderDeposit: senderDeposit,
-        courierDeposit: courierDeposit,
-        courierAward: courierAward,
-        deliveryDeadline: HOUR,
-        pickupDeadline: 0,
-        detailsHash: id('some data'),
-        courier: AddressZero,
-      };
+      it('creates and stores delivery object', async function () {
+        const tx = await asSender.createDeliveryOrder(
+          receiver.address,
+          courierDeposit,
+          courierAward,
+          bigNumberify(HOUR),
+          id('some data'),
+          {
+            value: senderDeposit.add(courierAward)
+          }
+        );
+        await tx.wait();
 
-      expect(toDelivery(await asSender.deliveries(1))).to.deep.eq(delivery);
-      await expect(asSender.senderDeliveries(sender.address, 0)).to.eventually.eq(1);
-    });
+        const delivery: Delivery = {
+          id: bigNumberify(1),
+          state: DeliveryState.OFFER,
+          sender: sender.address,
+          receiver: receiver.address,
+          senderDeposit: senderDeposit,
+          courierDeposit: courierDeposit,
+          courierAward: courierAward,
+          deliveryDeadline: HOUR,
+          pickupDeadline: 0,
+          detailsHash: id('some data'),
+          courier: AddressZero,
+        };
 
-    it('reverts when insufficient funds are sent', async function () {
-      const tx = asSender.createDeliveryOrder(
-        receiver.address,
-        courierDeposit,
-        courierAward,
-        bigNumberify(HOUR),
-        id('some data'),
-        {
-          value: senderDeposit.add(courierAward).sub(10)
-        }
-      );
+        expect(toDelivery(await asSender.deliveries(1))).to.deep.eq(delivery);
+        await expect(asSender.senderDeliveries(sender.address, 0)).to.eventually.eq(1);
+      });
 
-      await expect(tx).to.be.revertedWith('ERR01')
+      it('reverts when insufficient funds are sent', async function () {
+        const tx = asSender.createDeliveryOrder(
+          receiver.address,
+          courierDeposit,
+          courierAward,
+          bigNumberify(HOUR),
+          id('some data'),
+          {
+            value: senderDeposit.add(courierAward).sub(10)
+          }
+        );
+
+        await expect(tx).to.be.revertedWith('ERR01')
+      });
     });
   });
+
 });
