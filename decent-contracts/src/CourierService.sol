@@ -136,7 +136,7 @@ contract CourierService {
         bytes memory receiverSignature
     ) public onlyCourier(deliveryId) onlyInState(DeliveryState.IN_DELIVERY, deliveryId) {
         Delivery storage delivery = deliveries[deliveryId];
-        require(delivery.detailsHash.recover(receiverSignature) == delivery.receiver, "ERR06: Incorrect signature");
+        require(verifyReceiverSignature(delivery, receiverSignature), "ERR06: Incorrect signature");
         delivery.state = DeliveryState.DELIVERED;
         pendingWithdrawals[delivery.courier] += delivery.courierDeposit + delivery.courierAward;
         pendingWithdrawals[delivery.sender] += delivery.senderDeposit;
@@ -147,5 +147,9 @@ contract CourierService {
         uint amount = pendingWithdrawals[msg.sender];
         pendingWithdrawals[msg.sender] = 0;
         msg.sender.transfer(amount);
+    }
+
+    function verifyReceiverSignature(Delivery storage delivery, bytes memory signature) internal view returns (bool) {
+        return delivery.detailsHash.toEthSignedMessageHash().recover(signature) == delivery.receiver;
     }
 }
