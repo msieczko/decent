@@ -1,5 +1,5 @@
 name: CI
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build-test-contracts:
@@ -18,7 +18,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
       - name: Build contracts
         run: yarn workspace @decent/contracts build
       - name: Test contracts
