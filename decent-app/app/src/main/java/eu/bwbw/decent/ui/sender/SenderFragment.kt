@@ -12,7 +12,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import eu.bwbw.decent.R
-import eu.bwbw.decent.ui.welcome.WelcomeFragmentDirections
 
 class SenderFragment : Fragment() {
 
