@@ -1,43 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/welcomeFragment">
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="eu.bwbw.decent.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+    <fragment android:id="@+id/authenticationFragment"
+              android:name="eu.bwbw.decent.ui.authentication.AuthenticationFragment"
+              android:label="authentication_fragment" tools:layout="@layout/authentication_fragment">
+        <action android:id="@+id/action_authenticationFragment_to_senderFragment" app:destination="@id/senderFragment"
+                app:popUpTo="@+id/mobile_navigation" app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_authenticationFragment_to_courierFragment"
+                app:destination="@id/courierFragment" app:popUpTo="@+id/mobile_navigation" app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment android:id="@+id/welcomeFragment" android:name="eu.bwbw.decent.ui.welcome.WelcomeFragment"
+              android:label="welcome_fragment" tools:layout="@layout/welcome_fragment">
+        <action android:id="@+id/action_welcomeFragment_to_authenticationFragment"
+                app:destination="@id/authenticationFragment"/>
+        <action android:id="@+id/action_welcomeFragment_to_receiverFragment" app:destination="@id/receiverFragment"
+                app:popUpToInclusive="true" app:popUpTo="@+id/mobile_navigation"/>
+    </fragment>
+    <fragment android:id="@+id/addNewDeliveryFragment" android:name="eu.bwbw.decent.ui.sender.AddNewDeliveryFragment"
+              android:label="Add New Delivery" tools:layout="@layout/add_new_delivery_fragment"/>
+    <fragment android:id="@+id/courierFragment" android:name="eu.bwbw.decent.ui.courier.CourierFragment"
+              android:label="Delivery orders"/>
+    <fragment android:id="@+id/receiverFragment" android:name="eu.bwbw.decent.ui.receiver.ReceiverFragment"
+              android:label="My pending deliveries"/>
+    <fragment android:id="@+id/senderFragment" android:name="eu.bwbw.decent.ui.sender.SenderFragment"
+              android:label="My deliveries">
+        <action android:id="@+id/action_senderFragment_to_addNewDeliveryFragment"
+                app:destination="@id/addNewDeliveryFragment"/>
+    </fragment>
 
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="eu.bwbw.decent.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="eu.bwbw.decent.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="eu.bwbw.decent.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
-
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="eu.bwbw.decent.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
-
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="eu.bwbw.decent.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
 </navigation>

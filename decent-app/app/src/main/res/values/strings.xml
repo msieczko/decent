@@ -7,10 +7,16 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_sender">Sender</string>
+    <string name="menu_courier">Courier</string>
+    <string name="menu_receiver">Receiver</string>
+    <string name="welcome_text">Welcome to DecentApp</string>
+    <string name="button_just_receive_packages">I just want to receive packages</string>
+    <string name="button_send_or_deliver">I want to send/deliver packages</string>
+    <string name="private_key_info">We need your wallet private key to process transactions</string>
+    <string name="private_key">Private key</string>
+    <string name="save">Save</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
