@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
+import eu.bwbw.decent.ui.sender.DeliveryDetailsViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
-import java.util.*
 
 class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFactory() {
 
@@ -20,6 +19,8 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                     AddNewDeliveryViewModel(deliveriesRepository)
                 isAssignableFrom(SenderViewModel::class.java) ->
                     SenderViewModel(deliveriesRepository)
+                isAssignableFrom(DeliveryDetailsViewModel::class.java) ->
+                    DeliveryDetailsViewModel(deliveriesRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

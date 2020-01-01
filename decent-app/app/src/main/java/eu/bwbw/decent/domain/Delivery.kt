@@ -1,8 +1,7 @@
 package eu.bwbw.decent.domain
 
-import java.util.*
-
 data class Delivery(
+    var id: Int,
     var title: String,
     var description: String,
     var receiverEthereumAddress: String,

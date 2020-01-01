@@ -33,17 +33,14 @@ class AddNewDeliveryViewModel(private val deliveriesRepository: DeliveriesReposi
 
 
         val delivery = Delivery(
+            0,
             currentTitle,
-            "Duży, rudy w koszu",
             "r",
+            "",
             "Warszawa",
             0,
             0,
             0
-
-          /*  200,
-            20,
-            10*/
         )
 
         _savingData.value = true

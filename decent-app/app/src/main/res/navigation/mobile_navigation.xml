@@ -30,6 +30,12 @@
               android:label="My deliveries">
         <action android:id="@+id/action_senderFragment_to_addNewDeliveryFragment"
                 app:destination="@id/addNewDeliveryFragment"/>
+        <action android:id="@+id/action_senderFragment_to_deliveryDetailsFragment"
+                app:destination="@id/deliveryDetailsFragment"/>
+    </fragment>
+    <fragment android:id="@+id/deliveryDetailsFragment" android:name="eu.bwbw.decent.ui.sender.DeliveryDetailsFragment"
+              android:label="DeliveryDetailsFragment">
+        <argument android:name="deliveryId" app:argType="integer"/>
     </fragment>
 
 </navigation>

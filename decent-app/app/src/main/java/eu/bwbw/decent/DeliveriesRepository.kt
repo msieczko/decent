@@ -7,28 +7,35 @@ import kotlin.collections.ArrayList
 class DeliveriesRepository(
 ) {
     private val deliveries = ArrayList<Delivery>(LIST_MOCK)
+    private var count: Int = LIST_MOCK.size
 
     fun getDeliveries(): List<Delivery> {
         return deliveries
     }
 
-    fun saveDelivery(delivery: Delivery, onDeliverySaved: () -> Unit) {
+    fun saveDelivery(delivery: Delivery, deliverySavedCallback: () -> Unit) {
         println("Saving delivery $delivery") // TODO REMOVE
         // simulate saving operation that takes 2 seconds
         Thread(Runnable {
             try {
                 Thread.sleep(2000)
+                delivery.id = ++count
                 deliveries.add(delivery)
-                onDeliverySaved()
+                deliverySavedCallback()
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
         }).start()
     }
 
+    fun getDelivery(deliveryId: Int, deliveryFetchedCallback: (Delivery) -> Unit) {
+        deliveryFetchedCallback(deliveries.first { delivery -> delivery.id == deliveryId })
+    }
+
     companion object {
         private val LIST_MOCK: MutableList<Delivery> = Arrays.asList(
             Delivery(
+                1,
                 "Zlecenie przewozu kota",
                 "Duży, rudy w koszu",
                 "r",
@@ -38,6 +45,7 @@ class DeliveriesRepository(
                 10
             ),
             Delivery(
+                2,
                 "Zlecenie przewozu dużego dzika",
                 "Duży, dziki w koszu",
                 "r",

@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
-import eu.bwbw.decent.domain.Delivery
-import java.util.*
 
 
 class DeliveryListFragment : Fragment() {
@@ -42,7 +41,13 @@ class DeliveryListFragment : Fragment() {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = DeliveryRecyclerViewAdapter(
-                    onDeliveryClick = { item -> println("click ${item?.title}") },
+                    onDeliveryClick = {
+                        it?.let {
+                            val directions: NavDirections =
+                                SenderFragmentDirections.actionSenderFragmentToDeliveryDetailsFragment(it.id)
+                            view.findNavController().navigate(directions)
+                        }
+                    },
                     values = senderViewModel.getDeliveries()
                 )
             }
