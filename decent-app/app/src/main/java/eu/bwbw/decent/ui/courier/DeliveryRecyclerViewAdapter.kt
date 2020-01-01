@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.sender
+package eu.bwbw.decent.ui.courier
 
 
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
-import kotlinx.android.synthetic.main.fragment_delivery_sender.view.*
+import kotlinx.android.synthetic.main.fragment_delivery_courier.view.*
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
@@ -26,7 +26,7 @@ class DeliveryRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_delivery_sender, parent, false)
+            .inflate(R.layout.fragment_delivery_courier, parent, false)
         return ViewHolder(view)
     }
 

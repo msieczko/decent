@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.sender
+package eu.bwbw.decent.ui.receiver
 
 
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
-import kotlinx.android.synthetic.main.fragment_delivery_sender.view.*
+import kotlinx.android.synthetic.main.fragment_delivery_receiver.view.*
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
@@ -26,7 +26,7 @@ class DeliveryRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_delivery_sender, parent, false)
+            .inflate(R.layout.fragment_delivery_receiver, parent, false)
         return ViewHolder(view)
     }
 
@@ -35,7 +35,6 @@ class DeliveryRecyclerViewAdapter(
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
         holder.depositView.text = "${item.courierDeposit} zł"
-        holder.awardView.text = "${item.courierAward} zł"
         holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
 
         with(holder.view) {
@@ -50,7 +49,6 @@ class DeliveryRecyclerViewAdapter(
         val titleView: TextView = view.title
         val addressView: TextView = view.receiver_postal_address
         val depositView: TextView = view.courier_deposit
-        val awardView: TextView = view.courier_award
         val maxDeliveryTimeView: TextView = view.max_delivery_time
 
         override fun toString(): String {

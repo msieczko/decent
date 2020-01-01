@@ -4,13 +4,13 @@
     <data>
         <variable
             name="viewModel"
-            type="eu.bwbw.decent.ui.sender.DeliveryDetailsViewModel"/>
+            type="eu.bwbw.decent.ui.common.DeliveryDetailsViewModel"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" tools:context=".ui.sender.DeliveryDetailsFragment">
+        android:layout_height="match_parent" tools:context=".ui.common.DeliveryDetailsFragment">
 
         <TextView
             android:id="@+id/title"

@@ -11,4 +11,4 @@
     android:layout_marginRight="8dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.sender.DeliveryListFragment"
-    tools:listitem="@layout/fragment_delivery"/>
+    tools:listitem="@layout/fragment_delivery_sender"/>

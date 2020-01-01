@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
+import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.ui.home.ReceiverViewModel
 
 class ReceiverFragment : Fragment() {
@@ -21,7 +22,7 @@ class ReceiverFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         receiverViewModel =
-            ViewModelProviders.of(this).get(ReceiverViewModel::class.java)
+            ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(ReceiverViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_receiver, container, false)
         val textView: TextView = root.findViewById(R.id.text_receiver)
         receiverViewModel.text.observe(this, Observer {

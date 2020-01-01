@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.sender
+package eu.bwbw.decent.ui.common
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,19 +23,22 @@ class DeliveryDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding : DeliveryDetailsFragmentBinding = DataBindingUtil.inflate(
+        val binding: DeliveryDetailsFragmentBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.delivery_details_fragment,
             container,
             false
         )
-        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(DeliveryDetailsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(
+            DeliveryDetailsViewModel::class.java
+        )
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         arguments?.let {
-            val safeArgs = DeliveryDetailsFragmentArgs.fromBundle(it)
+            val safeArgs =
+                DeliveryDetailsFragmentArgs.fromBundle(it)
             viewModel.openDelivery(safeArgs.deliveryId)
         }
 
