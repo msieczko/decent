@@ -5,11 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
-import kotlinx.android.synthetic.main.app_bar_main.*
+import eu.bwbw.decent.ViewModelFactory
+import eu.bwbw.decent.databinding.AddNewDeliveryFragmentBinding
+import kotlinx.android.synthetic.main.add_new_delivery_fragment.*
 
 
 class AddNewDeliveryFragment : Fragment() {
@@ -19,25 +24,48 @@ class AddNewDeliveryFragment : Fragment() {
     }
 
     private lateinit var viewModel: AddNewDeliveryViewModel
+    private lateinit var binding: AddNewDeliveryFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.add_new_delivery_fragment, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.add_new_delivery_fragment,
+            container,
+            false
+        )
 
-        val addButton = root.findViewById<Button>(R.id.button_add)
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(AddNewDeliveryViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        // observers
+        viewModel.deliverySaved.observe(this, Observer {
+            this.findNavController().popBackStack()
+        })
+
+        viewModel.formValidationError.observe(this, Observer {
+            if(it.isNotEmpty()) {
+                errorInfo.text = it
+                errorInfo.visibility = View.VISIBLE
+            } else {
+                errorInfo.visibility = View.GONE
+                errorInfo.text = ""
+            }
+        })
+
+        val addButton = binding.root.findViewById<Button>(R.id.button_add)
         addButton.setOnClickListener {
-            it.findNavController().popBackStack()
+            binding.viewModel?.saveNewDelivery()
         }
 
-        return root
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AddNewDeliveryViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

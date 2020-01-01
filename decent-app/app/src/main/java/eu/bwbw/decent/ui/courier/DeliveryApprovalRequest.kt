@@ -1,101 +1,104 @@
 package eu.bwbw.decent.ui.courier
 
-import android.content.Context
-import android.net.Uri
+import android.graphics.Point
 import android.os.Bundle
+import android.view.*
+import androidx.core.util.valueIterator
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.google.android.gms.vision.CameraSource
+import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
 import eu.bwbw.decent.R
+import kotlinx.android.synthetic.main.fragment_delivery_approval_request.*
+import java.io.IOException
+import kotlin.math.roundToInt
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [DeliveryApprovalRequest.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [DeliveryApprovalRequest.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DeliveryApprovalRequest : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delivery_approval_request, container, false)
+        val root = inflater.inflate(R.layout.fragment_delivery_approval_request, container, false)
+        val cameraView = root.findViewById<SurfaceView>(R.id.cameraView)
+
+        val display: Display? = activity?.windowManager?.defaultDisplay
+        val size = Point(400, 400)
+        display?.getSize(size)
+
+        val barcodeDetector = BarcodeDetector.Builder(context)
+            .setBarcodeFormats(Barcode.QR_CODE)
+            .build()
+
+        val cameraSource = CameraSource.Builder(context, barcodeDetector)
+            .setFacing(CameraSource.CAMERA_FACING_BACK)
+            .setRequestedPreviewSize((size.x / 1.8).roundToInt(), (size.y / 1.8).roundToInt())
+            .setRequestedFps(15.0f)
+            .build()
+
+        barcodeDetector.setProcessor(
+            object : Detector.Processor<Barcode> {
+                override fun release() {
+                }
+
+                override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
+                    processDetections(detections, cameraSource, barcodeDetector)
+                }
+            }
+        )
+
+        cameraView.holder.addCallback(object : SurfaceHolder.Callback {
+            override fun surfaceChanged(p0: SurfaceHolder?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun surfaceDestroyed(p0: SurfaceHolder?) {
+                cameraSource.stop()
+            }
+
+            override fun surfaceCreated(p0: SurfaceHolder?) {
+                try {
+                    cameraSource.start(cameraView.holder)
+                    p0?.setFixedSize(
+                        cameraSource.previewSize.width,
+                        cameraSource.previewSize.height
+                    )
+                } catch (e: IOException) {
+                    println("error: $e")
+                }
+            }
+
+        })
+
+        return root
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
+    private fun processDetections(
+        detections: Detector.Detections<Barcode>?,
+        cameraSource: CameraSource,
+        barcodeDetector: BarcodeDetector
+    ) {
+        val detectedValues = ArrayList<String>()
+        detections?.let {
+            detectedValues.clear()
+            if (it.detectedItems.size() > 0) {
+                it.detectedItems.valueIterator()
+                    .forEach { barcode -> detectedValues.add(barcode.displayValue) }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+                activity?.runOnUiThread {
+                    scanResult.text = "Results:\n${detectedValues.reduce { acc, s -> acc + "\n" + s }}"
+                    barcodeDetector.release()
+                    cameraSource.release()
+                    cameraView.visibility = View.GONE
+                }
+            }
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DeliveryApprovalRequest.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DeliveryApprovalRequest().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

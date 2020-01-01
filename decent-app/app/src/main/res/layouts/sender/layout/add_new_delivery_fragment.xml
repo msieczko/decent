@@ -1,44 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.sender.AddNewDeliveryFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/title"
-        android:ems="10"
-        android:id="@+id/input_title"
-        app:layout_constraintTop_toBottomOf="@+id/form_title" app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="40dp"
-        app:layout_constraintHorizontal_bias="0.19"/>
-    <TextView
-        android:text="@string/new_delivery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/form_title" android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="64dp"/>
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:ems="10"
-        android:id="@+id/input_description"
-        android:inputType="textMultiLine"
-        android:gravity="start|top"
-        app:layout_constraintStart_toStartOf="@+id/input_title" app:layout_constraintEnd_toEndOf="@+id/input_title"
-        app:layout_constraintTop_toBottomOf="@+id/input_title"/>
-    <Button
-        android:text="@string/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_add" app:layout_constraintTop_toBottomOf="@+id/input_description"
-        app:layout_constraintStart_toStartOf="@+id/input_description" android:layout_marginTop="32dp"/>
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.sender.AddNewDeliveryFragment">
+
+        <EditText
+            android:id="@+id/input_title"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/title"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.32" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/errorInfo"/>
+        <TextView
+            android:id="@+id/form_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:text="@string/new_delivery"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+        <EditText
+            android:id="@+id/input_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/description"
+            android:inputType="textMultiLine" app:layout_constraintEnd_toEndOf="@+id/input_title"
+            app:layout_constraintStart_toStartOf="@+id/input_title"
+            app:layout_constraintTop_toBottomOf="@+id/input_title"/>
+        <EditText
+            android:id="@+id/input_receiver_eth_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Receiver Ethereum address"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="@+id/input_title" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/input_title"
+            app:layout_constraintTop_toBottomOf="@+id/input_description"/>
+        <EditText
+            android:id="@+id/input_receiver_postal_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Receiver postal address"
+            android:inputType="textMultiLine" app:layout_constraintEnd_toEndOf="@+id/input_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/input_title"
+            app:layout_constraintTop_toBottomOf="@+id/input_receiver_eth_address"/>
+        <EditText
+            android:id="@+id/input_receiver_courier_deposit"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top" android:hint="Courier deposit"
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="@+id/input_title"
+            app:layout_constraintTop_toBottomOf="@+id/input_receiver_postal_address"/>
+        <EditText
+            android:id="@+id/input_receiver_courier_award"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ems="10"
+            android:gravity="start|top" android:hint="Courier award"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/input_title"
+            app:layout_constraintStart_toEndOf="@+id/input_receiver_courier_deposit"
+            app:layout_constraintTop_toBottomOf="@+id/input_receiver_postal_address"/>
+        <EditText
+            android:id="@+id/input_max_delivery_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top" android:hint="Max delivery time"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/input_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/input_title"
+            app:layout_constraintTop_toBottomOf="@+id/input_receiver_courier_deposit"/>
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:text="@string/add"
+            app:layout_constraintStart_toStartOf="@+id/input_description"
+            app:layout_constraintTop_toBottomOf="@+id/input_max_delivery_time"/>
+        <ImageView
+            android:id="@+id/preloader"
+            android:visibility="@{viewModel.savingData ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:srcCompat="@mipmap/ic_launcher"/>
+        <TextView
+            android:id="@+id/errorInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/form_title" tools:text="invalid title"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
