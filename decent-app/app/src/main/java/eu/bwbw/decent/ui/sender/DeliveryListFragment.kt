@@ -5,14 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
+import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.domain.Delivery
+import java.util.*
 
 
 class DeliveryListFragment : Fragment() {
+
+    private lateinit var senderViewModel: SenderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +33,18 @@ class DeliveryListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_delivery_list, container, false)
 
+        senderViewModel =
+            ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application))
+                .get(SenderViewModel::class.java)
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = DeliveryRecyclerViewAdapter(Delivery.LIST_MOCK)
+                adapter = DeliveryRecyclerViewAdapter(
+                    onDeliveryClick = { item -> println("click ${item?.title}") },
+                    values = senderViewModel.getDeliveries()
+                )
             }
         }
         return view

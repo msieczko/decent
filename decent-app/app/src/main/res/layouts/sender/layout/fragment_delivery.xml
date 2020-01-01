@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="wrap_content"
+                                                   android:layout_width="match_parent"
                                                    android:layout_height="wrap_content">
 
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="300dp"
+        android:layout_width="295dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp" android:textAppearance="?attr/textAppearanceListItem"
@@ -16,21 +16,27 @@
         app:layout_constraintTop_toTopOf="parent" tools:text="Zlecenie przewozu kota"/>
     <TextView
         android:id="@+id/courier_deposit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:textAlignment="textEnd"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintEnd_toEndOf="@+id/max_delivery_time"
-        app:layout_constraintTop_toTopOf="@+id/receiver_postal_address" tools:text="200 zł"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/receiver_postal_address"
+        app:layout_constraintTop_toTopOf="@+id/receiver_postal_address"
+        tools:text="200 zł"/>
     <TextView
         android:id="@+id/courier_award"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textAppearance="?attr/textAppearanceListItem" app:layout_constraintStart_toEndOf="@+id/title"
+        android:layout_marginEnd="4dp" android:textAlignment="textEnd"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintEnd_toStartOf="@+id/max_delivery_time"
         app:layout_constraintTop_toTopOf="@+id/title" tools:text="20 zł"/>
     <TextView
         android:id="@+id/receiver_postal_address"
-        android:layout_width="300dp"
+        android:layout_width="295dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:textAppearance="?attr/textAppearanceListItem"
@@ -40,9 +46,8 @@
         android:id="@+id/max_delivery_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:textAlignment="textEnd"
-        android:textAppearance="?attr/textAppearanceListItem" app:layout_constraintStart_toEndOf="@+id/courier_award"
+        android:textAlignment="textEnd" android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintEnd_toEndOf="@+id/courier_deposit"
         app:layout_constraintTop_toTopOf="@+id/title" tools:text="10h"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,17 +11,16 @@ import eu.bwbw.decent.domain.Delivery
 import kotlinx.android.synthetic.main.fragment_delivery.view.*
 
 class DeliveryRecyclerViewAdapter(
+    private val onDeliveryClick: (item: Delivery?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
-    private val mOnClickListener: View.OnClickListener
+    private val onClickListenerDelivery: View.OnClickListener
 
     init {
-        mOnClickListener = View.OnClickListener { v ->
+        onClickListenerDelivery = View.OnClickListener { v ->
             val item = v.tag as Delivery
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            //mListener?.onListFragmentInteraction(item)
+            onDeliveryClick(item)
         }
     }
 
@@ -35,13 +34,13 @@ class DeliveryRecyclerViewAdapter(
         val item = values[position]
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
-        holder.depositView.text = item.courierDeposit.toString() + "zł"
-        holder.awardView.text = item.courierAward.toString() + "zł"
-        holder.maxDeliveryTimeView.text = item.maxDeliveryTime.toString() + "h"
+        holder.depositView.text = "${item.courierDeposit} zł"
+        holder.awardView.text = "${item.courierAward} zł"
+        holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
 
         with(holder.view) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            setOnClickListener(onClickListenerDelivery)
         }
     }
 

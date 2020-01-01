@@ -10,30 +10,7 @@ data class Delivery(
     var courierDeposit: Int,
     var courierAward: Int,
     var maxDeliveryTime: Long
-) {
-    companion object {
-        val LIST_MOCK: MutableList<Delivery> = Arrays.asList(
-            Delivery(
-                "Zlecenie przewozu kota",
-                "Duży, rudy w koszu",
-                "r",
-                "ul. Kwiatowa 14/12, Warszawa",
-                200,
-                20,
-                10
-            ),
-            Delivery(
-                "Zlecenie przewozu dużego dzika",
-                "Duży, dziki w koszu",
-                "r",
-                "ul. Andaluzyjska 11/1, Warszawa",
-                500,
-                80,
-                30
-            )
-        )
-    }
-}
+)
 
 
 
