@@ -48,6 +48,13 @@ class DeliveryListFragment : Fragment() {
                             view.findNavController().navigate(directions)
                         }
                     },
+                    onRemoveDeliveryClick = {
+                        it?.let {
+                            senderViewModel.onRemoveDeliveryClick(it)
+                            adapter?.notifyDataSetChanged()
+                        }
+
+                    },
                     values = senderViewModel.getDeliveries()
                 )
             }

@@ -32,6 +32,10 @@ class DeliveriesRepository(
         deliveryFetchedCallback(deliveries.first { delivery -> delivery.id == deliveryId })
     }
 
+    fun remove(deliveryId: Int) {
+        deliveries.removeAll { delivery -> delivery.id == deliveryId }
+    }
+
     companion object {
         private val LIST_MOCK: MutableList<Delivery> = Arrays.asList(
             Delivery(

@@ -18,4 +18,8 @@ class SenderViewModel(
     fun getDeliveries() : List<Delivery> {
         return deliveriesRepository.getDeliveries()
     }
+
+    fun onRemoveDeliveryClick(deliveryId: Int) {
+        deliveriesRepository.remove(deliveryId)
+    }
 }
