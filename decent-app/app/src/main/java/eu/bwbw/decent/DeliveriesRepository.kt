@@ -3,6 +3,7 @@ package eu.bwbw.decent
 import eu.bwbw.decent.domain.Delivery
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class DeliveriesRepository(
 ) {
@@ -10,6 +11,12 @@ class DeliveriesRepository(
     private var count: Int = LIST_MOCK.size
 
     fun getDeliveries(): List<Delivery> {
+        // TODO REMOVE
+        val newDelivery = SINGLE_MOCK.copy()
+        newDelivery.id = Random.nextInt()
+        deliveries.add(newDelivery)
+        count++
+
         return deliveries
     }
 
@@ -34,6 +41,7 @@ class DeliveriesRepository(
 
     fun remove(deliveryId: Int) {
         deliveries.removeAll { delivery -> delivery.id == deliveryId }
+        count--
     }
 
     companion object {
@@ -58,6 +66,17 @@ class DeliveriesRepository(
                 80,
                 30
             )
+        )
+
+        private val SINGLE_MOCK = Delivery(
+            1,
+            "Zlecenie przewozu kota",
+            "Duży, rudy w koszu",
+            "r",
+            "ul. Kwiatowa 14/12, Warszawa",
+            200,
+            20,
+            10
         )
     }
 }

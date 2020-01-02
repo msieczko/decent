@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
 import eu.bwbw.decent.ui.common.DeliveryDetailsViewModel
 import eu.bwbw.decent.ui.courier.CourierViewModel
-import eu.bwbw.decent.ui.home.ReceiverViewModel
+import eu.bwbw.decent.ui.receiver.ReceiverViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
 
 class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFactory() {

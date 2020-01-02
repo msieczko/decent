@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
-import eu.bwbw.decent.ui.home.ReceiverViewModel
 
 class ReceiverFragment : Fragment() {
 
