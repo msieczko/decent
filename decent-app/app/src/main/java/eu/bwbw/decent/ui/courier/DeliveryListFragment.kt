@@ -23,6 +23,12 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
                     view.findNavController().navigate(directions)
                 }
             },
+            onPickupDeliveryClick = {
+                it?.let {
+                    // TODO change delivery state
+                    println("picking delivery...")
+                }
+            },
             values = viewModel.getDeliveries()
         )
     }

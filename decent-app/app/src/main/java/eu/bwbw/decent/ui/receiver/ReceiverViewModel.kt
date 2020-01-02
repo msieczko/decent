@@ -3,6 +3,7 @@ package eu.bwbw.decent.ui.receiver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import eu.bwbw.decent.DeliveriesRepository
+import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
 
 class ReceiverViewModel(
@@ -15,7 +16,4 @@ class ReceiverViewModel(
     }
     val text: LiveData<String> = _text
 
-    fun xdd() {
-
-    }
 }

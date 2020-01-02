@@ -21,6 +21,12 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
     override fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
         return DeliveryRecyclerViewAdapter(
             onDeliveryClick = { },
+            onConfirmDeliveryClick = {
+                it?.let {
+                    // TODO show QR code
+                    println("confirming delivery")
+                }
+            },
             values = viewModel.getDeliveries()
         )
     }
