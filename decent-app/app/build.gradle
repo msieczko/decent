@@ -1,3 +1,5 @@
+import java.util.stream.Collectors
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -38,13 +40,13 @@ android {
 
     sourceSets {
         main {
-            res.srcDirs = ['src/main/res',
-                           'src/main/res/layouts',
-                           'src/main/res/layouts/common',
-                           'src/main/res/layouts/sender',
-                           'src/main/res/layouts/courier',
-                           'src/main/res/layouts/setup',
-                           'src/main/res/layouts/receiver']
+            res.srcDirs =
+                    ['src/main/res'] +
+                            file('src/main/res/layouts/').listFiles()
+                                    .toList().stream()
+                                    .map { it.canonicalPath }
+                                    .collect(Collectors.toList())
+
         }
     }
 
