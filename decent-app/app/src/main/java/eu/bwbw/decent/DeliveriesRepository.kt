@@ -11,12 +11,6 @@ class DeliveriesRepository(
     private var count: Int = LIST_MOCK.size
 
     fun getDeliveries(): List<Delivery> {
-        // TODO REMOVE
-        val newDelivery = SINGLE_MOCK.copy()
-        newDelivery.id = Random.nextInt()
-        deliveries.add(newDelivery)
-        count++
-
         return deliveries
     }
 

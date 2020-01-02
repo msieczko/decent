@@ -15,4 +15,7 @@ class ReceiverViewModel(
     }
     val text: LiveData<String> = _text
 
+    fun xdd() {
+
+    }
 }
