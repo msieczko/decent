@@ -46,7 +46,7 @@
     </fragment>
     <fragment android:id="@+id/approvePackage" android:name="eu.bwbw.decent.ui.receiver.ApprovePackage"
               android:label="fragment_approve_package" tools:layout="@layout/fragment_approve_package">
-        <argument android:name="deliveryId" app:argType="integer"/>
+        <argument android:name="deliveryTitle" app:argType="string"/>
     </fragment>
     <fragment android:id="@+id/deliveryApprovalRequest" android:name="eu.bwbw.decent.ui.courier.DeliveryApprovalRequest"
               android:label="fragment_delivery_approval_request"

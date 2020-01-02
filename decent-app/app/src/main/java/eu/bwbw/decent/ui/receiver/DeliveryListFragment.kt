@@ -2,6 +2,8 @@ package eu.bwbw.decent.ui.receiver
 
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
@@ -23,8 +25,8 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
             onDeliveryClick = { },
             onConfirmDeliveryClick = {
                 it?.let {
-                    // TODO show QR code
-                    println("confirming delivery")
+                    val directions: NavDirections = ReceiverFragmentDirections.actionReceiverFragmentToApprovePackage(it.title)
+                    view.findNavController().navigate(directions)
                 }
             },
             values = viewModel.getDeliveries()

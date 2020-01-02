@@ -71,6 +71,7 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$architecture_components_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$architecture_components_version"
     implementation "androidx.navigation:navigation-ui-ktx:$architecture_components_version"
+    implementation 'com.google.zxing:core:3.2.1'
     implementation 'org.web3j:core:4.2.0-android'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
