@@ -20,7 +20,7 @@
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "ethereum-waffle": "^2.1.0",
+    "ethereum-waffle": "^2.3.0-istanbul.0",
     "ethers": "^4.0.39",
     "mocha": "^6.2.2",
     "rimraf": "^3.0.0",
