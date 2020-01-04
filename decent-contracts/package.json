@@ -2,6 +2,9 @@
   "name": "@decent/contracts",
   "version": "0.0.1",
   "private": true,
+  "files": [
+    "build"
+  ],
   "scripts": {
     "prebuild": "yarn clean",
     "build": "yarn build:compile && yarn build:types",
