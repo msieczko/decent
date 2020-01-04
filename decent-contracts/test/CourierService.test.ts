@@ -105,7 +105,7 @@ describe('CourierService contract', function () {
           }
         );
 
-        await expect(tx).to.be.revertedWith('ERR01')
+        await expect(tx).to.be.reverted;
       });
     });
   });
