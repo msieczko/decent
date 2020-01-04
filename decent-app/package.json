@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start:dev": "ts-node"
+    "start:dev": "ts-node scripts/runDevEnvironment.ts"
   },
   "devDependencies": {
     "@decent/contracts": "0.0.1",
