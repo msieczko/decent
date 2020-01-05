@@ -3,10 +3,13 @@ package eu.bwbw.decent.ui.sender
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.DeliveriesRepository
 import eu.bwbw.decent.domain.Delivery
+import kotlinx.coroutines.launch
 
-class AddNewDeliveryViewModel(private val deliveriesRepository: DeliveriesRepository) : ViewModel() {
+class AddNewDeliveryViewModel(private val deliveriesRepository: DeliveriesRepository) :
+    ViewModel() {
     val title = MutableLiveData<String>()
 
 
@@ -44,6 +47,10 @@ class AddNewDeliveryViewModel(private val deliveriesRepository: DeliveriesReposi
         )
 
         _savingData.value = true
-        deliveriesRepository.saveDelivery(delivery) { _savingData.postValue(false); _deliverySaved.postValue(true) }
+        viewModelScope.launch {
+            deliveriesRepository.saveDelivery(delivery)
+            _savingData.postValue(false)
+            _deliverySaved.postValue(true)
+        }
     }
 }
