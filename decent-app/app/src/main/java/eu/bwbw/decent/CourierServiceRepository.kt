@@ -1,2 +1,0 @@
-package eu.bwbw.decent
-
