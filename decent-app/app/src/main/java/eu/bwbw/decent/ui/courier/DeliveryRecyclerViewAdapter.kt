@@ -4,6 +4,7 @@ package eu.bwbw.decent.ui.courier
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
@@ -12,15 +13,22 @@ import kotlinx.android.synthetic.main.fragment_delivery_courier.view.*
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
+    private val onPickupDeliveryClick: (item: Delivery?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
     private val onClickListenerDelivery: View.OnClickListener
+    private val onPickupClickListener: View.OnClickListener
 
     init {
         onClickListenerDelivery = View.OnClickListener { v ->
             val item = v.tag as Delivery
             onDeliveryClick(item)
+        }
+
+        onPickupClickListener = View.OnClickListener { v ->
+            val item = v.tag as Delivery
+            onPickupDeliveryClick(item)
         }
     }
 
@@ -42,6 +50,11 @@ class DeliveryRecyclerViewAdapter(
             tag = item
             setOnClickListener(onClickListenerDelivery)
         }
+
+        with(holder.pickupButton) {
+            tag = item
+            setOnClickListener(onPickupClickListener)
+        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -52,6 +65,8 @@ class DeliveryRecyclerViewAdapter(
         val depositView: TextView = view.courier_deposit
         val awardView: TextView = view.courier_award
         val maxDeliveryTimeView: TextView = view.max_delivery_time
+
+        val pickupButton: Button = view.receivedButton
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"

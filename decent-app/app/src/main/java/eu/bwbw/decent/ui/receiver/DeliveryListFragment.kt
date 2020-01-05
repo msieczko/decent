@@ -1,62 +1,39 @@
 package eu.bwbw.decent.ui.receiver
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
-import eu.bwbw.decent.ui.home.ReceiverViewModel
+import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
+import eu.bwbw.decent.ui.common.BaseDeliveryListFragment
 
 
-class DeliveryListFragment : Fragment() {
+class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
-    private lateinit var receiverViewModel: ReceiverViewModel
+    lateinit var viewModel: ReceiverViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_delivery_list, container, false)
-
-        receiverViewModel =
+    override fun setupViewModel() {
+        viewModel =
             ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application))
                 .get(ReceiverViewModel::class.java)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = DeliveryRecyclerViewAdapter(
-                    onDeliveryClick = { },
-                    values = receiverViewModel.getDeliveries()
-                )
-            }
-        }
-        return view
     }
 
-
-    override fun onDetach() {
-        super.onDetach()
+    override fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
+        return DeliveryRecyclerViewAdapter(
+            onDeliveryClick = { },
+            onConfirmDeliveryClick = {
+                it?.let {
+                    val directions: NavDirections = ReceiverFragmentDirections.actionReceiverFragmentToApprovePackage(it.title)
+                    view.findNavController().navigate(directions)
+                }
+            },
+            values = viewModel.getDeliveries()
+        )
     }
 
-    companion object {
-        fun newInstance() = DeliveryListFragment
-
+    override fun getViewModel(): BaseDeliveriesViewModel {
+        return viewModel
     }
 }

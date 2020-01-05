@@ -22,17 +22,27 @@
         android:text="@string/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_save" app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/editText" app:layout_constraintEnd_toEndOf="@+id/editText"
+        android:id="@+id/button_save" app:layout_constraintTop_toBottomOf="@+id/usersKey"
+        app:layout_constraintStart_toStartOf="@+id/usersKey" app:layout_constraintEnd_toEndOf="@+id/usersKey"
         android:layout_marginTop="16dp"/>
     <EditText
+        android:id="@+id/usersKey"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/private_key"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:id="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/message" app:layout_constraintStart_toStartOf="@+id/message"
-        app:layout_constraintEnd_toEndOf="@+id/message" android:layout_marginTop="16dp"/>
+        android:inputType="textPersonName"
+        android:hint="@string/private_key"
+        app:layout_constraintEnd_toEndOf="@+id/message" app:layout_constraintStart_toStartOf="@+id/message"
+        app:layout_constraintTop_toBottomOf="@+id/errorInfo"/>
+    <TextView
+        android:id="@+id/errorInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginTop="16dp"
+        android:text="@string/invalid_key"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/message"
+        tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="@+id/courier_deposit"
         app:layout_constraintTop_toTopOf="@+id/title" tools:text="10h"/>
     <Button
-        android:id="@+id/button"
+        android:id="@+id/receivedButton"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="42dp" android:layout_height="42dp"
         android:layout_marginStart="4dp"

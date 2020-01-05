@@ -4,6 +4,7 @@ package eu.bwbw.decent.ui.sender
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
@@ -12,15 +13,22 @@ import kotlinx.android.synthetic.main.fragment_delivery_sender.view.*
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
+    private val onRemoveDeliveryClick: (deliveryId: Int?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
     private val onClickListenerDelivery: View.OnClickListener
+    private val onClickListenerRemoveDelivery: View.OnClickListener
 
     init {
         onClickListenerDelivery = View.OnClickListener { v ->
             val item = v.tag as Delivery
             onDeliveryClick(item)
+        }
+
+        onClickListenerRemoveDelivery = View.OnClickListener { v ->
+            val item = v.tag as Delivery
+            onRemoveDeliveryClick(item.id)
         }
     }
 
@@ -38,6 +46,11 @@ class DeliveryRecyclerViewAdapter(
         holder.awardView.text = "${item.courierAward} zł"
         holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
 
+        with(holder.deleteDeliveryButton) {
+            tag = item
+            setOnClickListener(onClickListenerRemoveDelivery)
+        }
+
         with(holder.view) {
             tag = item
             setOnClickListener(onClickListenerDelivery)
@@ -52,6 +65,7 @@ class DeliveryRecyclerViewAdapter(
         val depositView: TextView = view.courier_deposit
         val awardView: TextView = view.courier_award
         val maxDeliveryTimeView: TextView = view.max_delivery_time
+        val deleteDeliveryButton: Button = view.deleteDelivery
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"

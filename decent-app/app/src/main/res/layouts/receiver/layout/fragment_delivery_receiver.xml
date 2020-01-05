@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="@+id/title" tools:text="10h"/>
 
     <CheckBox
-        android:id="@+id/button"
+        android:id="@+id/receivedButton"
         android:layout_width="42dp" android:layout_height="42dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="2dp"

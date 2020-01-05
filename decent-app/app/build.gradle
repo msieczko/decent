@@ -1,3 +1,5 @@
+import java.util.stream.Collectors
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -38,13 +40,13 @@ android {
 
     sourceSets {
         main {
-            res.srcDirs = ['src/main/res',
-                           'src/main/res/layouts',
-                           'src/main/res/layouts/common',
-                           'src/main/res/layouts/sender',
-                           'src/main/res/layouts/courier',
-                           'src/main/res/layouts/setup',
-                           'src/main/res/layouts/receiver']
+            res.srcDirs =
+                    ['src/main/res'] +
+                            file('src/main/res/layouts/').listFiles()
+                                    .toList().stream()
+                                    .map { it.canonicalPath }
+                                    .collect(Collectors.toList())
+
         }
     }
 
@@ -69,6 +71,7 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$architecture_components_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$architecture_components_version"
     implementation "androidx.navigation:navigation-ui-ktx:$architecture_components_version"
+    implementation 'com.google.zxing:core:3.2.1'
     implementation 'org.web3j:core:4.2.0-android'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
