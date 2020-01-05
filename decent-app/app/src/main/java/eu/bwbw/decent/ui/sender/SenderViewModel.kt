@@ -2,7 +2,7 @@ package eu.bwbw.decent.ui.sender
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import eu.bwbw.decent.DeliveriesRepository
+import eu.bwbw.decent.services.DeliveriesRepository
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
 
 class SenderViewModel(

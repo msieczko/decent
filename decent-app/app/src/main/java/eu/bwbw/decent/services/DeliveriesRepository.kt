@@ -1,4 +1,4 @@
-package eu.bwbw.decent
+package eu.bwbw.decent.services
 
 import eu.bwbw.decent.domain.Delivery
 import kotlinx.coroutines.Dispatchers
