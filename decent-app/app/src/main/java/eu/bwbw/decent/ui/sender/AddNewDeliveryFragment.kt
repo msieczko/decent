@@ -1,5 +1,6 @@
 package eu.bwbw.decent.ui.sender
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
+import eu.bwbw.decent.UserDataManager
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.AddNewDeliveryFragmentBinding
 import kotlinx.android.synthetic.main.add_new_delivery_fragment.*
+import org.web3j.crypto.Credentials
 
 
 class AddNewDeliveryFragment : Fragment() {
@@ -25,6 +27,12 @@ class AddNewDeliveryFragment : Fragment() {
 
     private lateinit var viewModel: AddNewDeliveryViewModel
     private lateinit var binding: AddNewDeliveryFragmentBinding
+    private lateinit var userDataManager: UserDataManager
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        userDataManager = UserDataManager(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +66,8 @@ class AddNewDeliveryFragment : Fragment() {
 
         val addButton = binding.root.findViewById<Button>(R.id.button_add)
         addButton.setOnClickListener {
-            binding.viewModel?.saveNewDelivery()
+            val credentials = Credentials.create(userDataManager.userPrivateKey)
+            binding.viewModel?.saveNewDelivery(credentials)
         }
 
         return binding.root

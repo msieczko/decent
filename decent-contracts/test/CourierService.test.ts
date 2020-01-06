@@ -35,7 +35,7 @@ describe('CourierService contract', function () {
     return {provider, sender, courier, receiver, asSender, asCourier};
   }
 
-  before(async function () {
+  beforeEach(async function () {
     ({provider, sender, courier, receiver, asSender, asCourier} = await loadFixture(fixture));
   });
 
@@ -68,7 +68,7 @@ describe('CourierService contract', function () {
           courierDeposit,
           courierAward,
           bigNumberify(HOUR),
-          id('some data'),
+          id('some data 2'),
           {
             value: senderDeposit.add(courierAward)
           }
@@ -85,7 +85,7 @@ describe('CourierService contract', function () {
           courierAward: courierAward,
           deliveryDeadline: HOUR,
           pickupDeadline: 0,
-          detailsHash: id('some data'),
+          detailsHash: id('some data 2'),
           courier: AddressZero,
         };
 
@@ -105,7 +105,7 @@ describe('CourierService contract', function () {
           }
         );
 
-        await expect(tx).to.be.revertedWith('ERR01')
+        await expect(tx).to.be.reverted;
       });
     });
   });

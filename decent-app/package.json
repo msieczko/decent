@@ -1,5 +1,14 @@
 {
   "name": "@decent/app",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start:dev": "ts-node scripts/runDevEnvironment.ts"
+  },
+  "devDependencies": {
+    "@decent/contracts": "0.0.1",
+    "ethereum-waffle": "^2.3.0-istanbul.0",
+    "ethers": "^4.0.42",
+    "ts-node": "^8.4.1"
+  }
 }

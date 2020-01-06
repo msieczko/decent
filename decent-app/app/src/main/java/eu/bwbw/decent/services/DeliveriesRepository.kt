@@ -1,12 +1,13 @@
-package eu.bwbw.decent
+package eu.bwbw.decent.services
 
 import eu.bwbw.decent.domain.Delivery
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.random.Random
 
-class DeliveriesRepository(
-) {
+class DeliveriesRepository {
     private val deliveries = ArrayList<Delivery>(LIST_MOCK)
     private var count: Int = LIST_MOCK.size
 
@@ -14,19 +15,14 @@ class DeliveriesRepository(
         return deliveries
     }
 
-    fun saveDelivery(delivery: Delivery, deliverySavedCallback: () -> Unit) {
+    suspend fun saveDelivery(delivery: Delivery) {
         println("Saving delivery $delivery") // TODO REMOVE
         // simulate saving operation that takes 2 seconds
-        Thread(Runnable {
-            try {
-                Thread.sleep(2000)
-                delivery.id = ++count
-                deliveries.add(delivery)
-                deliverySavedCallback()
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }).start()
+        withContext(Dispatchers.IO) {
+            delay(2_000)
+            delivery.id = ++count
+            deliveries.add(delivery)
+        }
     }
 
     fun getDelivery(deliveryId: Int, deliveryFetchedCallback: (Delivery) -> Unit) {

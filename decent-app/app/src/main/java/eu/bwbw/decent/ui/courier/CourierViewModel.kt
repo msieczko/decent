@@ -2,9 +2,7 @@ package eu.bwbw.decent.ui.courier
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import eu.bwbw.decent.DeliveriesRepository
-import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.services.DeliveriesRepository
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
 
 class CourierViewModel(

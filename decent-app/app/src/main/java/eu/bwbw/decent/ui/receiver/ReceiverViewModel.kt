@@ -2,8 +2,7 @@ package eu.bwbw.decent.ui.receiver
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import eu.bwbw.decent.DeliveriesRepository
-import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.services.DeliveriesRepository
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
