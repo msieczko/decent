@@ -8,8 +8,8 @@
   "scripts": {
     "prebuild": "yarn clean",
     "build": "yarn build:compile && yarn build:types",
-    "build:compile": "waffle waffle.js",
-    "build:types": "typechain --target ethers --outDir build/contract-types 'build/contracts/*.json'",
+    "build:compile": "waffle .waffle.js",
+    "build:types": "typechain --target ethers --outDir build/contract-types ./build/contracts/*.json",
     "test": "yarn build && yarn test:nobuild",
     "test:nobuild": "mocha -r ts-node/register -t 10000 'test/**/*.ts'",
     "clean": "rimraf build"
