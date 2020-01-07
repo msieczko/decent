@@ -1,6 +1,7 @@
 package eu.bwbw.decent.services
 
 import eu.bwbw.decent.contracts.generated.CourierService
+import eu.bwbw.decent.domain.ContractDelivery
 import eu.bwbw.decent.domain.Delivery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +16,7 @@ import java.math.BigInteger
 class CourierServiceRepository(
     contractAddress: String,
     web3j: Web3j,
-    credentials: Credentials
+    private val credentials: Credentials
 ) {
     private val courierService = CourierService.load(contractAddress, web3j, credentials, DefaultGasProvider())
 
@@ -38,6 +39,26 @@ class CourierServiceRepository(
             val transactionReceipt = createDeliveryOrder.send()
             val (deliveryCreatedEvent) = courierService.getDeliveryCreatedEvents(transactionReceipt)
             deliveryCreatedEvent.deliveryId
+        }
+    }
+
+    suspend fun getSenderDeliveries(): List<ContractDelivery> {
+        return withContext(Dispatchers.IO) {
+            val count = courierService.getSenderDeliveriesCount(credentials.address).send().toInt()
+            (1..count).map { BigInteger.valueOf(it.toLong()) }
+                .map { courierService.senderDeliveries(credentials.address, it).send() }
+                .map { courierService.deliveries(it).send() }
+                .map { ContractDelivery.fromTuple(it) }
+        }
+    }
+
+    suspend fun getCourierDeliveries(): List<ContractDelivery> {
+        return withContext(Dispatchers.IO) {
+            val count = courierService.getCourierDeliveriesCount(credentials.address).send().toInt()
+            (1..count).map { BigInteger.valueOf(it.toLong()) }
+                .map { courierService.courierDeliveries(credentials.address, it).send() }
+                .map { courierService.deliveries(it).send() }
+                .map { ContractDelivery.fromTuple(it) }
         }
     }
 
