@@ -149,6 +149,14 @@ contract CourierService {
         msg.sender.transfer(amount);
     }
 
+    function getSenderDeliveriesCount(address sender) external view returns (uint) {
+        return senderDeliveries[sender].length;
+    }
+
+    function getCourierDeliveriesCount(address courier) external view returns (uint) {
+        return courierDeliveries[courier].length;
+    }
+
     function verifyReceiverSignature(Delivery storage delivery, bytes memory signature) internal view returns (bool) {
         return delivery.detailsHash.toEthSignedMessageHash().recover(signature) == delivery.receiver;
     }
