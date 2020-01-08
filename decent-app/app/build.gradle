@@ -24,6 +24,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -37,7 +45,6 @@ android {
     lintOptions {
         lintConfig file("lint-config.xml")
     }
-
     sourceSets {
         main {
             res.srcDirs =
@@ -49,7 +56,6 @@ android {
 
         }
     }
-
     dataBinding {
         enabled = true
     }
