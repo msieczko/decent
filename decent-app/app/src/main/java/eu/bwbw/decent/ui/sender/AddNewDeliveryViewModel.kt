@@ -15,7 +15,15 @@ class AddNewDeliveryViewModel(
     private val web3j: Web3j
 ) : ViewModel() {
     val title = MutableLiveData<String>()
-
+    val description = MutableLiveData<String>()
+    val receiverEthAddress = MutableLiveData<String>()
+    val receiverPostalAddress = MutableLiveData<String>()
+    val courierDeposit = MutableLiveData<String>()
+    lateinit var courierDepositUnit: String
+    val courierAward = MutableLiveData<String>()
+    lateinit var courierAwardUnit: String
+    val maxDeliveryTime = MutableLiveData<String>()
+    lateinit var maxDeliveryTimeUnit: String
 
     private val _savingData = MutableLiveData<Boolean>()
     val savingData: LiveData<Boolean>
@@ -28,7 +36,6 @@ class AddNewDeliveryViewModel(
     private val _formValidationError = MutableLiveData<String>()
     val formValidationError: LiveData<String>
         get() = _formValidationError
-
 
     internal fun saveNewDelivery(credentials: Credentials) {
         val currentTitle = title.value
@@ -50,13 +57,26 @@ class AddNewDeliveryViewModel(
             0
         )
 
+        println("""
+            ${title.value}
+            ${description.value}
+            ${receiverEthAddress.value} 
+            ${receiverPostalAddress.value}
+            ${courierDeposit.value}
+            $courierDepositUnit
+            ${courierAward.value}
+            $courierAwardUnit
+            ${maxDeliveryTime.value}
+            $maxDeliveryTimeUnit
+        """.trimIndent())
+
         _savingData.value = true
         viewModelScope.launch {
             val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
             val deliveryId = courierServiceRepository.createDeliveryOrder(delivery)
             println(deliveryId)
-            _savingData.postValue(false)
-            _deliverySaved.postValue(true)
+            _savingData.value = false
+            _deliverySaved.value = true
         }
     }
 }

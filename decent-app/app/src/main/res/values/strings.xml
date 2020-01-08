@@ -16,14 +16,31 @@
     <string name="save">Save</string>
 
     <string name="scan_qr_code">Please scan the QR code shown on receiver\'s phone.</string>
-    <string name="show_qr_code">If the package has been delivered, please let the courier scan the QR code shown
-        below.
+    <string name="show_qr_code">
+        If the package has been delivered, please let the courier scan the QR code shown below.
     </string>
-    <string name="title">Title</string>
     <string name="new_delivery">New delivery</string>
+    <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="receiver_ethereum_address">Receiver Ethereum address</string>
+    <string name="receiver_postal_address">Receiver postal address</string>
+    <string name="courier_deposit">Courier deposit</string>
+    <string name="courier_award">Courier award</string>
+    <string name="max_delivery_time">Max delivery time</string>
     <string name="add">Add</string>
     <string name="action_refresh">Refresh</string>
     <string name="invalid_key">Invalid key</string>
     <string name="my_eth_address">My Eth address:\n %1$s</string>
+    <string name="transaction_in_progress">Transaction in progress</string>
+
+    <string-array name="eth_denominations">
+        <item>Ether</item>
+        <item>Gwei</item>
+        <item>Wei</item>
+    </string-array>
+
+    <string-array name="time_units">
+        <item>hours</item>
+        <item>days</item>
+    </string-array>
 </resources>
