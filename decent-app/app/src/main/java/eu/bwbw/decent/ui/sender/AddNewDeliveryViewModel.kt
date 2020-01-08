@@ -53,7 +53,7 @@ class AddNewDeliveryViewModel(
         _savingData.value = true
         viewModelScope.launch {
             val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
-            val deliveryId = courierServiceRepository.createDeliveryOffer(delivery)
+            val deliveryId = courierServiceRepository.createDeliveryOrder(delivery)
             println(deliveryId)
             _savingData.postValue(false)
             _deliverySaved.postValue(true)
