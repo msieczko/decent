@@ -1,8 +1,9 @@
 package eu.bwbw.decent.domain
 
 import eu.bwbw.decent.domain.errors.InvalidAddressError
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class EthAddressTest {
     @Test
@@ -21,14 +22,18 @@ class EthAddressTest {
         )
     }
 
-    @Test(expected = InvalidAddressError::class)
+    @Test
     fun constructor_throwsExceptionForTooShortAddress() {
-        EthAddress("0x09cabec1ead1c0ba254b")
+        assertThrows<InvalidAddressError> {
+            EthAddress("0x09cabec1ead1c0ba254b")
+        }
     }
 
-    @Test(expected = InvalidAddressError::class)
+    @Test
     fun constructor_throwsExceptionForAddressContainingInvalidCharacter() {
-        EthAddress("0xG9cabEC1eAd1c0Ba254B09efb3EE13841712bE14")
+        assertThrows<InvalidAddressError> {
+            EthAddress("0xG9cabEC1eAd1c0Ba254B09efb3EE13841712bE14")
+        }
     }
 
     @Test
