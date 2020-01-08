@@ -12,8 +12,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
-import eu.bwbw.decent.UserDataManager
-import eu.bwbw.decent.ui.sender.SenderFragmentDirections
+import eu.bwbw.decent.services.UserDataManager
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys

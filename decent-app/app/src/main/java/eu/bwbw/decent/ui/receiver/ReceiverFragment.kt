@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
-import eu.bwbw.decent.UserDataManager
+import eu.bwbw.decent.services.UserDataManager
 import eu.bwbw.decent.ViewModelFactory
 
 class ReceiverFragment : Fragment() {
