@@ -2,18 +2,24 @@ package eu.bwbw.decent.services
 
 import eu.bwbw.decent.contracts.generated.CourierService
 import eu.bwbw.decent.domain.ContractDelivery
-import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.transactions.CancelDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.web3j.crypto.Credentials
-import org.web3j.crypto.Hash.sha3
 import org.web3j.protocol.Web3j
 import org.web3j.tx.gas.DefaultGasProvider
-import org.web3j.utils.Convert.Unit.ETHER
-import org.web3j.utils.Convert.toWei
+import org.web3j.utils.Numeric
 import java.math.BigInteger
+
+data class DeliveryOrder(
+    val receiver: EthAddress,
+    val courierDeposit: BigInteger,
+    val courierAward: BigInteger,
+    val maxDeliveryTime: Int, // seconds
+    val detailsHash: String
+)
 
 class CourierServiceRepository(
     contractAddress: String,
@@ -22,21 +28,18 @@ class CourierServiceRepository(
 ) {
     private val courierService = CourierService.load(contractAddress, web3j, credentials, DefaultGasProvider())
 
-    suspend fun createDeliveryOrder(delivery: Delivery): BigInteger {
-        val (_, title) = delivery
-
-        val courierDeposit = toWei("1", ETHER).toBigIntegerExact()
-        val courierAward = toWei("0.2", ETHER).toBigIntegerExact()
-        val senderDeposit = courierDeposit.div(BigInteger.valueOf(2)).add(courierAward)
-
+    suspend fun createDeliveryOrder(delivery: DeliveryOrder): BigInteger {
         try {
+            val (receiver, courierDeposit, courierAward, maxDeliveryTime, detailsHash) = delivery
+            val senderDeposit = courierDeposit.div(BigInteger.valueOf(2)).add(courierAward)
+
             return withContext(Dispatchers.IO) {
                 val createDeliveryOrder = courierService.createDeliveryOrder(
-                    "D1D84F0e28D6fedF03c73151f98dF95139700aa7",
+                    receiver.normalized,
                     courierDeposit,
                     courierAward,
-                    BigInteger.valueOf(12 * 3600),
-                    sha3(title.toByteArray()),
+                    BigInteger.valueOf(maxDeliveryTime.toLong()),
+                    Numeric.hexStringToByteArray(detailsHash),
                     senderDeposit
                 )
                 val transactionReceipt = createDeliveryOrder.send()

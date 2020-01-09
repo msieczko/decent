@@ -33,8 +33,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/private_key"
+        android:text="5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74"
         app:layout_constraintEnd_toEndOf="@+id/message" app:layout_constraintStart_toStartOf="@+id/message"
         app:layout_constraintTop_toBottomOf="@+id/errorInfo"/>
+    <!--TODO remove the hardcoded private key-->
     <TextView
         android:id="@+id/errorInfo"
         android:layout_width="wrap_content"

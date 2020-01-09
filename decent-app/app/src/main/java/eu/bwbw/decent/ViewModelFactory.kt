@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.services.DeliveriesRepository
+import eu.bwbw.decent.services.DeliveryDetailsMemoryRepository
 import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
 import eu.bwbw.decent.ui.common.DeliveryDetailsViewModel
 import eu.bwbw.decent.ui.courier.CourierViewModel
@@ -21,12 +22,13 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
         HttpService("http://10.0.2.2:8545") // TODO move to properties
     )
     private val deliveriesRepository = DeliveriesRepository()
+    private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
                 isAssignableFrom(AddNewDeliveryViewModel::class.java) ->
-                    AddNewDeliveryViewModel(courierServiceContractAddress, web3j)
+                    AddNewDeliveryViewModel(courierServiceContractAddress, web3j, deliveryDetailsRepository)
                 isAssignableFrom(SenderViewModel::class.java) ->
                     SenderViewModel(deliveriesRepository)
                 isAssignableFrom(CourierViewModel::class.java) ->
