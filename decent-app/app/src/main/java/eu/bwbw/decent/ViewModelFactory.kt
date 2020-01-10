@@ -50,6 +50,52 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
             }
         } as T
 
+    init {
+        CoroutineScope(Dispatchers.Main).launch {
+            loadSampleData()
+        }
+    }
+
+    private suspend fun loadSampleData() {
+        val sampleDeliveryDetails01 = DeliveryDetails(
+            "Zlecenie przewozu kota v2",
+            "Duży, rudy w koszu",
+            "ul. Kwiatowa 14/12, Warszawa"
+        )
+        val sampleDeliveryDetails02 = DeliveryDetails(
+            "Zlecenie przewozu dużego dzika v2",
+            "Duży, dziki w koszu",
+            "ul. Andaluzyjska 11/1, Warszawa"
+        )
+
+        CourierServiceRepository(
+            "A193E42526F1FEA8C99AF609dcEabf30C1c29fAA",
+            web3j,
+            Credentials.create("5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74")
+        ).apply {
+            createDeliveryOrder(
+                DeliveryOrder(
+                    EthAddress("0xd59ca627Af68D29C547B91066297a7c469a7bF72"),
+                    100.toBigInteger(),
+                    200.toBigInteger(),
+                    60*60*2,
+                    deliveryDetailsRepository.save(sampleDeliveryDetails01)
+                )
+            )
+
+            createDeliveryOrder(
+                DeliveryOrder(
+                   // EthAddress("0x63FC2aD3d021a4D7e64323529a55a9442C444dA0"),
+                    EthAddress("0xFC6F167a5AB77Fe53C4308a44d6893e8F2E54131"),
+                    100.toBigInteger(),
+                    200.toBigInteger(),
+                    60*60*4,
+                    deliveryDetailsRepository.save(sampleDeliveryDetails02)
+                )
+            )
+        }
+
+    }
 
     companion object {
 
