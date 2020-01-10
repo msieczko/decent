@@ -14,7 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import eu.bwbw.decent.R
-import eu.bwbw.decent.UserDataManager
+import eu.bwbw.decent.services.UserDataManager
 import eu.bwbw.decent.ViewModelFactory
 
 class CourierFragment : Fragment() {

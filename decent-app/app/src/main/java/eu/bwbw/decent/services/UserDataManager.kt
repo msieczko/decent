@@ -1,4 +1,4 @@
-package eu.bwbw.decent
+package eu.bwbw.decent.services
 
 import android.content.Context
 
