@@ -45,7 +45,7 @@ class DeliveryRecyclerViewAdapter(
         holder.addressView.text = item.receiverPostalAddress
         holder.depositView.text = item.courierDeposit
         holder.awardView.text = item.courierAward
-        holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
+        holder.maxDeliveryTimeView.text = "${item.deliveryDeadline / 3600} h"
 
         with(holder.deleteDeliveryButton) {
             tag = item

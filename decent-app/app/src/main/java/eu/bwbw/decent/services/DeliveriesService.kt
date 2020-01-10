@@ -50,7 +50,9 @@ class DeliveriesService(
             deliveryDetails?.receiverPostalAddress ?: "no address",
             weiToString(contractDelivery.courierDeposit.toBigDecimal()),
             weiToString(contractDelivery.courierAward.toBigDecimal()),
-            contractDelivery.pickupDeadline
+            contractDelivery.deliveryDeadline,
+            contractDelivery.pickupDeadline,
+            contractDelivery.state
         )
     }
 

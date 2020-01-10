@@ -4,11 +4,12 @@ package eu.bwbw.decent.ui.receiver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.domain.DeliveryState
+import eu.bwbw.decent.utils.secondsToDateTimeString
 import kotlinx.android.synthetic.main.fragment_delivery_receiver.view.*
 
 class DeliveryRecyclerViewAdapter(
@@ -36,7 +37,18 @@ class DeliveryRecyclerViewAdapter(
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
         holder.depositView.text = item.courierDeposit
-        holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
+
+        when (item.state) {
+            DeliveryState.OFFER -> {
+                // show time
+                holder.maxDeliveryTimeView.text = "${(item.deliveryDeadline / 3600)} h"
+            }
+            DeliveryState.PICKUP_DECLARED -> {
+                // show date
+                holder.maxDeliveryTimeView.text = secondsToDateTimeString(item.pickupDeadline)
+            }
+            else -> holder.maxDeliveryTimeView.text = ""
+        }
 
         with(holder.view) {
             tag = item

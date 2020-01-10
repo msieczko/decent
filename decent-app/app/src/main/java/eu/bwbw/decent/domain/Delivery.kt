@@ -9,7 +9,9 @@ data class Delivery(
     var receiverPostalAddress: String,
     var courierDeposit: String,
     var courierAward: String,
-    var maxDeliveryTime: Int
+    val deliveryDeadline: Int,
+    val pickupDeadline: Int,
+    var state: DeliveryState
 )
 
 

@@ -1,6 +1,7 @@
 package eu.bwbw.decent.ui.courier
 
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.domain.DeliveryState
+import eu.bwbw.decent.utils.secondsToDateTimeString
 import kotlinx.android.synthetic.main.fragment_delivery_courier.view.*
 
 class DeliveryRecyclerViewAdapter(
@@ -36,7 +39,28 @@ class DeliveryRecyclerViewAdapter(
         holder.addressView.text = item.receiverPostalAddress
         holder.depositView.text = item.courierDeposit
         holder.awardView.text = item.courierAward
-        holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
+
+        when (item.state) {
+            DeliveryState.OFFER -> {
+                // show time
+                holder.maxDeliveryTimeView.text = "${(item.deliveryDeadline / 3600)} h"
+            }
+            DeliveryState.PICKUP_DECLARED -> {
+                // show date
+                holder.maxDeliveryTimeView.text = secondsToDateTimeString(item.pickupDeadline)
+            }
+            else -> holder.maxDeliveryTimeView.text = ""
+        }
+
+        holder.view.setBackgroundColor(
+            Color.parseColor(
+                when (item.state) {
+                    DeliveryState.OFFER -> "#2C4EDF35"
+                    DeliveryState.PICKUP_DECLARED -> "#51FFEB3B"
+                    else -> "#FFFFFFFF"
+                }
+            )
+        )
 
         with(holder.view) {
             tag = item
