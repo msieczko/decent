@@ -13,22 +13,15 @@ import kotlinx.android.synthetic.main.fragment_delivery_receiver.view.*
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
-    private val onConfirmDeliveryClick: (item: Delivery?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
     private val onClickListenerDelivery: View.OnClickListener
-    private val onConfirmDeliveryListener: View.OnClickListener
 
     init {
         onClickListenerDelivery = View.OnClickListener { v ->
             val item = v.tag as Delivery
             onDeliveryClick(item)
-        }
-
-        onConfirmDeliveryListener = View.OnClickListener { v ->
-            val item = v.tag as Delivery
-            onConfirmDeliveryClick(item)
         }
     }
 
@@ -49,11 +42,6 @@ class DeliveryRecyclerViewAdapter(
             tag = item
             setOnClickListener(onClickListenerDelivery)
         }
-
-        with(holder.receivedButton) {
-            tag = item
-            setOnClickListener(onConfirmDeliveryListener)
-        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -63,8 +51,6 @@ class DeliveryRecyclerViewAdapter(
         val addressView: TextView = view.receiver_postal_address
         val depositView: TextView = view.courier_deposit
         val maxDeliveryTimeView: TextView = view.max_delivery_time
-
-        val receivedButton: Button = view.receivedButton
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"

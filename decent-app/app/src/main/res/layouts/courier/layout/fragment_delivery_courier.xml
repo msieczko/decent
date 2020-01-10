@@ -14,49 +14,47 @@
         android:layout_marginTop="8dp" android:textAppearance="?attr/textAppearanceListItem"
         android:textStyle="bold" app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" tools:text="Zlecenie przewozu kota"/>
+
     <TextView
         android:id="@+id/courier_deposit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:textAlignment="textEnd"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/receiver_postal_address"
         app:layout_constraintTop_toTopOf="@+id/receiver_postal_address"
-        tools:text="200 zł"/>
+        tools:text="200 zł"
+        app:layout_constraintEnd_toEndOf="@+id/max_delivery_time"/>
+
     <TextView
         android:id="@+id/courier_award"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp" android:textAlignment="textEnd"
+        android:textAlignment="textEnd"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintEnd_toStartOf="@+id/max_delivery_time"
-        app:layout_constraintTop_toTopOf="@+id/title" tools:text="20 zł"/>
+        tools:text="20 zł"
+        app:layout_constraintTop_toTopOf="@+id/receiver_postal_address"
+        app:layout_constraintEnd_toStartOf="@+id/courier_deposit"
+        android:layout_marginEnd="8dp"/>
+
     <TextView
         android:id="@+id/receiver_postal_address"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintStart_toStartOf="@+id/title" app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         tools:text="ul. Kwiatowa 14/12, Warszawa"/>
+
     <TextView
         android:id="@+id/max_delivery_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd" android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintEnd_toEndOf="@+id/courier_deposit"
-        app:layout_constraintTop_toTopOf="@+id/title" tools:text="10h"/>
-    <Button
-        android:id="@+id/receivedButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="42dp" android:layout_height="42dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="2dp"
-        android:background="@android:drawable/ic_menu_set_as"
-        app:layout_constraintBottom_toBottomOf="@+id/courier_deposit"
-        app:layout_constraintStart_toEndOf="@+id/max_delivery_time"
-        app:layout_constraintTop_toTopOf="@+id/max_delivery_time"/>
+        android:textAlignment="textEnd"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        tools:text="10h"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

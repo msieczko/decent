@@ -23,13 +23,6 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
     override suspend fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
         return DeliveryRecyclerViewAdapter(
             onDeliveryClick = { },
-            onConfirmDeliveryClick = {
-                it?.let {
-                    val directions: NavDirections =
-                        ReceiverFragmentDirections.actionReceiverFragmentToApprovePackage(it.title)
-                    view.findNavController().navigate(directions)
-                }
-            },
             values = viewModel.getDeliveries(userDataManager.getCredentials())
         )
     }
