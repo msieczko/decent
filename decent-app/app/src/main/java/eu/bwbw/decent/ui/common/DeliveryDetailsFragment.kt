@@ -13,10 +13,6 @@ import eu.bwbw.decent.databinding.DeliveryDetailsFragmentBinding
 
 class DeliveryDetailsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DeliveryDetailsFragment()
-    }
-
     private lateinit var viewModel: DeliveryDetailsViewModel
 
     override fun onCreateView(
@@ -43,10 +39,6 @@ class DeliveryDetailsFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
 }

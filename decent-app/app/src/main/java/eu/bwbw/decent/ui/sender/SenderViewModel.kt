@@ -23,8 +23,9 @@ class SenderViewModel(
     }
 
     override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
+        val elements = deliveriesService.getSenderDeliveries(credentials)
         this.deliveries.clear()
-        this.deliveries.addAll(deliveriesService.getSenderDeliveries(credentials))
+        this.deliveries.addAll(elements)
         return this.deliveries
     }
 }

@@ -3,14 +3,9 @@ package eu.bwbw.decent.services
 import eu.bwbw.decent.domain.ContractDelivery
 import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.utils.weiToString
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import java.math.BigInteger
-import java.util.*
-import kotlin.collections.ArrayList
 
 class DeliveriesService(
     private val deliveryDetailsRepository: IDeliveryDetailsRepository,
@@ -18,25 +13,31 @@ class DeliveriesService(
     private val web3j: Web3j
 ) {
 
-    //private val deliveries = ArrayList<Delivery>(LIST_MOCK)
+    private lateinit var deliveries: List<Delivery>
+    // TODO change to proper method call
 
     suspend fun getSenderDeliveries(credentials: Credentials): List<Delivery> {
         val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
-        return courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
+        deliveries = courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
             deliveryFromContract(contractDelivery)
         }
+        return deliveries
     }
 
     suspend fun getCourierDeliveries(credentials: Credentials): List<Delivery> {
         val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
-        return courierServiceRepository.getCourierDeliveries().map { contractDelivery: ContractDelivery ->
+        deliveries = courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
             deliveryFromContract(contractDelivery)
         }
+        return deliveries
     }
 
     suspend fun getReceiverDeliveries(credentials: Credentials): List<Delivery> {
-        // TODO
-        return listOf()
+        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
+        deliveries = courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
+            deliveryFromContract(contractDelivery)
+        }
+        return deliveries
     }
 
     private suspend fun deliveryFromContract(
@@ -56,11 +57,11 @@ class DeliveriesService(
         )
     }
 
-    fun getDelivery(deliveryId: BigInteger, deliveryFetchedCallback: (Delivery) -> Unit) {
-        TODO("implement")
+    fun getDelivery(deliveryId: BigInteger): Delivery {
+        return deliveries.first { it.id == deliveryId }
     }
 
     fun remove(deliveryId: BigInteger) {
-       TODO("implement")
+        TODO("implement")
     }
 }

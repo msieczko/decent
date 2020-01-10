@@ -87,4 +87,14 @@ class CourierServiceRepository(
         }
     }
 
+    suspend fun getReceiverDeliveries(): List<ContractDelivery> {
+        return withContext(Dispatchers.IO) {
+            (courierService.getReceiverDeliveries(credentials.address).send() as List<BigInteger>?)
+                ?.map { courierService.courierDeliveries(credentials.address, it).send() }
+                ?.map { courierService.deliveries(it).send() }
+                ?.map { ContractDelivery.fromTuple(it) }
+                .orEmpty()
+        }
+    }
+
 }
