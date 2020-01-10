@@ -42,8 +42,8 @@ class DeliveryRecyclerViewAdapter(
         val item = values[position]
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
-        holder.depositView.text = "${item.courierDeposit} zł"
-        holder.awardView.text = "${item.courierAward} zł"
+        holder.depositView.text = item.courierDeposit
+        holder.awardView.text = item.courierAward
         holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
 
         with(holder.view) {

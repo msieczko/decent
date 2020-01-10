@@ -7,8 +7,8 @@ data class Delivery(
     var title: String,
     var description: String,
     var receiverPostalAddress: String,
-    var courierDeposit: BigInteger,
-    var courierAward: BigInteger,
+    var courierDeposit: String,
+    var courierAward: String,
     var maxDeliveryTime: Int
 )
 
