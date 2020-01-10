@@ -1,8 +1,8 @@
 package eu.bwbw.decent.domain
 
 import org.web3j.tuples.generated.Tuple11
+import org.web3j.utils.Numeric
 import java.math.BigInteger
-import java.nio.charset.StandardCharsets
 
 data class ContractDelivery(
     val id: BigInteger,
@@ -43,7 +43,7 @@ data class ContractDelivery(
                 tuple.value7,
                 tuple.value8.toInt(),
                 tuple.value9.toInt(),
-                tuple.value10.toString(StandardCharsets.UTF_8),
+                Numeric.toHexString(tuple.value10),
                 EthAddress(tuple.value11)
             )
         }
