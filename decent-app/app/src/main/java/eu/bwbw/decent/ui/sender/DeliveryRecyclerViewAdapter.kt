@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
 import kotlinx.android.synthetic.main.fragment_delivery_sender.view.*
+import java.math.BigInteger
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
-    private val onRemoveDeliveryClick: (deliveryId: Int?) -> Unit,
+    private val onRemoveDeliveryClick: (deliveryId: BigInteger?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 

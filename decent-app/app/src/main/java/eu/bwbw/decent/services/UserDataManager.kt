@@ -1,6 +1,7 @@
 package eu.bwbw.decent.services
 
 import android.content.Context
+import org.web3j.crypto.Credentials
 
 class UserDataManager(context: Context) {
     private val dataStore = context.getSharedPreferences(USER_DATA_KEY, Context.MODE_PRIVATE)
@@ -23,6 +24,10 @@ class UserDataManager(context: Context) {
 
     fun isGeneratedKeyPresent(): Boolean {
         return generatedPrivateKey != ""
+    }
+
+    fun getCredentials(): Credentials {
+        return Credentials.create(if (userPrivateKey.isNotEmpty()) userPrivateKey else generatedPrivateKey)
     }
 
     companion object {

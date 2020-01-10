@@ -10,11 +10,11 @@ import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
 import eu.bwbw.decent.ui.common.BaseDeliveryListFragment
 
 
-class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapter.ViewHolder>()  {
+class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
     private lateinit var viewModel: CourierViewModel
 
-    override fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
+    override suspend fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
         return DeliveryRecyclerViewAdapter(
             onDeliveryClick = {
                 it?.let {
@@ -29,7 +29,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
                     println("picking delivery...")
                 }
             },
-            values = viewModel.getDeliveries()
+            values = viewModel.getDeliveries(userDataManager.getCredentials())
         )
     }
 

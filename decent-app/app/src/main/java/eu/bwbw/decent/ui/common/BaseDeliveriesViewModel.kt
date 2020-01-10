@@ -3,23 +3,19 @@ package eu.bwbw.decent.ui.common
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import eu.bwbw.decent.services.DeliveriesRepository
 import eu.bwbw.decent.domain.Delivery
+import org.web3j.crypto.Credentials
 
-open class BaseDeliveriesViewModel(
-    private val deliveriesRepository: DeliveriesRepository
-) : ViewModel() {
+abstract class BaseDeliveriesViewModel : ViewModel() {
 
     protected val _deliveriesUpdated = MutableLiveData<Boolean>()
     val deliveriesUpdated: LiveData<Boolean>
         get() = _deliveriesUpdated
 
-    fun getDeliveries() : List<Delivery> {
-        return deliveriesRepository.getDeliveries()
-    }
+    abstract suspend fun getDeliveries(credentials: Credentials): List<Delivery>
 
-    fun updateDeliveries() {
-        deliveriesRepository.getDeliveries()
+    suspend fun updateDeliveries(credentials: Credentials) {
+        this.getDeliveries(credentials)
         _deliveriesUpdated.value = true
     }
 }

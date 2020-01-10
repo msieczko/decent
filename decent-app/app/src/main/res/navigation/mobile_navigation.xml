@@ -48,7 +48,7 @@
     </fragment>
     <fragment android:id="@+id/deliveryDetailsFragment" android:name="eu.bwbw.decent.ui.common.DeliveryDetailsFragment"
               android:label="DeliveryDetailsFragment">
-        <argument android:name="deliveryId" app:argType="integer"/>
+        <argument android:name="deliveryId" app:argType="java.math.BigInteger"/>
     </fragment>
     <fragment android:id="@+id/approvePackage" android:name="eu.bwbw.decent.ui.receiver.ApprovePackage"
               android:label="fragment_approve_package" tools:layout="@layout/fragment_approve_package">

@@ -4,13 +4,17 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import eu.bwbw.decent.services.DeliveriesRepository
-import eu.bwbw.decent.services.DeliveryDetailsMemoryRepository
-import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
+import eu.bwbw.decent.domain.EthAddress
+import eu.bwbw.decent.services.*
 import eu.bwbw.decent.ui.common.DeliveryDetailsViewModel
 import eu.bwbw.decent.ui.courier.CourierViewModel
 import eu.bwbw.decent.ui.receiver.ReceiverViewModel
+import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
 
@@ -21,8 +25,12 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
     private val web3j = Web3j.build(
         HttpService("http://10.0.2.2:8545") // TODO move to properties
     )
-    private val deliveriesRepository = DeliveriesRepository()
     private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
+    private val deliveriesService = DeliveriesService(
+        deliveryDetailsRepository,
+        courierServiceContractAddress,
+        web3j
+    )
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
@@ -30,13 +38,13 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                 isAssignableFrom(AddNewDeliveryViewModel::class.java) ->
                     AddNewDeliveryViewModel(courierServiceContractAddress, web3j, deliveryDetailsRepository)
                 isAssignableFrom(SenderViewModel::class.java) ->
-                    SenderViewModel(deliveriesRepository)
+                    SenderViewModel(deliveriesService)
                 isAssignableFrom(CourierViewModel::class.java) ->
-                    CourierViewModel(deliveriesRepository)
+                    CourierViewModel(deliveriesService)
                 isAssignableFrom(ReceiverViewModel::class.java) ->
-                    ReceiverViewModel(deliveriesRepository)
+                    ReceiverViewModel(deliveriesService)
                 isAssignableFrom(DeliveryDetailsViewModel::class.java) ->
-                    DeliveryDetailsViewModel(deliveriesRepository)
+                    DeliveryDetailsViewModel(deliveriesService)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
