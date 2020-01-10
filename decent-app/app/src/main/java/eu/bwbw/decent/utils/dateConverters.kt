@@ -1,12 +1,10 @@
 package eu.bwbw.decent.utils
 
-import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
 
-@SuppressLint("SimpleDateFormat")
 fun secondsToDateTimeString(seconds: Int): String {
-    return SimpleDateFormat("yyyy-MM-dd HH:mm").format(
+    return SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.GERMAN).format(
         Date(seconds.toLong() * 1000)
     )
 }

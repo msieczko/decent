@@ -11,6 +11,7 @@ import java.math.BigInteger
 class SenderViewModel(
     private val deliveriesService: DeliveriesService
 ) : BaseDeliveriesViewModel() {
+
     private val _text = MutableLiveData<String>().apply {
         value = "This is sender Fragment"
     }
@@ -22,6 +23,8 @@ class SenderViewModel(
     }
 
     override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
-        return deliveriesService.getSenderDeliveries(credentials)
+        this.deliveries.clear()
+        this.deliveries.addAll(deliveriesService.getSenderDeliveries(credentials))
+        return this.deliveries
     }
 }

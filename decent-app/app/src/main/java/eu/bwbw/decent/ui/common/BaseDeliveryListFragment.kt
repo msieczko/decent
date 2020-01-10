@@ -58,8 +58,7 @@ abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
-                //getViewModel().updateDeliveries()
-                // TODO UPDATE
+                getViewModel().updateDeliveries(userDataManager.getCredentials())
                 true
             }
             else -> super.onOptionsItemSelected(item)

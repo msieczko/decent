@@ -17,6 +17,8 @@ class CourierViewModel(
     val text: LiveData<String> = _text
 
     override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
-        return deliveriesService.getCourierDeliveries(credentials)
+        this.deliveries.clear()
+        this.deliveries.addAll(deliveriesService.getCourierDeliveries(credentials))
+        return this.deliveries
     }
 }

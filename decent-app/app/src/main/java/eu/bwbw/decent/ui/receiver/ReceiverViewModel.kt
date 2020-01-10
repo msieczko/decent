@@ -13,10 +13,12 @@ import java.math.BigInteger
 class ReceiverViewModel(
     private val deliveriesService: DeliveriesService
 ) : BaseDeliveriesViewModel() {
-    override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
-        return deliveriesService.getReceiverDeliveries(credentials)
+
+    private val _text = MutableLiveData<String>().apply {
+        value = "My Eth address: ..."
     }
 
+    val text: LiveData<String> = _text
     var privateKey: String = ""
         set(key) {
             field = key
@@ -24,9 +26,10 @@ class ReceiverViewModel(
             _text.value = Keys.getAddress(keyPair)
         }
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "My Eth address: ..."
+    override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
+        this.deliveries.clear()
+        this.deliveries.addAll(deliveriesService.getReceiverDeliveries(credentials))
+        return this.deliveries
     }
-    val text: LiveData<String> = _text
 
 }

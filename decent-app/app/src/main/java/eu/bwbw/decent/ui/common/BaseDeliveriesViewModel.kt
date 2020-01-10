@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import eu.bwbw.decent.domain.Delivery
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
 
 abstract class BaseDeliveriesViewModel : ViewModel() {
+    internal var deliveries: ArrayList<Delivery> = ArrayList()
 
     protected val _deliveriesUpdated = MutableLiveData<Boolean>()
     val deliveriesUpdated: LiveData<Boolean>
@@ -14,8 +18,10 @@ abstract class BaseDeliveriesViewModel : ViewModel() {
 
     abstract suspend fun getDeliveries(credentials: Credentials): List<Delivery>
 
-    suspend fun updateDeliveries(credentials: Credentials) {
-        this.getDeliveries(credentials)
-        _deliveriesUpdated.value = true
+    fun updateDeliveries(credentials: Credentials) {
+        CoroutineScope(Dispatchers.Default).launch {
+            getDeliveries(credentials)
+            _deliveriesUpdated.postValue(true)
+        }
     }
 }
