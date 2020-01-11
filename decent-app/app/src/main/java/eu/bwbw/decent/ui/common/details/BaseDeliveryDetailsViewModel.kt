@@ -11,6 +11,14 @@ abstract class BaseDeliveryDetailsViewModel(
     private val deliveriesService: DeliveriesService
 ) : ViewModel() {
 
+    protected val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    protected val _actionFinished = MutableLiveData<Boolean>()
+    val actionFinished: LiveData<Boolean>
+        get() = _actionFinished
+
     private val _delivery = MutableLiveData<Delivery>()
     val delivery: LiveData<Delivery>
         get() = _delivery

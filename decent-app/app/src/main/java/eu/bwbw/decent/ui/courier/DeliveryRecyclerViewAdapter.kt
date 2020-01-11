@@ -57,7 +57,7 @@ class DeliveryRecyclerViewAdapter(
             Color.parseColor(
                 when (item.state) {
                     DeliveryState.OFFER -> "#2C4EDF35"
-                    DeliveryState.PICKUP_DECLARED -> "#51FFEB3B"
+                    DeliveryState.IN_DELIVERY -> "#51FFEB3B"
                     else -> "#FFFFFFFF"
                 }
             )
