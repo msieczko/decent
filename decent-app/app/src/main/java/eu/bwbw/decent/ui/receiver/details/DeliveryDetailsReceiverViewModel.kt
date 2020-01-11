@@ -1,9 +1,9 @@
-package eu.bwbw.decent.ui.sender
+package eu.bwbw.decent.ui.receiver.details
 
 import eu.bwbw.decent.services.DeliveriesService
-import eu.bwbw.decent.ui.common.BaseDeliveryDetailsViewModel
+import eu.bwbw.decent.ui.common.details.BaseDeliveryDetailsViewModel
 
-class DeliveryDetailsSenderViewModel(
+class DeliveryDetailsReceiverViewModel(
     private val deliveriesService: DeliveriesService
 ) : BaseDeliveryDetailsViewModel(deliveriesService) {
 

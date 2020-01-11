@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.receiver
+package eu.bwbw.decent.ui.courier.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
+import eu.bwbw.decent.ui.courier.DeliveryDetailsCourierFragmentArgs
 import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
 
-class DeliveryDetailsReceiverFragment : Fragment() {
+class DeliveryDetailsCourierFragment : Fragment() {
 
-    private lateinit var viewModel: DeliveryDetailsReceiverViewModel
+    private lateinit var viewModel: DeliveryDetailsCourierViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +28,9 @@ class DeliveryDetailsReceiverFragment : Fragment() {
             container,
             false
         )
+
         viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(
-            DeliveryDetailsReceiverViewModel::class.java
+            DeliveryDetailsCourierViewModel::class.java
         )
 
         binding.viewModel = viewModel
@@ -38,7 +38,7 @@ class DeliveryDetailsReceiverFragment : Fragment() {
 
         arguments?.let {
             val safeArgs =
-                DeliveryDetailsReceiverFragmentArgs.fromBundle(it)
+                DeliveryDetailsCourierFragmentArgs.fromBundle(it)
             viewModel.openDelivery(safeArgs.deliveryId)
         }
 
@@ -47,17 +47,12 @@ class DeliveryDetailsReceiverFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         actionButton.apply {
-            text = "Approve package delivery"
+            text = "Pickup package"
             setOnClickListener {
-                val directions: NavDirections =
-                    DeliveryDetailsReceiverFragmentDirections.actionDeliveryDetailsReceiverFragmentToApprovePackage(
-                        viewModel.delivery.value?.title ?: "no title"
-                    )
-                view.findNavController().navigate(directions)
+                println("Package pickup")
             }
             visibility = View.VISIBLE
         }
 
     }
-
 }

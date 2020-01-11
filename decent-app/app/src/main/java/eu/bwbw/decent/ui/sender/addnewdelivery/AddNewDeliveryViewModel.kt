@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.sender
+package eu.bwbw.decent.ui.sender.addnewdelivery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

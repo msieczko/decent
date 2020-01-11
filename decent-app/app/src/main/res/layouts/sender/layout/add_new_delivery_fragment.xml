@@ -9,14 +9,14 @@
 
         <variable
             name="viewModel"
-            type="eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel" />
+            type="eu.bwbw.decent.ui.sender.addnewdelivery.AddNewDeliveryViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.sender.AddNewDeliveryFragment">
+        tools:context=".ui.sender.addnewdelivery.AddNewDeliveryFragment">
 
         <TextView
             android:id="@+id/form_title"

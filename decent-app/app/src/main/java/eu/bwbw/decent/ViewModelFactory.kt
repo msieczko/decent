@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.services.*
 import eu.bwbw.decent.ui.courier.CourierViewModel
-import eu.bwbw.decent.ui.courier.DeliveryDetailsCourierViewModel
-import eu.bwbw.decent.ui.receiver.DeliveryDetailsReceiverViewModel
+import eu.bwbw.decent.ui.courier.details.DeliveryDetailsCourierViewModel
 import eu.bwbw.decent.ui.receiver.ReceiverViewModel
-import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
-import eu.bwbw.decent.ui.sender.DeliveryDetailsSenderViewModel
+import eu.bwbw.decent.ui.receiver.details.DeliveryDetailsReceiverViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
+import eu.bwbw.decent.ui.sender.addnewdelivery.AddNewDeliveryViewModel
+import eu.bwbw.decent.ui.sender.details.DeliveryDetailsSenderViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +38,11 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
         with(modelClass) {
             when {
                 isAssignableFrom(AddNewDeliveryViewModel::class.java) ->
-                    AddNewDeliveryViewModel(courierServiceContractAddress, web3j, deliveryDetailsRepository)
+                    AddNewDeliveryViewModel(
+                        courierServiceContractAddress,
+                        web3j,
+                        deliveryDetailsRepository
+                    )
                 isAssignableFrom(SenderViewModel::class.java) ->
                     SenderViewModel(deliveriesService)
                 isAssignableFrom(CourierViewModel::class.java) ->
@@ -48,9 +52,13 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                 isAssignableFrom(DeliveryDetailsSenderViewModel::class.java) ->
                     DeliveryDetailsSenderViewModel(deliveriesService)
                 isAssignableFrom(DeliveryDetailsCourierViewModel::class.java) ->
-                    DeliveryDetailsCourierViewModel(deliveriesService)
+                    DeliveryDetailsCourierViewModel(
+                        deliveriesService
+                    )
                 isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->
-                    DeliveryDetailsReceiverViewModel(deliveriesService)
+                    DeliveryDetailsReceiverViewModel(
+                        deliveriesService
+                    )
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

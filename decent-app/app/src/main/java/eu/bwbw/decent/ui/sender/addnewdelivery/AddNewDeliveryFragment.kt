@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.sender
+package eu.bwbw.decent.ui.sender.addnewdelivery
 
 import android.content.Context
 import android.os.Bundle
@@ -14,9 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataManager
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.AddNewDeliveryFragmentBinding
+import eu.bwbw.decent.services.UserDataManager
 import kotlinx.android.synthetic.main.add_new_delivery_fragment.*
 import org.web3j.crypto.Credentials
 

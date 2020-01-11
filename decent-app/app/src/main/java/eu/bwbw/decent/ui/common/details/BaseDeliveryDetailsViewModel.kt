@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.common
+package eu.bwbw.decent.ui.common.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
