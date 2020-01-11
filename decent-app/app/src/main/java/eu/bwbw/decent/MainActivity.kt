@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Preferences cleanup TODO REMOVE
-       applicationContext.getSharedPreferences("eu.bwbw.decent.USER_DATA_KEY", Context.MODE_PRIVATE)
+        applicationContext.getSharedPreferences("eu.bwbw.decent.USER_DATA_KEY", Context.MODE_PRIVATE)
             .edit()
             .clear()
             .apply()

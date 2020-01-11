@@ -1,14 +1,17 @@
 package eu.bwbw.decent.domain
 
+import java.math.BigInteger
+
 data class Delivery(
-    var id: Int,
+    var id: BigInteger,
     var title: String,
     var description: String,
-    var receiverEthereumAddress: String,
     var receiverPostalAddress: String,
-    var courierDeposit: Int,
-    var courierAward: Int,
-    var maxDeliveryTime: Long
+    var courierDeposit: String,
+    var courierAward: String,
+    val deliveryDeadline: Int,
+    val pickupDeadline: Int,
+    var state: DeliveryState
 )
 
 

@@ -4,31 +4,25 @@ package eu.bwbw.decent.ui.receiver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.domain.DeliveryState
+import eu.bwbw.decent.utils.secondsToDateTimeString
 import kotlinx.android.synthetic.main.fragment_delivery_receiver.view.*
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
-    private val onConfirmDeliveryClick: (item: Delivery?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
     private val onClickListenerDelivery: View.OnClickListener
-    private val onConfirmDeliveryListener: View.OnClickListener
 
     init {
         onClickListenerDelivery = View.OnClickListener { v ->
             val item = v.tag as Delivery
             onDeliveryClick(item)
-        }
-
-        onConfirmDeliveryListener = View.OnClickListener { v ->
-            val item = v.tag as Delivery
-            onConfirmDeliveryClick(item)
         }
     }
 
@@ -42,17 +36,23 @@ class DeliveryRecyclerViewAdapter(
         val item = values[position]
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
-        holder.depositView.text = "${item.courierDeposit} zł"
-        holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
+        holder.depositView.text = item.courierDeposit
+
+        when (item.state) {
+            DeliveryState.OFFER -> {
+                // show time
+                holder.maxDeliveryTimeView.text = "${(item.deliveryDeadline / 3600)} h"
+            }
+            DeliveryState.PICKUP_DECLARED -> {
+                // show date
+                holder.maxDeliveryTimeView.text = secondsToDateTimeString(item.pickupDeadline)
+            }
+            else -> holder.maxDeliveryTimeView.text = ""
+        }
 
         with(holder.view) {
             tag = item
             setOnClickListener(onClickListenerDelivery)
-        }
-
-        with(holder.receivedButton) {
-            tag = item
-            setOnClickListener(onConfirmDeliveryListener)
         }
     }
 
@@ -63,8 +63,6 @@ class DeliveryRecyclerViewAdapter(
         val addressView: TextView = view.receiver_postal_address
         val depositView: TextView = view.courier_deposit
         val maxDeliveryTimeView: TextView = view.max_delivery_time
-
-        val receivedButton: Button = view.receivedButton
 
         override fun toString(): String {
             return super.toString() + " '" + titleView.text + "'"

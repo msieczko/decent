@@ -68,7 +68,8 @@ class CourierServiceRepository(
     suspend fun getSenderDeliveries(): List<ContractDelivery> {
         return withContext(Dispatchers.IO) {
             val count = courierService.getSenderDeliveriesCount(credentials.address).send().toInt()
-            (1..count).map { BigInteger.valueOf(it.toLong()) }
+            println("count Sender: $count")
+            (0 until count).map { BigInteger.valueOf(it.toLong()) }
                 .map { courierService.senderDeliveries(credentials.address, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
@@ -78,10 +79,21 @@ class CourierServiceRepository(
     suspend fun getCourierDeliveries(): List<ContractDelivery> {
         return withContext(Dispatchers.IO) {
             val count = courierService.getCourierDeliveriesCount(credentials.address).send().toInt()
-            (1..count).map { BigInteger.valueOf(it.toLong()) }
+            println("count Courier: $count")
+            (0 until count).map { BigInteger.valueOf(it.toLong()) }
                 .map { courierService.courierDeliveries(credentials.address, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
+        }
+    }
+
+    suspend fun getReceiverDeliveries(): List<ContractDelivery> {
+        return withContext(Dispatchers.IO) {
+            (courierService.getReceiverDeliveries(credentials.address).send() as List<BigInteger>?)
+                ?.map { courierService.courierDeliveries(credentials.address, it).send() }
+                ?.map { courierService.deliveries(it).send() }
+                ?.map { ContractDelivery.fromTuple(it) }
+                .orEmpty()
         }
     }
 

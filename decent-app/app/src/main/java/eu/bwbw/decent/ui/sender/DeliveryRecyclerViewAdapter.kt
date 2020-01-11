@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
 import kotlinx.android.synthetic.main.fragment_delivery_sender.view.*
+import java.math.BigInteger
 
 class DeliveryRecyclerViewAdapter(
     private val onDeliveryClick: (item: Delivery?) -> Unit,
-    private val onRemoveDeliveryClick: (deliveryId: Int?) -> Unit,
+    private val onRemoveDeliveryClick: (deliveryId: BigInteger?) -> Unit,
     private val values: List<Delivery>
 ) : RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder>() {
 
@@ -42,9 +43,9 @@ class DeliveryRecyclerViewAdapter(
         val item = values[position]
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
-        holder.depositView.text = "${item.courierDeposit} zł"
-        holder.awardView.text = "${item.courierAward} zł"
-        holder.maxDeliveryTimeView.text = "${item.maxDeliveryTime} h"
+        holder.depositView.text = item.courierDeposit
+        holder.awardView.text = item.courierAward
+        holder.maxDeliveryTimeView.text = "${item.deliveryDeadline / 3600} h"
 
         with(holder.deleteDeliveryButton) {
             tag = item

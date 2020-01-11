@@ -14,7 +14,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
 
     private lateinit var viewModel: SenderViewModel
 
-    override fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
+    override suspend fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {
         return DeliveryRecyclerViewAdapter(
             onDeliveryClick = {
                 it?.let {
@@ -29,7 +29,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
                 }
 
             },
-            values = viewModel.getDeliveries()
+            values = viewModel.getDeliveries(userDataManager.getCredentials())
         )
     }
 
