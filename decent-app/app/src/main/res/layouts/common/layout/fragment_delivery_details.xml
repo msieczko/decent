@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="eu.bwbw.decent.utils.DateConverters"/>
-
         <import type="android.view.View"/>
 
         <variable
@@ -98,7 +96,7 @@
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:text='@{@string/delivery_deadline_value(DateConverters.secondsToHours(viewModel.delivery.deliveryDeadline))}'
+            android:text='@{viewModel.getDeliveryTime()}'
             tools:text="deliveryDeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,24 +106,13 @@
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:visibility="@{viewModel.delivery.pickupDeadline > 0 ?  View.VISIBLE : View.GONE }"
-            android:text='@{@string/pickup_deadline_value(DateConverters.secondsToDateTimeString(viewModel.delivery.pickupDeadline))}'
-            tools:text="pickupDeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pickupDeadline"
-            app:layout_constraintTop_toBottomOf="@+id/deliveryDeadline"
-            app:layout_constraintStart_toStartOf="@+id/deliveryDeadline"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
             android:text='@{@string/state(viewModel.delivery.state)}'
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/state"
             tools:text="State: OFFER"
-            app:layout_constraintTop_toBottomOf="@+id/pickupDeadline"
-            app:layout_constraintStart_toStartOf="@+id/pickupDeadline"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDeadline"
+            app:layout_constraintStart_toStartOf="@+id/deliveryDeadline"
             android:layout_marginTop="8dp"/>
 
         <ProgressBar

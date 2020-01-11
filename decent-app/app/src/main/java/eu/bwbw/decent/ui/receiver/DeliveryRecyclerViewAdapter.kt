@@ -10,7 +10,6 @@ import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.domain.DeliveryState
 import eu.bwbw.decent.utils.DateConverters.secondsToDateTimeString
-import eu.bwbw.decent.utils.DateConverters.secondsToHours
 import kotlinx.android.synthetic.main.fragment_delivery_receiver.view.*
 
 class DeliveryRecyclerViewAdapter(
@@ -38,17 +37,10 @@ class DeliveryRecyclerViewAdapter(
         holder.titleView.text = item.title
         holder.addressView.text = item.receiverPostalAddress
         holder.depositView.text = item.courierDeposit
-
-        when (item.state) {
-            DeliveryState.OFFER -> {
-                // show time
-                holder.maxDeliveryTimeView.text = secondsToHours(item.deliveryDeadline)
-            }
-            DeliveryState.PICKUP_DECLARED -> {
-                // show date
-                holder.maxDeliveryTimeView.text = secondsToDateTimeString(item.pickupDeadline)
-            }
-            else -> holder.maxDeliveryTimeView.text = ""
+        holder.maxDeliveryTimeView.text = when (item.state) {
+            DeliveryState.OFFER, DeliveryState.PICKUP_DECLARED, DeliveryState.OFFER_CANCELED
+            -> ""
+            else -> secondsToDateTimeString(item.deliveryDeadline)
         }
 
         with(holder.view) {

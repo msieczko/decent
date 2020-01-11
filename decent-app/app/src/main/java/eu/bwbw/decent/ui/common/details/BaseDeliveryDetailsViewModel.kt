@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.domain.DeliveryState
 import eu.bwbw.decent.services.DeliveriesService
+import eu.bwbw.decent.utils.DateConverters
 import java.math.BigInteger
 
 abstract class BaseDeliveryDetailsViewModel(
@@ -26,4 +28,17 @@ abstract class BaseDeliveryDetailsViewModel(
     fun openDelivery(deliveryId: BigInteger) {
         _delivery.value = deliveriesService.getDelivery(deliveryId)
     }
+
+    fun getDeliveryTime(): String {
+        delivery.value?.let {
+            return when (delivery.value?.state) {
+                DeliveryState.OFFER, DeliveryState.PICKUP_DECLARED, DeliveryState.OFFER_CANCELED
+                -> "Max delivery time: ${DateConverters.secondsToHours(it.deliveryDeadline)}"
+                else -> "Delivery deadline: ${DateConverters.secondsToDateTimeString(it.deliveryDeadline)}"
+            }
+        }
+        return ""
+    }
+
+
 }
