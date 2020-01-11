@@ -47,7 +47,7 @@ class AddNewDeliveryFragment : Fragment() {
             false
         )
 
-        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application))
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance())
             .get(AddNewDeliveryViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

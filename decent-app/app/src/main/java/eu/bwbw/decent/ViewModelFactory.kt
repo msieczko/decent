@@ -1,7 +1,6 @@
 package eu.bwbw.decent
 
 import android.annotation.SuppressLint
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.domain.EthAddress
@@ -121,7 +120,7 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
 
-        fun getInstance(application: Application) =
+        fun getInstance() =
             INSTANCE ?: synchronized(ViewModelFactory::class.java) {
                 INSTANCE ?: ViewModelFactory()
                     .also { INSTANCE = it }

@@ -35,7 +35,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
 
     override fun setupViewModel() {
         viewModel =
-            ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application))
+            ViewModelProviders.of(this, ViewModelFactory.getInstance())
                 .get(SenderViewModel::class.java)
     }
 
