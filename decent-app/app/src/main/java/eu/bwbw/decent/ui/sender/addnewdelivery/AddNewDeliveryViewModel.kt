@@ -43,7 +43,7 @@ class AddNewDeliveryViewModel(
     val maxDeliveryTime = MutableLiveData<String>()
     lateinit var maxDeliveryTimeUnit: String
 
-    private val _savingData = MutableLiveData<Boolean>()
+    private val _savingData = MutableLiveData<Boolean>(false)
     val savingData: LiveData<Boolean>
         get() = _savingData
 
