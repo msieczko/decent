@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.services.UserDataManager
+import kotlinx.android.synthetic.main.fragment_delivery_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -30,18 +31,18 @@ abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_delivery_list, container, false)
+        val root = inflater.inflate(R.layout.fragment_delivery_list, container, false)
         setHasOptionsMenu(true)
 
         setupViewModel()
+
+        val recyclerView = root.findViewById<RecyclerView>(R.id.list)
         CoroutineScope(Main).launch {
-            deliveryRecyclerViewAdapter = getRecyclerViewAdapter(view)
+            deliveryRecyclerViewAdapter = getRecyclerViewAdapter(recyclerView)
             // Set the adapter
-            if (view is RecyclerView) {
-                with(view) {
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = deliveryRecyclerViewAdapter
-                }
+            with(recyclerView) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = deliveryRecyclerViewAdapter
             }
         }
 
@@ -53,7 +54,7 @@ abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment
             }
         )
 
-        return view
+        return root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -64,6 +65,12 @@ abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        getViewModel().isLoading.observe(this, Observer {
+            progressBarDeliveryList.visibility = if (it) View.VISIBLE else View.GONE
+        })
     }
 
     abstract suspend fun getRecyclerViewAdapter(view: View): RecyclerView.Adapter<T>

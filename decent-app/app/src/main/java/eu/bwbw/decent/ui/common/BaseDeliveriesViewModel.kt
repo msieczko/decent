@@ -16,6 +16,10 @@ abstract class BaseDeliveriesViewModel : ViewModel() {
     val deliveriesUpdated: LiveData<Boolean>
         get() = _deliveriesUpdated
 
+    protected val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
     abstract suspend fun getDeliveries(credentials: Credentials): List<Delivery>
 
     fun updateDeliveries(credentials: Credentials) {
