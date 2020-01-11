@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
+import eu.bwbw.decent.domain.DeliveryState
 import eu.bwbw.decent.services.UserDataManager
 import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
@@ -60,6 +61,12 @@ class DeliveryDetailsCourierFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (viewModel.delivery.value?.state != DeliveryState.OFFER) {
+            hiddenWhenNoAction.visibility = View.GONE
+        } else {
+            hiddenWhenNoAction.visibility = View.VISIBLE
+        }
+
         actionButton.apply {
             text = "Pickup package"
             setOnClickListener {
