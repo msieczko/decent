@@ -14,8 +14,6 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import eu.bwbw.decent.R
-import eu.bwbw.decent.ui.common.DeliveryDetailsFragmentArgs
-import java.lang.Integer.min
 
 
 class ApprovePackage : Fragment() {

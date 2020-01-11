@@ -7,7 +7,7 @@ import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.services.DeliveriesService
 import java.math.BigInteger
 
-class DeliveryDetailsViewModel(
+abstract class BaseDeliveryDetailsViewModel(
     private val deliveriesService: DeliveriesService
 ) : ViewModel() {
 

@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.services.*
-import eu.bwbw.decent.ui.common.DeliveryDetailsViewModel
 import eu.bwbw.decent.ui.courier.CourierViewModel
+import eu.bwbw.decent.ui.courier.DeliveryDetailsCourierViewModel
+import eu.bwbw.decent.ui.receiver.DeliveryDetailsReceiverViewModel
 import eu.bwbw.decent.ui.receiver.ReceiverViewModel
 import eu.bwbw.decent.ui.sender.AddNewDeliveryViewModel
+import eu.bwbw.decent.ui.sender.DeliveryDetailsSenderViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,8 +45,12 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                     CourierViewModel(deliveriesService)
                 isAssignableFrom(ReceiverViewModel::class.java) ->
                     ReceiverViewModel(deliveriesService)
-                isAssignableFrom(DeliveryDetailsViewModel::class.java) ->
-                    DeliveryDetailsViewModel(deliveriesService)
+                isAssignableFrom(DeliveryDetailsSenderViewModel::class.java) ->
+                    DeliveryDetailsSenderViewModel(deliveriesService)
+                isAssignableFrom(DeliveryDetailsCourierViewModel::class.java) ->
+                    DeliveryDetailsCourierViewModel(deliveriesService)
+                isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->
+                    DeliveryDetailsReceiverViewModel(deliveriesService)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

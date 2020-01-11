@@ -24,38 +24,84 @@
     </fragment>
     <fragment android:id="@+id/addNewDeliveryFragment" android:name="eu.bwbw.decent.ui.sender.AddNewDeliveryFragment"
               android:label="Add New Delivery" tools:layout="@layout/add_new_delivery_fragment"/>
-    <fragment android:id="@+id/courierFragment" android:name="eu.bwbw.decent.ui.courier.CourierFragment"
-              android:label="Delivery orders">
-        <action android:id="@+id/action_courierFragment_to_deliveryApprovalRequest"
-                app:destination="@id/deliveryApprovalRequest"/>
-        <action android:id="@+id/action_courierFragment_to_deliveryDetailsFragment"
-                app:destination="@id/deliveryDetailsFragment"/>
-        <action android:id="@+id/action_courierFragment_to_authenticationFragment"
-                app:destination="@id/authenticationFragment" app:popUpTo="@id/receiverFragment"/>
+    <fragment
+        android:id="@+id/courierFragment"
+        android:name="eu.bwbw.decent.ui.courier.CourierFragment"
+        android:label="Delivery orders">
+        <action
+            android:id="@+id/action_courierFragment_to_deliveryApprovalRequest"
+            app:destination="@id/deliveryApprovalRequest"/>
+        <action
+            android:id="@+id/action_courierFragment_to_authenticationFragment"
+            app:destination="@id/authenticationFragment"
+            app:popUpTo="@id/receiverFragment"/>
+        <action
+            android:id="@+id/action_courierFragment_to_deliveryDetailsCourierFragment"
+            app:destination="@id/deliveryDetailsCourierFragment"/>
     </fragment>
-    <fragment android:id="@+id/receiverFragment" android:name="eu.bwbw.decent.ui.receiver.ReceiverFragment"
-              android:label="My incoming deliveries">
-        <action android:id="@+id/action_receiverFragment_to_approvePackage" app:destination="@id/approvePackage"/>
+    <fragment
+        android:id="@+id/receiverFragment"
+        android:name="eu.bwbw.decent.ui.receiver.ReceiverFragment"
+        android:label="My incoming deliveries">
+        <action
+            android:id="@+id/action_receiverFragment_to_deliveryDetailsReceiverFragment"
+            app:destination="@id/deliveryDetailsReceiverFragment"/>
     </fragment>
-    <fragment android:id="@+id/senderFragment" android:name="eu.bwbw.decent.ui.sender.SenderFragment"
-              android:label="My deliveries">
-        <action android:id="@+id/action_senderFragment_to_addNewDeliveryFragment"
-                app:destination="@id/addNewDeliveryFragment"/>
-        <action android:id="@+id/action_senderFragment_to_deliveryDetailsFragment"
-                app:destination="@id/deliveryDetailsFragment"/>
-        <action android:id="@+id/action_senderFragment_to_authenticationFragment"
-                app:destination="@id/authenticationFragment" app:popUpTo="@+id/receiverFragment"/>
+    <fragment
+        android:id="@+id/senderFragment"
+        android:name="eu.bwbw.decent.ui.sender.SenderFragment"
+        android:label="My deliveries">
+        <action
+            android:id="@+id/action_senderFragment_to_addNewDeliveryFragment"
+            app:destination="@id/addNewDeliveryFragment"/>
+        <action
+            android:id="@+id/action_senderFragment_to_authenticationFragment"
+            app:destination="@id/authenticationFragment"
+            app:popUpTo="@+id/receiverFragment"/>
+        <action
+            android:id="@+id/action_senderFragment_to_deliveryDetailsSenderFragment"
+            app:destination="@id/deliveryDetailsSenderFragment"/>
     </fragment>
-    <fragment android:id="@+id/deliveryDetailsFragment" android:name="eu.bwbw.decent.ui.common.DeliveryDetailsFragment"
-              android:label="DeliveryDetailsFragment">
-        <argument android:name="deliveryId" app:argType="java.math.BigInteger"/>
+    <fragment
+        android:id="@+id/approvePackage"
+        android:name="eu.bwbw.decent.ui.receiver.ApprovePackage"
+        android:label="Approve package"
+        tools:layout="@layout/fragment_approve_package">
+        <argument
+            android:name="deliveryTitle"
+            app:argType="string"/>
     </fragment>
-    <fragment android:id="@+id/approvePackage" android:name="eu.bwbw.decent.ui.receiver.ApprovePackage"
-              android:label="fragment_approve_package" tools:layout="@layout/fragment_approve_package">
-        <argument android:name="deliveryTitle" app:argType="string"/>
+    <fragment
+        android:id="@+id/deliveryApprovalRequest"
+        android:name="eu.bwbw.decent.ui.courier.DeliveryApprovalRequest"
+        android:label="Delivery approval request"
+        tools:layout="@layout/fragment_delivery_approval_request"/>
+    <fragment
+        android:id="@+id/deliveryDetailsCourierFragment"
+        android:name="eu.bwbw.decent.ui.courier.DeliveryDetailsCourierFragment"
+        android:label="Delivery details">
+        <argument
+            android:name="deliveryId"
+            app:argType="java.math.BigInteger"/>
     </fragment>
-    <fragment android:id="@+id/deliveryApprovalRequest" android:name="eu.bwbw.decent.ui.courier.DeliveryApprovalRequest"
-              android:label="fragment_delivery_approval_request"
-              tools:layout="@layout/fragment_delivery_approval_request"/>
+    <fragment
+        android:id="@+id/deliveryDetailsReceiverFragment"
+        android:name="eu.bwbw.decent.ui.receiver.DeliveryDetailsReceiverFragment"
+        android:label="Delivery details">
+        <argument
+            android:name="deliveryId"
+            app:argType="java.math.BigInteger"/>
+        <action
+            android:id="@+id/action_deliveryDetailsReceiverFragment_to_approvePackage"
+            app:destination="@id/approvePackage"/>
+    </fragment>
+    <fragment
+        android:id="@+id/deliveryDetailsSenderFragment"
+        android:name="eu.bwbw.decent.ui.sender.DeliveryDetailsSenderFragment"
+        android:label="Delivery details">
+        <argument
+            android:name="deliveryId"
+            app:argType="java.math.BigInteger"/>
+    </fragment>
 
 </navigation>

@@ -19,7 +19,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
             onDeliveryClick = {
                 it?.let {
                     val directions: NavDirections =
-                        SenderFragmentDirections.actionSenderFragmentToDeliveryDetailsFragment(it.id)
+                        SenderFragmentDirections.actionSenderFragmentToDeliveryDetailsSenderFragment(it.id)
                     view.findNavController().navigate(directions)
                 }
             },

@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.common
+package eu.bwbw.decent.ui.sender
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,24 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
-import eu.bwbw.decent.databinding.DeliveryDetailsFragmentBinding
+import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
 
-class DeliveryDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: DeliveryDetailsViewModel
+class DeliveryDetailsSenderFragment : Fragment() {
+
+    private lateinit var viewModel: DeliveryDetailsSenderViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: DeliveryDetailsFragmentBinding = DataBindingUtil.inflate(
+        val binding: FragmentDeliveryDetailsBinding = DataBindingUtil.inflate(
             inflater,
-            R.layout.delivery_details_fragment,
+            R.layout.fragment_delivery_details,
             container,
             false
         )
         viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(
-            DeliveryDetailsViewModel::class.java
+            DeliveryDetailsSenderViewModel::class.java
         )
 
         binding.viewModel = viewModel
@@ -34,7 +35,7 @@ class DeliveryDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs =
-                DeliveryDetailsFragmentArgs.fromBundle(it)
+                DeliveryDetailsSenderFragmentArgs.fromBundle(it)
             viewModel.openDelivery(safeArgs.deliveryId)
         }
 
