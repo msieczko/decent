@@ -2,13 +2,19 @@ package eu.bwbw.decent.ui.sender
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.services.CourierServiceRepository
 import eu.bwbw.decent.services.DeliveriesService
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
+import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
+import org.web3j.protocol.Web3j
 import java.math.BigInteger
 
 class SenderViewModel(
+    private val courierServiceContractAddress: String,
+    private val web3j: Web3j,
     private val deliveriesService: DeliveriesService
 ) : BaseDeliveriesViewModel() {
 
@@ -17,9 +23,15 @@ class SenderViewModel(
     }
 
     val text: LiveData<String> = _text
-    fun onRemoveDeliveryClick(deliveryId: BigInteger) {
-        deliveriesService.remove(deliveryId)
-        _deliveriesUpdated.value = true
+    fun onRemoveDeliveryClick(deliveryId: BigInteger, credentials: Credentials) {
+        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
+
+        viewModelScope.launch {
+            courierServiceRepository.cancelDeliveryOrder(deliveryId)
+            super.removeDelivery(deliveryId)
+            _deliveriesUpdated.value = true
+            updateDeliveries(credentials)
+        }
     }
 
     override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {

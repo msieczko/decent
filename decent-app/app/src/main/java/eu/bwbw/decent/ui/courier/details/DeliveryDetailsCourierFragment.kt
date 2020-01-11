@@ -28,7 +28,7 @@ class DeliveryDetailsCourierFragment : Fragment() {
             false
         )
 
-        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(
             DeliveryDetailsCourierViewModel::class.java
         )
 

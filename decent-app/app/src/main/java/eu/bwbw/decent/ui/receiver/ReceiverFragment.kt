@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataManager
 import eu.bwbw.decent.ViewModelFactory
+import eu.bwbw.decent.services.UserDataManager
 
 class ReceiverFragment : Fragment() {
 
@@ -29,7 +29,7 @@ class ReceiverFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         receiverViewModel =
-            ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(ReceiverViewModel::class.java)
+            ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ReceiverViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_receiver, container, false)
 
         if(userDataManager.isUserKeyPresent()) {

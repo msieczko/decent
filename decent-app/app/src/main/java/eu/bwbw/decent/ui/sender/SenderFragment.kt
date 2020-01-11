@@ -14,8 +14,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataManager
 import eu.bwbw.decent.ViewModelFactory
+import eu.bwbw.decent.services.UserDataManager
 
 class SenderFragment : Fragment() {
 
@@ -46,7 +46,7 @@ class SenderFragment : Fragment() {
         }
 
         senderViewModel =
-            ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(SenderViewModel::class.java)
+            ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(SenderViewModel::class.java)
 
         val textView: TextView = root.findViewById(R.id.text_sender)
         senderViewModel.text.observe(this, Observer {

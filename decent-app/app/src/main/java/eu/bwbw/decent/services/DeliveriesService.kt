@@ -60,8 +60,4 @@ class DeliveriesService(
     fun getDelivery(deliveryId: BigInteger): Delivery {
         return deliveries.first { it.id == deliveryId }
     }
-
-    fun remove(deliveryId: BigInteger) {
-        TODO("implement")
-    }
 }
