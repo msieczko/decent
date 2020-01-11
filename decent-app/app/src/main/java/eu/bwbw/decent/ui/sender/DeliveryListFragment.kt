@@ -25,7 +25,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
             },
             onRemoveDeliveryClick = {
                 it?.let {
-                    viewModel.onRemoveDeliveryClick(it)
+                    viewModel.onRemoveDeliveryClick(it, userDataManager.getCredentials())
                 }
 
             },

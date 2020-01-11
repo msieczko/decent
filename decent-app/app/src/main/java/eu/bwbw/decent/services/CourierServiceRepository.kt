@@ -2,6 +2,7 @@ package eu.bwbw.decent.services
 
 import eu.bwbw.decent.contracts.generated.CourierService
 import eu.bwbw.decent.domain.ContractDelivery
+import eu.bwbw.decent.domain.DeliveryState
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.transactions.CancelDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
@@ -73,6 +74,7 @@ class CourierServiceRepository(
                 .map { courierService.senderDeliveries(credentials.address, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
+                .filter { it.state != DeliveryState.OFFER_CANCELED }
         }
     }
 

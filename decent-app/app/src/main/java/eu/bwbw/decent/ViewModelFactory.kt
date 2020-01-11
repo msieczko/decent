@@ -44,7 +44,11 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                         deliveryDetailsRepository
                     )
                 isAssignableFrom(SenderViewModel::class.java) ->
-                    SenderViewModel(deliveriesService)
+                    SenderViewModel(
+                        courierServiceContractAddress,
+                        web3j,
+                        deliveriesService
+                    )
                 isAssignableFrom(CourierViewModel::class.java) ->
                     CourierViewModel(deliveriesService)
                 isAssignableFrom(ReceiverViewModel::class.java) ->
@@ -92,18 +96,18 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                     EthAddress("0xd59ca627Af68D29C547B91066297a7c469a7bF72"),
                     100.toBigInteger(),
                     200.toBigInteger(),
-                    60*60*2,
+                    60 * 60 * 2,
                     deliveryDetailsRepository.save(sampleDeliveryDetails01)
                 )
             )
 
             createDeliveryOrder(
                 DeliveryOrder(
-                   // EthAddress("0x63FC2aD3d021a4D7e64323529a55a9442C444dA0"),
+                    // EthAddress("0x63FC2aD3d021a4D7e64323529a55a9442C444dA0"),
                     EthAddress("0xFC6F167a5AB77Fe53C4308a44d6893e8F2E54131"),
                     100.toBigInteger(),
                     200.toBigInteger(),
-                    60*60*4,
+                    60 * 60 * 4,
                     deliveryDetailsRepository.save(sampleDeliveryDetails02)
                 )
             )

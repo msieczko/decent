@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
+import java.math.BigInteger
 
 abstract class BaseDeliveriesViewModel : ViewModel() {
     internal var deliveries: ArrayList<Delivery> = ArrayList()
@@ -23,5 +24,10 @@ abstract class BaseDeliveriesViewModel : ViewModel() {
             getDeliveries(credentials)
             _deliveriesUpdated.postValue(true)
         }
+    }
+
+    protected fun removeDelivery(deliveryId: BigInteger) {
+        deliveries.removeAll { delivery -> delivery.id == deliveryId }
+        _deliveriesUpdated.value = true
     }
 }

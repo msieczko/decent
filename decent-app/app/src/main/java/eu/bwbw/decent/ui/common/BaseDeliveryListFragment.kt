@@ -48,6 +48,7 @@ abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment
         getViewModel().deliveriesUpdated.observe(
             this,
             Observer {
+                println(deliveryRecyclerViewAdapter.itemCount)
                 deliveryRecyclerViewAdapter.notifyDataSetChanged()
             }
         )
