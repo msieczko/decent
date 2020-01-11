@@ -12,8 +12,6 @@ import androidx.navigation.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
-import eu.bwbw.decent.ui.receiver.DeliveryDetailsReceiverFragmentArgs
-import eu.bwbw.decent.ui.receiver.DeliveryDetailsReceiverFragmentDirections
 import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
 

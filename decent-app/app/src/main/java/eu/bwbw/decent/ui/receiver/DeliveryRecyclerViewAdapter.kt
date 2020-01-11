@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.domain.DeliveryState
-import eu.bwbw.decent.utils.secondsToDateTimeString
+import eu.bwbw.decent.utils.DateConverters.secondsToDateTimeString
+import eu.bwbw.decent.utils.DateConverters.secondsToHours
 import kotlinx.android.synthetic.main.fragment_delivery_receiver.view.*
 
 class DeliveryRecyclerViewAdapter(
@@ -41,7 +42,7 @@ class DeliveryRecyclerViewAdapter(
         when (item.state) {
             DeliveryState.OFFER -> {
                 // show time
-                holder.maxDeliveryTimeView.text = "${(item.deliveryDeadline / 3600)} h"
+                holder.maxDeliveryTimeView.text = secondsToHours(item.deliveryDeadline)
             }
             DeliveryState.PICKUP_DECLARED -> {
                 // show date

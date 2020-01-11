@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="eu.bwbw.decent.utils.DateConverters"/>
+
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
             type="eu.bwbw.decent.ui.common.details.BaseDeliveryDetailsViewModel"/>
@@ -19,14 +23,16 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.delivery.title}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Paczka z kotem"/>
+            tools:text="Paczka z kotem"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAlignment="center"/>
 
         <Button
             android:text="Action"
@@ -35,10 +41,85 @@
             android:id="@+id/actionButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            android:layout_marginTop="32dp"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/state"
+            android:layout_marginTop="32dp"/>
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:text="@{viewModel.delivery.description}"
+            tools:text="Opis paczki z kotem, która zawiera kota"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_marginTop="24dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <TextView
+            android:layout_width="250dp"
+            android:text="@{viewModel.delivery.receiverPostalAddress}"
+            android:layout_height="wrap_content"
+            android:id="@+id/postalAddress"
+            app:layout_constraintTop_toBottomOf="@+id/description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            tools:text="ul. Wiśniowa 15/13, 44-404 Warszawa"/>
+
+        <TextView
+            android:text='@{@string/courier_deposit_value(viewModel.delivery.courierDeposit)}'
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/courierDeposit"
+            tools:text="@string/courier_deposit"
+            app:layout_constraintTop_toBottomOf="@+id/postalAddress"
+            app:layout_constraintStart_toStartOf="@+id/postalAddress"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:text='@{@string/courier_award_value(viewModel.delivery.courierAward)}'
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/courierAward"
+            tools:text="@string/courier_award"
+            app:layout_constraintTop_toBottomOf="@+id/courierDeposit"
+            app:layout_constraintStart_toStartOf="@+id/courierDeposit"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:text='@{@string/delivery_deadline_value(DateConverters.secondsToHours(viewModel.delivery.deliveryDeadline))}'
+            tools:text="deliveryDeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deliveryDeadline"
+            app:layout_constraintTop_toBottomOf="@+id/courierAward"
+            app:layout_constraintStart_toStartOf="@+id/courierAward"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:visibility="@{viewModel.delivery.pickupDeadline > 0 ?  View.VISIBLE : View.GONE }"
+            android:text='@{@string/pickup_deadline_value(DateConverters.secondsToDateTimeString(viewModel.delivery.pickupDeadline))}'
+            tools:text="pickupDeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pickupDeadline"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDeadline"
+            app:layout_constraintStart_toStartOf="@+id/deliveryDeadline"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:text='@{@string/state(viewModel.delivery.state)}'
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/state"
+            tools:text="State: OFFER"
+            app:layout_constraintTop_toBottomOf="@+id/pickupDeadline"
+            app:layout_constraintStart_toStartOf="@+id/pickupDeadline"
+            android:layout_marginTop="8dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

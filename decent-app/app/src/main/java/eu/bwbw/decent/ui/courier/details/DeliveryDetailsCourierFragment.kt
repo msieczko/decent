@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
-import eu.bwbw.decent.ui.courier.DeliveryDetailsCourierFragmentArgs
 import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
 
