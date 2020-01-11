@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.common
+package eu.bwbw.decent.ui.courier.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,24 +9,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
-import eu.bwbw.decent.databinding.DeliveryDetailsFragmentBinding
+import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
+import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
-class DeliveryDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: DeliveryDetailsViewModel
+class DeliveryDetailsCourierFragment : Fragment() {
+
+    private lateinit var viewModel: DeliveryDetailsCourierViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: DeliveryDetailsFragmentBinding = DataBindingUtil.inflate(
+        val binding: FragmentDeliveryDetailsBinding = DataBindingUtil.inflate(
             inflater,
-            R.layout.delivery_details_fragment,
+            R.layout.fragment_delivery_details,
             container,
             false
         )
+
         viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(this.activity!!.application)).get(
-            DeliveryDetailsViewModel::class.java
+            DeliveryDetailsCourierViewModel::class.java
         )
 
         binding.viewModel = viewModel
@@ -34,11 +37,21 @@ class DeliveryDetailsFragment : Fragment() {
 
         arguments?.let {
             val safeArgs =
-                DeliveryDetailsFragmentArgs.fromBundle(it)
+                DeliveryDetailsCourierFragmentArgs.fromBundle(it)
             viewModel.openDelivery(safeArgs.deliveryId)
         }
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        actionButton.apply {
+            text = "Pickup package"
+            setOnClickListener {
+                println("Package pickup")
+            }
+            visibility = View.VISIBLE
+        }
+
+    }
 }

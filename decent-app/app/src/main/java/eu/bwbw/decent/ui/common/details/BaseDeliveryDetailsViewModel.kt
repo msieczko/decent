@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.common
+package eu.bwbw.decent.ui.common.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.services.DeliveriesService
 import java.math.BigInteger
 
-class DeliveryDetailsViewModel(
+abstract class BaseDeliveryDetailsViewModel(
     private val deliveriesService: DeliveriesService
 ) : ViewModel() {
 

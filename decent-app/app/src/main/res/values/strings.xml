@@ -22,6 +22,11 @@
     <string name="new_delivery">New delivery</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="state">State: %1$s</string>
+    <string name="courier_deposit_value">Courier deposit: %1$s</string>
+    <string name="courier_award_value">Courier award: %1$s</string>
+    <string name="pickup_deadline_value">Pickup deadline: %1$s</string>
+    <string name="delivery_deadline_value">Delivery deadline: %1$s</string>
     <string name="receiver_ethereum_address">Receiver Ethereum address</string>
     <string name="receiver_postal_address">Receiver postal address</string>
     <string name="courier_deposit">Courier deposit</string>
