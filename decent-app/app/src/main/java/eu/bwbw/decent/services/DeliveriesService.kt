@@ -7,8 +7,8 @@ import eu.bwbw.decent.utils.weiToString
 import java.math.BigInteger
 
 class DeliveriesService(
-    private val deliveryDetailsRepository: IDeliveryDetailsRepository,
-    private val courierServiceRepository: CourierServiceRepository
+    private val courierServiceRepository: CourierServiceRepository,
+    private val deliveryDetailsRepository: IDeliveryDetailsRepository
 ) {
 
     private lateinit var deliveries: List<Delivery>

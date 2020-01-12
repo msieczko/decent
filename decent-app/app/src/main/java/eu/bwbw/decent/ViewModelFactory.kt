@@ -36,8 +36,8 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
     private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
 
     private val deliveriesService = DeliveriesService(
-        deliveryDetailsRepository,
-        courierServiceRepository
+        courierServiceRepository,
+        deliveryDetailsRepository
     )
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
