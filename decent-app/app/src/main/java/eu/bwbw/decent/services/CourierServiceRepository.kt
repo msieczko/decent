@@ -81,7 +81,7 @@ class CourierServiceRepository(
                     throw PickupPackageError("PackagePickup event not logged")
                 }
             }
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             throw PickupPackageError(cause = e)
         }
     }
