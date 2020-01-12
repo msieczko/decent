@@ -6,18 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.InvalidAddressError
-import eu.bwbw.decent.services.CourierServiceRepository
-import eu.bwbw.decent.services.DeliveryDetails
-import eu.bwbw.decent.services.DeliveryOrder
-import eu.bwbw.decent.services.IDeliveryDetailsRepository
+import eu.bwbw.decent.services.DeliveriesService
 import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
-import org.web3j.protocol.Web3j
 import org.web3j.utils.Convert.Unit
 import org.web3j.utils.Convert.toWei
 import java.math.BigInteger
 
-private data class SanitizedDelivery(
+data class SanitizedDelivery(
     val title: String,
     val description: String,
     val receiverEthAddress: EthAddress,
@@ -28,9 +24,7 @@ private data class SanitizedDelivery(
 )
 
 class AddNewDeliveryViewModel(
-    private val courierServiceContractAddress: String,
-    private val web3j: Web3j,
-    private val deliveryDetailsRepository: IDeliveryDetailsRepository
+    private val deliveriesService: DeliveriesService
 ) : ViewModel() {
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
@@ -56,29 +50,11 @@ class AddNewDeliveryViewModel(
         get() = _formValidationError
 
     internal fun saveNewDelivery(credentials: Credentials) {
-        val (title, description, receiverEthAddress, receiverPostalAddress,
-            courierDeposit, courierAward, maxDeliveryTime) = sanitizeInputs() ?: return
+        val sanitizedDelivery = sanitizeInputs() ?: return
 
         viewModelScope.launch {
             _savingData.value = true
-
-            val detailsHash = deliveryDetailsRepository.save(
-                DeliveryDetails(
-                    title,
-                    description,
-                    receiverPostalAddress
-                )
-            )
-
-            val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
-            val deliveryId = courierServiceRepository.createDeliveryOrder(DeliveryOrder(
-                receiverEthAddress,
-                courierDeposit,
-                courierAward,
-                maxDeliveryTime,
-                detailsHash
-            ))
-
+            val deliveryId = deliveriesService.createDeliveryOrder(sanitizedDelivery, credentials)
             println("Created new delivery order, id=${deliveryId}")
             _savingData.value = false
             _deliverySaved.value = true

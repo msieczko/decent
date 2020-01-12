@@ -39,11 +39,7 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
         with(modelClass) {
             when {
                 isAssignableFrom(AddNewDeliveryViewModel::class.java) ->
-                    AddNewDeliveryViewModel(
-                        courierServiceContractAddress,
-                        web3j,
-                        deliveryDetailsRepository
-                    )
+                    AddNewDeliveryViewModel(deliveriesService)
                 isAssignableFrom(SenderViewModel::class.java) ->
                     SenderViewModel(
                         courierServiceContractAddress,
