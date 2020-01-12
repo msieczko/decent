@@ -5,6 +5,4 @@ import eu.bwbw.decent.ui.common.details.BaseDeliveryDetailsViewModel
 
 class DeliveryDetailsSenderViewModel(
     deliveriesService: DeliveriesService
-) : BaseDeliveryDetailsViewModel(deliveriesService) {
-
-}
+) : BaseDeliveryDetailsViewModel(deliveriesService)
