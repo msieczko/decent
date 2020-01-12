@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/approvePackage"
-        android:name="eu.bwbw.decent.ui.receiver.ApprovePackage"
+        android:name="eu.bwbw.decent.ui.receiver.approve.ApprovePackageFragment"
         android:label="Approve package"
         tools:layout="@layout/fragment_approve_package">
         <argument
