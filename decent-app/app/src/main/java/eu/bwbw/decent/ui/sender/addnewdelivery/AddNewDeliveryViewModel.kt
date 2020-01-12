@@ -8,7 +8,6 @@ import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.InvalidAddressError
 import eu.bwbw.decent.services.DeliveriesService
 import kotlinx.coroutines.launch
-import org.web3j.crypto.Credentials
 import org.web3j.utils.Convert.Unit
 import org.web3j.utils.Convert.toWei
 import java.math.BigInteger
@@ -49,12 +48,12 @@ class AddNewDeliveryViewModel(
     val formValidationError: LiveData<String>
         get() = _formValidationError
 
-    internal fun saveNewDelivery(credentials: Credentials) {
+    internal fun saveNewDelivery() {
         val sanitizedDelivery = sanitizeInputs() ?: return
 
         viewModelScope.launch {
             _savingData.value = true
-            val deliveryId = deliveriesService.createDeliveryOrder(sanitizedDelivery, credentials)
+            val deliveryId = deliveriesService.createDeliveryOrder(sanitizedDelivery)
             println("Created new delivery order, id=${deliveryId}")
             _savingData.value = false
             _deliverySaved.value = true

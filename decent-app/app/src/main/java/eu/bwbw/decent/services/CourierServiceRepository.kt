@@ -9,7 +9,6 @@ import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.PickupPackageError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.tx.gas.DefaultGasProvider
 import org.web3j.utils.Numeric
@@ -24,11 +23,12 @@ data class DeliveryOrder(
 )
 
 class CourierServiceRepository(
-    contractAddress: String,
-    web3j: Web3j,
-    private val credentials: Credentials
+    private val contractAddress: String,
+    private val web3j: Web3j,
+    private val userDataRepository: IUserDataRepository
 ) {
-    private val courierService = CourierService.load(contractAddress, web3j, credentials, DefaultGasProvider())
+    private val courierService
+        get() = CourierService.load(contractAddress, web3j, userDataRepository.getCredentials(), DefaultGasProvider())
 
     suspend fun createDeliveryOrder(delivery: DeliveryOrder): BigInteger {
         try {
@@ -88,10 +88,11 @@ class CourierServiceRepository(
 
     suspend fun getSenderDeliveries(): List<ContractDelivery> {
         return withContext(Dispatchers.IO) {
-            val count = courierService.getSenderDeliveriesCount(credentials.address).send().toInt()
+            val senderAddress = userDataRepository.getCredentials().address
+            val count = courierService.getSenderDeliveriesCount(senderAddress).send().toInt()
             println("count Sender: $count")
             (0 until count).map { BigInteger.valueOf(it.toLong()) }
-                .map { courierService.senderDeliveries(credentials.address, it).send() }
+                .map { courierService.senderDeliveries(senderAddress, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
                 .filter { it.state != DeliveryState.OFFER_CANCELED }
@@ -100,10 +101,11 @@ class CourierServiceRepository(
 
     suspend fun getCourierDeliveries(): List<ContractDelivery> {
         return withContext(Dispatchers.IO) {
-            val count = courierService.getCourierDeliveriesCount(credentials.address).send().toInt()
+            val courierAddress = userDataRepository.getCredentials().address
+            val count = courierService.getCourierDeliveriesCount(courierAddress).send().toInt()
             println("count Courier: $count")
             (0 until count).map { BigInteger.valueOf(it.toLong()) }
-                .map { courierService.courierDeliveries(credentials.address, it).send() }
+                .map { courierService.courierDeliveries(courierAddress, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
         }
@@ -111,8 +113,9 @@ class CourierServiceRepository(
 
     suspend fun getReceiverDeliveries(): List<ContractDelivery> {
         return withContext(Dispatchers.IO) {
-            (courierService.getReceiverDeliveries(credentials.address).send() as List<BigInteger>?)
-                ?.map { courierService.courierDeliveries(credentials.address, it).send() }
+            val receiverAddress = userDataRepository.getCredentials().address
+            (courierService.getReceiverDeliveries(receiverAddress).send() as List<BigInteger>?)
+                ?.map { courierService.courierDeliveries(receiverAddress, it).send() }
                 ?.map { courierService.deliveries(it).send() }
                 ?.map { ContractDelivery.fromTuple(it) }
                 .orEmpty()

@@ -28,11 +28,19 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
     private val web3j = Web3j.build(
         HttpService("http://10.0.2.2:8545") // TODO move to properties
     )
+    private val userDataManager = UserDataManager(application)
+    private val courierServiceRepository = CourierServiceRepository(
+        courierServiceContractAddress,
+        web3j,
+        userDataManager
+    )
     private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
+
     private val deliveriesService = DeliveriesService(
         deliveryDetailsRepository,
         courierServiceContractAddress,
-        web3j
+        web3j,
+        courierServiceRepository
     )
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
@@ -88,7 +96,9 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
         CourierServiceRepository(
             "A193E42526F1FEA8C99AF609dcEabf30C1c29fAA",
             web3j,
-            Credentials.create("5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74")
+            UserDataMockRepository(
+                Credentials.create("5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74")
+            )
         ).apply {
             createDeliveryOrder(
                 DeliveryOrder(

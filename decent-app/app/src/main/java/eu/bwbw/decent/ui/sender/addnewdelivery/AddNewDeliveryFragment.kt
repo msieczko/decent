@@ -29,12 +29,6 @@ class AddNewDeliveryFragment : Fragment() {
 
     private lateinit var viewModel: AddNewDeliveryViewModel
     private lateinit var binding: AddNewDeliveryFragmentBinding
-    private lateinit var userDataManager: UserDataManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        userDataManager = UserDataManager(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,8 +63,7 @@ class AddNewDeliveryFragment : Fragment() {
 
         val addButton = binding.root.findViewById<Button>(R.id.button_add)
         addButton.setOnClickListener {
-            val credentials = Credentials.create(userDataManager.userPrivateKey)
-            binding.viewModel?.saveNewDelivery(credentials)
+            binding.viewModel?.saveNewDelivery()
         }
 
         bindSpinner(R.id.spinner_courier_deposit_units, R.array.eth_denominations) { viewModel.courierDepositUnit = it }

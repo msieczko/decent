@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.services.CourierServiceRepository
 import eu.bwbw.decent.services.DeliveriesService
+import eu.bwbw.decent.services.UserDataMockRepository
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
 import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
@@ -24,7 +25,7 @@ class SenderViewModel(
 
     val text: LiveData<String> = _text
     fun onRemoveDeliveryClick(deliveryId: BigInteger, credentials: Credentials) {
-        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
+        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, UserDataMockRepository(credentials))
 
         viewModelScope.launch {
             courierServiceRepository.cancelDeliveryOrder(deliveryId)

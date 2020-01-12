@@ -2,6 +2,7 @@ package eu.bwbw.decent.ui.courier.details
 
 import eu.bwbw.decent.services.CourierServiceRepository
 import eu.bwbw.decent.services.DeliveriesService
+import eu.bwbw.decent.services.UserDataMockRepository
 import eu.bwbw.decent.ui.common.details.BaseDeliveryDetailsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -12,11 +13,11 @@ import org.web3j.protocol.Web3j
 class DeliveryDetailsCourierViewModel(
     private val courierServiceContractAddress: String,
     private val web3j: Web3j,
-    private val deliveriesService: DeliveriesService
+    deliveriesService: DeliveriesService
 ) : BaseDeliveryDetailsViewModel(deliveriesService) {
 
     fun pickupPackage(credentials: Credentials) {
-        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, credentials)
+        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, UserDataMockRepository(credentials))
         // using viewmodel scope would cancel the job after leaving the view
         CoroutineScope(IO).launch {
             delivery.value?.let {
