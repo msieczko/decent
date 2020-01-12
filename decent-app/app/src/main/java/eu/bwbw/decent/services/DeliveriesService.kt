@@ -4,14 +4,10 @@ import eu.bwbw.decent.domain.ContractDelivery
 import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.ui.sender.addnewdelivery.SanitizedDelivery
 import eu.bwbw.decent.utils.weiToString
-import org.web3j.crypto.Credentials
-import org.web3j.protocol.Web3j
 import java.math.BigInteger
 
 class DeliveriesService(
     private val deliveryDetailsRepository: IDeliveryDetailsRepository,
-    private val courierServiceContractAddress: String,
-    private val web3j: Web3j,
     private val courierServiceRepository: CourierServiceRepository
 ) {
 
@@ -40,27 +36,22 @@ class DeliveriesService(
         return deliveryId
     }
 
-    suspend fun getSenderDeliveries(credentials: Credentials): List<Delivery> {
-        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, UserDataMockRepository(credentials))
-        deliveries = courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
-            deliveryFromContract(contractDelivery)
-        }
+    suspend fun cancelDeliveryOrder(deliveryId: BigInteger) {
+        courierServiceRepository.cancelDeliveryOrder(deliveryId)
+    }
+
+    suspend fun getSenderDeliveries(): List<Delivery> {
+        deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
         return deliveries
     }
 
-    suspend fun getCourierDeliveries(credentials: Credentials): List<Delivery> {
-        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, UserDataMockRepository(credentials))
-        deliveries = courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
-            deliveryFromContract(contractDelivery)
-        }
+    suspend fun getCourierDeliveries(): List<Delivery> {
+        deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
         return deliveries
     }
 
-    suspend fun getReceiverDeliveries(credentials: Credentials): List<Delivery> {
-        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, UserDataMockRepository(credentials))
-        deliveries = courierServiceRepository.getSenderDeliveries().map { contractDelivery: ContractDelivery ->
-            deliveryFromContract(contractDelivery)
-        }
+    suspend fun getReceiverDeliveries(): List<Delivery> {
+        deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
         return deliveries
     }
 

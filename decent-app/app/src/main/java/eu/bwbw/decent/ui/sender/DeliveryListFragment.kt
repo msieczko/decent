@@ -25,11 +25,11 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
             },
             onRemoveDeliveryClick = {
                 it?.let {
-                    viewModel.onRemoveDeliveryClick(it, userDataManager.getCredentials())
+                    viewModel.onRemoveDeliveryClick(it)
                 }
 
             },
-            values = viewModel.getDeliveries(userDataManager.getCredentials())
+            values = viewModel.getDeliveries()
         )
     }
 

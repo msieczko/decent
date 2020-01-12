@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.domain.Delivery
 import kotlinx.coroutines.launch
-import org.web3j.crypto.Credentials
 import java.math.BigInteger
 
 abstract class BaseDeliveriesViewModel : ViewModel() {
@@ -20,11 +19,11 @@ abstract class BaseDeliveriesViewModel : ViewModel() {
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
-    abstract suspend fun getDeliveries(credentials: Credentials): List<Delivery>
+    abstract suspend fun getDeliveries(): List<Delivery>
 
-    fun updateDeliveries(credentials: Credentials) {
+    fun updateDeliveries() {
         viewModelScope.launch {
-            getDeliveries(credentials)
+            getDeliveries()
             _deliveriesUpdated.value = true
         }
     }

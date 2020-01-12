@@ -38,8 +38,6 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
 
     private val deliveriesService = DeliveriesService(
         deliveryDetailsRepository,
-        courierServiceContractAddress,
-        web3j,
         courierServiceRepository
     )
 

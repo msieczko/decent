@@ -23,7 +23,7 @@ class DeliveryListFragment : BaseDeliveryListFragment<DeliveryRecyclerViewAdapte
                     view.findNavController().navigate(directions)
                 }
             },
-            values = viewModel.getDeliveries(userDataManager.getCredentials())
+            values = viewModel.getDeliveries()
         )
     }
 

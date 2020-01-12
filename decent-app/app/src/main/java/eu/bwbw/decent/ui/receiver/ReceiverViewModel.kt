@@ -26,11 +26,11 @@ class ReceiverViewModel(
             _text.value = Keys.getAddress(keyPair)
         }
 
-    override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
+    override suspend fun getDeliveries(): List<Delivery> {
         _isLoading.value = true
 
         this.deliveries.clear()
-        this.deliveries.addAll(deliveriesService.getReceiverDeliveries(credentials))
+        this.deliveries.addAll(deliveriesService.getReceiverDeliveries())
 
         _isLoading.value = false
         return this.deliveries

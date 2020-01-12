@@ -24,21 +24,19 @@ class SenderViewModel(
     }
 
     val text: LiveData<String> = _text
-    fun onRemoveDeliveryClick(deliveryId: BigInteger, credentials: Credentials) {
-        val courierServiceRepository = CourierServiceRepository(courierServiceContractAddress, web3j, UserDataMockRepository(credentials))
-
+    fun onRemoveDeliveryClick(deliveryId: BigInteger) {
         viewModelScope.launch {
-            courierServiceRepository.cancelDeliveryOrder(deliveryId)
+            deliveriesService.cancelDeliveryOrder(deliveryId)
             super.removeDelivery(deliveryId)
             _deliveriesUpdated.value = true
-            updateDeliveries(credentials)
+            updateDeliveries()
         }
     }
 
-    override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
+    override suspend fun getDeliveries(): List<Delivery> {
         _isLoading.value = true
 
-        val elements = deliveriesService.getSenderDeliveries(credentials)
+        val elements = deliveriesService.getSenderDeliveries()
         this.deliveries.clear()
         this.deliveries.addAll(elements)
 
