@@ -2,8 +2,9 @@ package eu.bwbw.decent.services
 
 import com.google.gson.Gson
 import org.web3j.crypto.Hash.sha3String
+import javax.inject.Inject
 
-class DeliveryDetailsMemoryRepository: IDeliveryDetailsRepository {
+class DeliveryDetailsMemoryRepository @Inject constructor(): IDeliveryDetailsRepository {
     private val details = HashMap<String, DeliveryDetails>()
     private val gson = Gson()
 
