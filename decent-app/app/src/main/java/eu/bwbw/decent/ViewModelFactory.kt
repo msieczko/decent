@@ -59,7 +59,7 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
                     DeliveryDetailsSenderViewModel(deliveriesService)
 
                 isAssignableFrom(DeliveryDetailsCourierViewModel::class.java) ->
-                    DeliveryDetailsCourierViewModel(courierServiceRepository, deliveriesService)
+                    DeliveryDetailsCourierViewModel(deliveriesService)
 
                 isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->
                     DeliveryDetailsReceiverViewModel(deliveriesService)

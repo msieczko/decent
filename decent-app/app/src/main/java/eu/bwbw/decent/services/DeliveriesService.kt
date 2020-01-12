@@ -36,9 +36,9 @@ class DeliveriesService(
         return deliveryId
     }
 
-    suspend fun cancelDeliveryOrder(deliveryId: BigInteger) {
-        courierServiceRepository.cancelDeliveryOrder(deliveryId)
-    }
+    suspend fun cancelDeliveryOrder(deliveryId: BigInteger) = courierServiceRepository.cancelDeliveryOrder(deliveryId)
+
+    suspend fun pickupPackage(deliveryId: BigInteger) = courierServiceRepository.pickupPackage(deliveryId)
 
     suspend fun getSenderDeliveries(): List<Delivery> {
         deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
