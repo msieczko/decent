@@ -6,6 +6,7 @@ import eu.bwbw.decent.domain.DeliveryState
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.transactions.CancelDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
+import eu.bwbw.decent.domain.errors.transactions.PickupPackageError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.web3j.crypto.Credentials
@@ -63,6 +64,25 @@ class CourierServiceRepository(
             }
         } catch (e: Exception) {
             throw CancelDeliveryOrderError(cause = e)
+        }
+    }
+
+    suspend fun pickupPackage(deliveryId: BigInteger) {
+        try {
+            withContext(Dispatchers.IO) {
+                val delivery = courierService.deliveries(deliveryId).send()
+                val contractDelivery = ContractDelivery.fromTuple(delivery)
+
+                val transactionReceipt = courierService.pickupPackage(
+                    deliveryId, contractDelivery.courierDeposit
+                ).send()
+                val packagePickedUpEvents = courierService.getPackagePickedUpEvents(transactionReceipt)
+                if (packagePickedUpEvents.size != 1) {
+                    throw PickupPackageError("PackagePickup event not logged")
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            throw PickupPackageError(cause = e)
         }
     }
 

@@ -56,6 +56,8 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
                     DeliveryDetailsSenderViewModel(deliveriesService)
                 isAssignableFrom(DeliveryDetailsCourierViewModel::class.java) ->
                     DeliveryDetailsCourierViewModel(
+                        courierServiceContractAddress,
+                        web3j,
                         deliveriesService
                     )
                 isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->

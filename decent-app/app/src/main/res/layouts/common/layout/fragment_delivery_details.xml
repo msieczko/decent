@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="eu.bwbw.decent.utils.DateConverters"/>
-
         <import type="android.view.View"/>
 
         <variable
@@ -16,10 +14,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.common.BaseDeliveryDetailsFragment">
+        tools:context=".ui.common.BaseDeliveryDetailsFragment"
+        android:clickable="false">
+
+
 
         <TextView
             android:id="@+id/title"
@@ -42,7 +42,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/state"
             android:layout_marginTop="32dp"/>
 
@@ -91,7 +90,7 @@
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:text='@{@string/delivery_deadline_value(DateConverters.secondsToHours(viewModel.delivery.deliveryDeadline))}'
+            android:text='@{viewModel.getDeliveryTime()}'
             tools:text="deliveryDeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,25 +100,44 @@
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:visibility="@{viewModel.delivery.pickupDeadline > 0 ?  View.VISIBLE : View.GONE }"
-            android:text='@{@string/pickup_deadline_value(DateConverters.secondsToDateTimeString(viewModel.delivery.pickupDeadline))}'
-            tools:text="pickupDeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pickupDeadline"
-            app:layout_constraintTop_toBottomOf="@+id/deliveryDeadline"
-            app:layout_constraintStart_toStartOf="@+id/deliveryDeadline"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
             android:text='@{@string/state(viewModel.delivery.state)}'
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/state"
             tools:text="State: OFFER"
-            app:layout_constraintTop_toBottomOf="@+id/pickupDeadline"
-            app:layout_constraintStart_toStartOf="@+id/pickupDeadline"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryDeadline"
+            app:layout_constraintStart_toStartOf="@+id/deliveryDeadline"
             android:layout_marginTop="8dp"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#006D2A2A"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:visibility="@{viewModel.isLoading? View.VISIBLE : View.GONE}"
+            tools:visibility="visible"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hideWhileLoading"
+            android:visibility="@{viewModel.isLoading? View.GONE : View.VISIBLE}"
+            app:constraint_referenced_ids="state,actionButton"
+            />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hiddenWhenNoAction"
+            android:visibility="gone"
+            app:constraint_referenced_ids="actionButton"
+            tools:visibility="visible"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
+import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
 
 class DeliveryDetailsSenderFragment : Fragment() {
@@ -42,4 +43,7 @@ class DeliveryDetailsSenderFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hiddenWhenNoAction.visibility = View.GONE
+    }
 }

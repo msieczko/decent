@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.domain.DeliveryState
+import eu.bwbw.decent.utils.DateConverters.secondsToHours
 import kotlinx.android.synthetic.main.fragment_delivery_sender.view.*
 import java.math.BigInteger
 
@@ -45,7 +47,11 @@ class DeliveryRecyclerViewAdapter(
         holder.addressView.text = item.receiverPostalAddress
         holder.depositView.text = item.courierDeposit
         holder.awardView.text = item.courierAward
-        holder.maxDeliveryTimeView.text = "${item.deliveryDeadline / 3600} h"
+        holder.maxDeliveryTimeView.text = when (item.state) {
+            DeliveryState.OFFER, DeliveryState.PICKUP_DECLARED, DeliveryState.OFFER_CANCELED
+            -> secondsToHours(item.deliveryDeadline)
+            else -> ""
+        }
 
         with(holder.deleteDeliveryButton) {
             tag = item

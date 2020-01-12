@@ -27,8 +27,12 @@ class ReceiverViewModel(
         }
 
     override suspend fun getDeliveries(credentials: Credentials): List<Delivery> {
+        _isLoading.value = true
+
         this.deliveries.clear()
         this.deliveries.addAll(deliveriesService.getReceiverDeliveries(credentials))
+
+        _isLoading.value = false
         return this.deliveries
     }
 

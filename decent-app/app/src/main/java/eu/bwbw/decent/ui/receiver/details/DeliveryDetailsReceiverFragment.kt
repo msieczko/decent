@@ -48,6 +48,8 @@ class DeliveryDetailsReceiverFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hiddenWhenNoAction.visibility = View.VISIBLE
+
         actionButton.apply {
             text = "Approve package delivery"
             setOnClickListener {

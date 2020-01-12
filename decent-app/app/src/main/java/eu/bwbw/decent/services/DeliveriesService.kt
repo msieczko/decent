@@ -52,7 +52,6 @@ class DeliveriesService(
             weiToString(contractDelivery.courierDeposit.toBigDecimal()),
             weiToString(contractDelivery.courierAward.toBigDecimal()),
             contractDelivery.deliveryDeadline,
-            contractDelivery.pickupDeadline,
             contractDelivery.state
         )
     }
