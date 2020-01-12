@@ -12,7 +12,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataRepository
+import eu.bwbw.decent.services.userdata.UserDataRepository
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys

@@ -1,4 +1,4 @@
-package eu.bwbw.decent.services
+package eu.bwbw.decent.services.userdata
 
 import org.web3j.crypto.Credentials
 

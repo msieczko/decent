@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.services.*
+import eu.bwbw.decent.services.userdata.UserDataMockRepository
+import eu.bwbw.decent.services.userdata.UserDataRepository
 import eu.bwbw.decent.ui.courier.CourierViewModel
 import eu.bwbw.decent.ui.courier.details.DeliveryDetailsCourierViewModel
 import eu.bwbw.decent.ui.receiver.ReceiverViewModel

@@ -1,4 +1,4 @@
-package eu.bwbw.decent.services
+package eu.bwbw.decent.services.userdata
 
 import android.content.Context
 import org.web3j.crypto.Credentials

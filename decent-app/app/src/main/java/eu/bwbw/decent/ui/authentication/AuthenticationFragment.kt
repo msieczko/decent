@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataRepository
+import eu.bwbw.decent.services.userdata.UserDataRepository
 
 class AuthenticationFragment : Fragment() {
 

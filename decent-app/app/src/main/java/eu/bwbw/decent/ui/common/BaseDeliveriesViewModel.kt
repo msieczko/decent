@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.domain.Delivery
-import eu.bwbw.decent.services.IUserDataRepository
+import eu.bwbw.decent.services.userdata.IUserDataRepository
 import kotlinx.coroutines.launch
 import java.math.BigInteger
 
