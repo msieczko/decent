@@ -3,7 +3,7 @@ package eu.bwbw.decent.services
 import android.content.Context
 import org.web3j.crypto.Credentials
 
-class UserDataManager(context: Context): IUserDataRepository {
+class UserDataRepository(context: Context): IUserDataRepository {
     private val dataStore = context.getSharedPreferences(USER_DATA_KEY, Context.MODE_PRIVATE)
 
     var userPrivateKey: String = dataStore.getString(PRIVATE_KEY, "") ?: ""

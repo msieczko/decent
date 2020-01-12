@@ -27,11 +27,11 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
     private val web3j = Web3j.build(
         HttpService("http://10.0.2.2:8545") // TODO move to properties
     )
-    private val userDataManager = UserDataManager(application)
+    private val userDataRepository = UserDataRepository(application)
     private val courierServiceRepository = CourierServiceRepository(
         courierServiceContractAddress,
         web3j,
-        userDataManager
+        userDataRepository
     )
     private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
 
@@ -47,13 +47,13 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
                     AddNewDeliveryViewModel(deliveriesService)
 
                 isAssignableFrom(SenderViewModel::class.java) ->
-                    SenderViewModel(userDataManager, deliveriesService)
+                    SenderViewModel(userDataRepository, deliveriesService)
 
                 isAssignableFrom(CourierViewModel::class.java) ->
-                    CourierViewModel(userDataManager, deliveriesService)
+                    CourierViewModel(userDataRepository, deliveriesService)
 
                 isAssignableFrom(ReceiverViewModel::class.java) ->
-                    ReceiverViewModel(userDataManager, deliveriesService)
+                    ReceiverViewModel(userDataRepository, deliveriesService)
 
                 isAssignableFrom(DeliveryDetailsSenderViewModel::class.java) ->
                     DeliveryDetailsSenderViewModel(deliveriesService)
