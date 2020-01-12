@@ -18,7 +18,7 @@ class UserDataManager(context: Context): IUserDataRepository {
             field = key
         }
 
-    fun isUserKeyPresent(): Boolean {
+    override fun isUserKeyPresent(): Boolean {
         return userPrivateKey != ""
     }
 

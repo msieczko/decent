@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
-import java.lang.Exception
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(application: Application) : ViewModelProvider.NewInstanceFactory() {
@@ -46,28 +45,25 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
             when {
                 isAssignableFrom(AddNewDeliveryViewModel::class.java) ->
                     AddNewDeliveryViewModel(deliveriesService)
+
                 isAssignableFrom(SenderViewModel::class.java) ->
-                    SenderViewModel(
-                        courierServiceContractAddress,
-                        web3j,
-                        deliveriesService
-                    )
+                    SenderViewModel(userDataManager, deliveriesService)
+
                 isAssignableFrom(CourierViewModel::class.java) ->
-                    CourierViewModel(deliveriesService)
+                    CourierViewModel(userDataManager, deliveriesService)
+
                 isAssignableFrom(ReceiverViewModel::class.java) ->
-                    ReceiverViewModel(deliveriesService)
+                    ReceiverViewModel(userDataManager, deliveriesService)
+
                 isAssignableFrom(DeliveryDetailsSenderViewModel::class.java) ->
                     DeliveryDetailsSenderViewModel(deliveriesService)
+
                 isAssignableFrom(DeliveryDetailsCourierViewModel::class.java) ->
-                    DeliveryDetailsCourierViewModel(
-                        courierServiceContractAddress,
-                        web3j,
-                        deliveriesService
-                    )
+                    DeliveryDetailsCourierViewModel(courierServiceRepository, deliveriesService)
+
                 isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->
-                    DeliveryDetailsReceiverViewModel(
-                        deliveriesService
-                    )
+                    DeliveryDetailsReceiverViewModel(deliveriesService)
+
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -9,4 +9,6 @@ class UserDataMockRepository(
     override fun getCredentials(): Credentials {
         return credentials
     }
+
+    override fun isUserKeyPresent() = true
 }

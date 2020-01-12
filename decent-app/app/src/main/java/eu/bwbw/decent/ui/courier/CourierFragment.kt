@@ -1,6 +1,5 @@
 package eu.bwbw.decent.ui.courier
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,17 +14,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
-import eu.bwbw.decent.services.UserDataManager
 
 class CourierFragment : Fragment() {
 
     private lateinit var courierViewModel: CourierViewModel
-    private lateinit var userDataManager: UserDataManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        userDataManager = UserDataManager(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +29,7 @@ class CourierFragment : Fragment() {
                 .get(CourierViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_courier, container, false)
 
-        if (!userDataManager.isUserKeyPresent()) {
+        if (!courierViewModel.isUserKeyPresent()) {
             val directions: NavDirections = CourierFragmentDirections.actionCourierFragmentToAuthenticationFragment()
             findNavController().navigate(directions)
         }

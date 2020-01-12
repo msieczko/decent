@@ -4,7 +4,7 @@ import eu.bwbw.decent.services.DeliveriesService
 import eu.bwbw.decent.ui.common.details.BaseDeliveryDetailsViewModel
 
 class DeliveryDetailsReceiverViewModel(
-    private val deliveriesService: DeliveriesService
+    deliveriesService: DeliveriesService
 ) : BaseDeliveryDetailsViewModel(deliveriesService) {
 
 }

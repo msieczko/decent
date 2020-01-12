@@ -25,6 +25,7 @@ data class SanitizedDelivery(
 class AddNewDeliveryViewModel(
     private val deliveriesService: DeliveriesService
 ) : ViewModel() {
+
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val receiverEthAddress = MutableLiveData<String>()

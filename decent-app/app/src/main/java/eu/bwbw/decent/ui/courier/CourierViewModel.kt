@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import eu.bwbw.decent.domain.Delivery
 import eu.bwbw.decent.services.DeliveriesService
+import eu.bwbw.decent.services.IUserDataRepository
 import eu.bwbw.decent.ui.common.BaseDeliveriesViewModel
-import org.web3j.crypto.Credentials
 
 class CourierViewModel(
+    userDataRepository: IUserDataRepository,
     private val deliveriesService: DeliveriesService
-) : BaseDeliveriesViewModel() {
+) : BaseDeliveriesViewModel(userDataRepository) {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is courier Fragment"
