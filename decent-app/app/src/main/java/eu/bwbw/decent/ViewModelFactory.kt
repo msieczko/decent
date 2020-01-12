@@ -1,6 +1,7 @@
 package eu.bwbw.decent
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.domain.EthAddress
@@ -18,9 +19,10 @@ import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
+import java.lang.Exception
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(application: Application) : ViewModelProvider.NewInstanceFactory() {
 
     private val courierServiceContractAddress = "A193E42526F1FEA8C99AF609dcEabf30C1c29fAA"
     private val web3j = Web3j.build(
@@ -122,10 +124,11 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
 
-        fun getInstance() =
-            INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory()
+        fun getInstance(application: Application? = null): ViewModelFactory {
+            return INSTANCE ?: synchronized(ViewModelFactory::class.java) {
+                INSTANCE ?: ViewModelFactory(application ?: throw Exception("Application parameter to ViewModelFactory.getInstance() is null"))
                     .also { INSTANCE = it }
             }
+        }
     }
 }
