@@ -2,6 +2,8 @@ package eu.bwbw.decent.services
 
 import eu.bwbw.decent.domain.ContractDelivery
 import eu.bwbw.decent.domain.Delivery
+import eu.bwbw.decent.services.deliverydetails.DeliveryDetails
+import eu.bwbw.decent.services.deliverydetails.IDeliveryDetailsRepository
 import eu.bwbw.decent.ui.sender.addnewdelivery.SanitizedDelivery
 import eu.bwbw.decent.utils.weiToString
 import java.math.BigInteger

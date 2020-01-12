@@ -1,10 +1,9 @@
-package eu.bwbw.decent.services
+package eu.bwbw.decent.services.deliverydetails
 
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.web3j.utils.Numeric
 
 internal class DeliveryDetailsMemoryRepositoryTest {
@@ -17,7 +16,8 @@ internal class DeliveryDetailsMemoryRepositoryTest {
 
     @Test
     fun `saves delivery details and returns hash of correct length`() {
-        val deliveryDetails = DeliveryDetails("Some title", "Lorem ipsum...", "Street 1")
+        val deliveryDetails =
+            DeliveryDetails("Some title", "Lorem ipsum...", "Street 1")
         val detailsHash = runBlocking {
             deliveryDetailsRepository.save(
                 deliveryDetails
