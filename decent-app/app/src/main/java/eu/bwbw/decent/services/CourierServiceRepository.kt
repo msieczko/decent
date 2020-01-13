@@ -123,4 +123,10 @@ class CourierServiceRepository(
         }
     }
 
+    suspend fun withdrawMoney() {
+        return withContext(Dispatchers.IO) {
+            val transactionReceipt = courierService.withdraw().send()
+        }
+    }
+
 }

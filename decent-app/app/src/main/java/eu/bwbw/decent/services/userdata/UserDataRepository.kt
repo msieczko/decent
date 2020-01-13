@@ -30,6 +30,13 @@ class UserDataRepository(context: Context): IUserDataRepository {
         return Credentials.create(if (userPrivateKey.isNotEmpty()) userPrivateKey else generatedPrivateKey)
     }
 
+    override fun clearUserData() {
+        dataStore.edit().apply {
+            remove(PRIVATE_KEY)
+            remove(GENERATED_PRIVATE_KEY)
+        }.apply()
+    }
+
     companion object {
         private const val USER_DATA_KEY = "eu.bwbw.decent.USER_DATA_KEY"
         private val PRIVATE_KEY = "DATA_PRIVATE_KEY"

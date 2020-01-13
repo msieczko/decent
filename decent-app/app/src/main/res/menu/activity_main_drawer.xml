@@ -3,7 +3,9 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_main"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/senderFragment"
             android:icon="@drawable/ic_menu_sender"
@@ -16,6 +18,14 @@
             android:id="@+id/receiverFragment"
             android:icon="@drawable/ic_menu_receiver"
             android:title="@string/menu_receiver"/>
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom">
+        <item
+            android:id="@+id/toolsFragment"
+            android:icon="@drawable/ic_extension_black"
+            android:title="@string/menu_tools"/>
     </group>
 
 </menu>

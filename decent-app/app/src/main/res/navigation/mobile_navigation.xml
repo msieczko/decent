@@ -106,5 +106,16 @@
             android:name="deliveryId"
             app:argType="java.math.BigInteger"/>
     </fragment>
+    <fragment
+        android:id="@+id/toolsFragment"
+        android:name="eu.bwbw.decent.ui.tools.ToolsFragment"
+        android:label="Tools"
+        tools:layout="@layout/fragment_tools">
+        <action
+            android:id="@+id/action_toolsFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/mobile_navigation"/>
+    </fragment>
 
 </navigation>
