@@ -4,7 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".ui.receiver.ApprovePackage">
+                                                   tools:context=".ui.receiver.approve.ApprovePackageFragment">
 
     <TextView
         android:layout_width="0dp"
@@ -21,6 +21,7 @@
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/helpText"
-        app:layout_constraintVertical_bias="0.26" tools:src="@tools:sample/avatars[3]"/>
+        app:layout_constraintVertical_bias="0.26" tools:src="@tools:sample/avatars[3]"
+        android:contentDescription="@string/qr_code_content_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

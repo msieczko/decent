@@ -1,6 +1,5 @@
 package eu.bwbw.decent.ui.common
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataManager
 import kotlinx.android.synthetic.main.fragment_delivery_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -20,12 +18,6 @@ import kotlinx.coroutines.launch
 abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment() {
 
     private lateinit var deliveryRecyclerViewAdapter: RecyclerView.Adapter<T>
-    protected lateinit var userDataManager: UserDataManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        userDataManager = UserDataManager(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +52,7 @@ abstract class BaseDeliveryListFragment<T : RecyclerView.ViewHolder?> : Fragment
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
-                getViewModel().updateDeliveries(userDataManager.getCredentials())
+                getViewModel().updateDeliveries()
                 true
             }
             else -> super.onOptionsItemSelected(item)

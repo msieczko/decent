@@ -1,4 +1,4 @@
-package eu.bwbw.decent.services
+package eu.bwbw.decent.services.deliverydetails
 
 data class DeliveryDetails(
     val title: String,

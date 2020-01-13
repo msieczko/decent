@@ -1,4 +1,4 @@
-package eu.bwbw.decent.ui.receiver
+package eu.bwbw.decent.ui.receiver.approve
 
 import android.graphics.Bitmap
 import android.graphics.Point
@@ -14,9 +14,10 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import eu.bwbw.decent.R
+import eu.bwbw.decent.ui.receiver.approve.ApprovePackageFragmentArgs
 
 
-class ApprovePackage : Fragment() {
+class ApprovePackageFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +27,7 @@ class ApprovePackage : Fragment() {
 
         arguments?.let {
             val safeArgs =
-                ApprovePackageArgs.fromBundle(it)
+                ApprovePackageFragmentArgs.fromBundle(it)
             val text = safeArgs.deliveryTitle
 
             val qrCodeImageView = root.findViewById<ImageView>(R.id.qrCodeImage)
@@ -38,14 +39,14 @@ class ApprovePackage : Fragment() {
     private fun showQrCode(text: String, qrCodeImageView: ImageView) {
         val dimension = getQrCodeSize()
 
-        val multiFormatWriter = MultiFormatWriter();
+        val multiFormatWriter = MultiFormatWriter()
         try {
 
-            val bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, dimension, dimension);
-            val bitmap = createBitmap(bitMatrix);
-            qrCodeImageView.setImageBitmap(bitmap);
+            val bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, dimension, dimension)
+            val bitmap = createBitmap(bitMatrix)
+            qrCodeImageView.setImageBitmap(bitmap)
         } catch (e: WriterException) {
-            e.printStackTrace();
+            e.printStackTrace()
         }
     }
 

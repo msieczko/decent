@@ -1,10 +1,17 @@
 package eu.bwbw.decent
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import eu.bwbw.decent.domain.EthAddress
-import eu.bwbw.decent.services.*
+import eu.bwbw.decent.services.CourierServiceRepository
+import eu.bwbw.decent.services.DeliveriesService
+import eu.bwbw.decent.services.DeliveryOrder
+import eu.bwbw.decent.services.deliverydetails.DeliveryDetails
+import eu.bwbw.decent.services.deliverydetails.DeliveryDetailsMemoryRepository
+import eu.bwbw.decent.services.userdata.UserDataMockRepository
+import eu.bwbw.decent.services.userdata.UserDataRepository
 import eu.bwbw.decent.ui.courier.CourierViewModel
 import eu.bwbw.decent.ui.courier.details.DeliveryDetailsCourierViewModel
 import eu.bwbw.decent.ui.receiver.ReceiverViewModel
@@ -20,50 +27,50 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(application: Application) : ViewModelProvider.NewInstanceFactory() {
 
     private val courierServiceContractAddress = "A193E42526F1FEA8C99AF609dcEabf30C1c29fAA"
     private val web3j = Web3j.build(
         HttpService("http://10.0.2.2:8545") // TODO move to properties
     )
-    private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
-    private val deliveriesService = DeliveriesService(
-        deliveryDetailsRepository,
+    private val userDataRepository = UserDataRepository(application)
+    private val courierServiceRepository = CourierServiceRepository(
         courierServiceContractAddress,
-        web3j
+        web3j,
+        userDataRepository
+    )
+    private val deliveryDetailsRepository =
+        DeliveryDetailsMemoryRepository()
+
+    private val deliveriesService = DeliveriesService(
+        courierServiceRepository,
+        deliveryDetailsRepository
     )
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
                 isAssignableFrom(AddNewDeliveryViewModel::class.java) ->
-                    AddNewDeliveryViewModel(
-                        courierServiceContractAddress,
-                        web3j,
-                        deliveryDetailsRepository
-                    )
+                    AddNewDeliveryViewModel(deliveriesService)
+
                 isAssignableFrom(SenderViewModel::class.java) ->
-                    SenderViewModel(
-                        courierServiceContractAddress,
-                        web3j,
-                        deliveriesService
-                    )
+                    SenderViewModel(userDataRepository, deliveriesService)
+
                 isAssignableFrom(CourierViewModel::class.java) ->
-                    CourierViewModel(deliveriesService)
+                    CourierViewModel(userDataRepository, deliveriesService)
+
                 isAssignableFrom(ReceiverViewModel::class.java) ->
-                    ReceiverViewModel(deliveriesService)
+                    ReceiverViewModel(userDataRepository, deliveriesService)
+
                 isAssignableFrom(DeliveryDetailsSenderViewModel::class.java) ->
                     DeliveryDetailsSenderViewModel(deliveriesService)
+
                 isAssignableFrom(DeliveryDetailsCourierViewModel::class.java) ->
-                    DeliveryDetailsCourierViewModel(
-                        courierServiceContractAddress,
-                        web3j,
-                        deliveriesService
-                    )
+                    DeliveryDetailsCourierViewModel(deliveriesService)
+
                 isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->
-                    DeliveryDetailsReceiverViewModel(
-                        deliveriesService
-                    )
+                    DeliveryDetailsReceiverViewModel(deliveriesService)
+
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
@@ -90,7 +97,9 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
         CourierServiceRepository(
             "A193E42526F1FEA8C99AF609dcEabf30C1c29fAA",
             web3j,
-            Credentials.create("5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74")
+            UserDataMockRepository(
+                Credentials.create("5c8b9227cd5065c7e3f6b73826b8b42e198c4497f6688e3085d5ab3a6d520e74")
+            )
         ).apply {
             createDeliveryOrder(
                 DeliveryOrder(
@@ -122,10 +131,11 @@ class ViewModelFactory private constructor() : ViewModelProvider.NewInstanceFact
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
 
-        fun getInstance() =
-            INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory()
+        fun getInstance(application: Application? = null): ViewModelFactory {
+            return INSTANCE ?: synchronized(ViewModelFactory::class.java) {
+                INSTANCE ?: ViewModelFactory(application ?: throw Exception("Application parameter to ViewModelFactory.getInstance() is null"))
                     .also { INSTANCE = it }
             }
+        }
     }
 }

@@ -2,7 +2,6 @@ package eu.bwbw.decent.ui.authentication
 
 import androidx.lifecycle.ViewModel
 import org.web3j.crypto.ECKeyPair
-import java.lang.NumberFormatException
 import java.math.BigInteger
 
 class AuthenticationViewModel : ViewModel() {

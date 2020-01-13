@@ -1,6 +1,5 @@
 package eu.bwbw.decent.ui.sender.addnewdelivery
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,7 @@ import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.AddNewDeliveryFragmentBinding
-import eu.bwbw.decent.services.UserDataManager
 import kotlinx.android.synthetic.main.add_new_delivery_fragment.*
-import org.web3j.crypto.Credentials
 
 
 class AddNewDeliveryFragment : Fragment() {
@@ -29,12 +26,6 @@ class AddNewDeliveryFragment : Fragment() {
 
     private lateinit var viewModel: AddNewDeliveryViewModel
     private lateinit var binding: AddNewDeliveryFragmentBinding
-    private lateinit var userDataManager: UserDataManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        userDataManager = UserDataManager(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,8 +60,7 @@ class AddNewDeliveryFragment : Fragment() {
 
         val addButton = binding.root.findViewById<Button>(R.id.button_add)
         addButton.setOnClickListener {
-            val credentials = Credentials.create(userDataManager.userPrivateKey)
-            binding.viewModel?.saveNewDelivery(credentials)
+            binding.viewModel?.saveNewDelivery()
         }
 
         bindSpinner(R.id.spinner_courier_deposit_units, R.array.eth_denominations) { viewModel.courierDepositUnit = it }

@@ -12,7 +12,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataManager
+import eu.bwbw.decent.services.userdata.UserDataRepository
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
@@ -21,11 +21,11 @@ import java.security.Security
 
 class WelcomeFragment : Fragment() {
 
-    private lateinit var userDataManager: UserDataManager
+    private lateinit var userDataRepository: UserDataRepository
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        userDataManager = UserDataManager(context)
+        userDataRepository = UserDataRepository(context)
     }
 
     override fun onCreateView(
@@ -36,13 +36,13 @@ class WelcomeFragment : Fragment() {
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.hide()
 
-        if (userDataManager.isUserKeyPresent()) {
+        if (userDataRepository.isUserKeyPresent()) {
             val directions: NavDirections = WelcomeFragmentDirections.actionWelcomeFragmentToSenderFragment()
             findNavController().navigate(directions)
             actionBar?.show()
         }
 
-        if (userDataManager.isGeneratedKeyPresent()) {
+        if (userDataRepository.isGeneratedKeyPresent()) {
             val directions: NavDirections = WelcomeFragmentDirections.actionWelcomeFragmentToReceiverFragment()
             findNavController().navigate(directions)
             actionBar?.show()
@@ -62,7 +62,7 @@ class WelcomeFragment : Fragment() {
 
             // TODO consider generating keys in a new thread
             val ecKeyPair: ECKeyPair = Keys.createEcKeyPair()
-            userDataManager.generatedPrivateKey = ecKeyPair.privateKey.toString(16)
+            userDataRepository.generatedPrivateKey = ecKeyPair.privateKey.toString(16)
 
             val directions: NavDirections = WelcomeFragmentDirections.actionWelcomeFragmentToReceiverFragment()
             view.findNavController().navigate(directions)

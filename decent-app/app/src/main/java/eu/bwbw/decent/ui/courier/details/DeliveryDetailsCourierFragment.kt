@@ -1,6 +1,5 @@
 package eu.bwbw.decent.ui.courier.details
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,19 +13,12 @@ import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentDeliveryDetailsBinding
 import eu.bwbw.decent.domain.DeliveryState
-import eu.bwbw.decent.services.UserDataManager
 import kotlinx.android.synthetic.main.fragment_delivery_details.*
 
 
 class DeliveryDetailsCourierFragment : Fragment() {
 
     private lateinit var viewModel: DeliveryDetailsCourierViewModel
-    private lateinit var userDataManager: UserDataManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        userDataManager = UserDataManager(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +62,7 @@ class DeliveryDetailsCourierFragment : Fragment() {
         actionButton.apply {
             text = "Pickup package"
             setOnClickListener {
-                viewModel.pickupPackage(userDataManager.getCredentials())
+                viewModel.pickupPackage()
             }
             visibility = View.VISIBLE
         }

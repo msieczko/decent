@@ -1,4 +1,4 @@
-package eu.bwbw.decent.services
+package eu.bwbw.decent.services.deliverydetails
 
 import com.google.gson.Gson
 import org.web3j.crypto.Hash.sha3String

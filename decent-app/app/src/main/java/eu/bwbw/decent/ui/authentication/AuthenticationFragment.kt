@@ -13,17 +13,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import eu.bwbw.decent.R
-import eu.bwbw.decent.services.UserDataManager
+import eu.bwbw.decent.services.userdata.UserDataRepository
 
 class AuthenticationFragment : Fragment() {
 
-    private lateinit var userDataManager: UserDataManager
+    private lateinit var userDataRepository: UserDataRepository
 
     private lateinit var viewModel: AuthenticationViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        userDataManager = UserDataManager(context)
+        userDataRepository = UserDataRepository(context)
     }
 
     override fun onCreateView(
@@ -36,7 +36,7 @@ class AuthenticationFragment : Fragment() {
         buttonSendOrDeliver.setOnClickListener { view ->
             val key = root.findViewById<EditText>(R.id.usersKey).text.toString()
             if(viewModel.isUsersKeyValid(key)) {
-                userDataManager.userPrivateKey = key
+                userDataRepository.userPrivateKey = key
                 val directions: NavDirections = AuthenticationFragmentDirections.actionAuthenticationFragmentToSenderFragment()
                 view.findNavController().navigate(directions)
             } else {
