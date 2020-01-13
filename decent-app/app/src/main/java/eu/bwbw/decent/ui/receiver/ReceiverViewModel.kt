@@ -12,10 +12,11 @@ class ReceiverViewModel(
     private val deliveriesService: DeliveriesService
 ) : BaseDeliveriesViewModel(userDataRepository) {
 
-    private val _text = MutableLiveData<String>().apply {
+    private val _receiverMessage = MutableLiveData<String>().apply {
         value = "My Eth address: ${userDataRepository.getCredentials().address}"
     }
-    val text: LiveData<String> = _text
+    val receiverMessage: LiveData<String>
+        get() = _receiverMessage
 
     override suspend fun getDeliveries(): List<Delivery> {
         _isLoading.value = true
