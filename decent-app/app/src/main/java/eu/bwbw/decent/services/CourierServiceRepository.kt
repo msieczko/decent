@@ -166,10 +166,11 @@ class CourierServiceRepository(
         }
     }
 
-    suspend fun getBalance(): BigInteger {
+    suspend fun getWithdrawal(): BigInteger {
         val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
-            courierService.pendingWithdrawals(userDataRepository.getCredentials().address).send()
+            courierService.pendingWithdrawals(userDataRepository.getCredentials().address)
+                .send()
         }
     }
 
