@@ -55,7 +55,7 @@ class DeliveriesService(
     }
 
     suspend fun getReceiverDeliveries(): List<Delivery> {
-        receiverDeliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
+        receiverDeliveries = courierServiceRepository.getReceiverDeliveries().map { deliveryFromContract(it) }
         return receiverDeliveries
     }
 

@@ -4,10 +4,6 @@ import eu.bwbw.decent.domain.ContractDelivery
 import eu.bwbw.decent.domain.DeliveryState
 import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.DecentCourierService
-import eu.bwbw.decent.domain.errors.transactions.CancelDeliveryOrderError
-import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
-import eu.bwbw.decent.domain.errors.transactions.PickupPackageError
-import eu.bwbw.decent.domain.errors.transactions.WithdrawError
 import eu.bwbw.decent.domain.errors.transactions.*
 import eu.bwbw.decent.services.userdata.IUserDataRepository
 import kotlinx.coroutines.Dispatchers
@@ -99,11 +95,13 @@ class CourierServiceRepository(
             val senderAddress = userDataRepository.getCredentials().address
             val count = courierService.getSenderDeliveriesCount(senderAddress).send().toInt()
             println("count Sender: $count")
-            (0 until count).map { BigInteger.valueOf(it.toLong()) }
+            (0 until count).asSequence()
+                .map { BigInteger.valueOf(it.toLong()) }
                 .map { courierService.senderDeliveries(senderAddress, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
                 .filter { it.state != DeliveryState.OFFER_CANCELED }
+                .toList()
         }
     }
 
@@ -131,11 +129,15 @@ class CourierServiceRepository(
     suspend fun getReceiverDeliveries(): List<ContractDelivery> {
         return withContext(Dispatchers.IO) {
             val receiverAddress = userDataRepository.getCredentials().address
-            (courierService.getReceiverDeliveries(receiverAddress).send() as List<BigInteger>?)
-                ?.map { courierService.courierDeliveries(receiverAddress, it).send() }
-                ?.map { courierService.deliveries(it).send() }
-                ?.map { ContractDelivery.fromTuple(it) }
-                .orEmpty()
+            val count = courierService.getReceiverDeliveriesCount(receiverAddress).send().toInt()
+            println("count Receiver: $count")
+            (0 until count).asSequence()
+                .map { BigInteger.valueOf(it.toLong()) }
+                .map { courierService.receiverDeliveries(receiverAddress, it).send() }
+                .map { courierService.deliveries(it).send() }
+                .map { ContractDelivery.fromTuple(it) }
+                .filter { it.state == DeliveryState.IN_DELIVERY }
+                .toList()
         }
     }
 
@@ -155,7 +157,7 @@ class CourierServiceRepository(
 
     suspend fun getBalance(): BigInteger {
         return withContext(Dispatchers.IO) {
-            return@withContext courierService.pendingWithdrawals(userDataRepository.getCredentials().address).send()
+            courierService.pendingWithdrawals(userDataRepository.getCredentials().address).send()
         }
     }
 
