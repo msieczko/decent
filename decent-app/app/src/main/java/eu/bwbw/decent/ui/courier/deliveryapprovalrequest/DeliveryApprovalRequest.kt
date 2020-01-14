@@ -1,15 +1,19 @@
-package eu.bwbw.decent.ui.courier
+package eu.bwbw.decent.ui.courier.deliveryapprovalrequest
 
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
 import androidx.core.util.valueIterator
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.material.snackbar.Snackbar
 import eu.bwbw.decent.R
+import eu.bwbw.decent.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_delivery_approval_request.*
 import java.io.IOException
 import kotlin.math.roundToInt
@@ -17,15 +21,26 @@ import kotlin.math.roundToInt
 
 class DeliveryApprovalRequest : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var viewModel: DeliveryApprovalRequestViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_delivery_approval_request, container, false)
+
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance())
+            .get(DeliveryApprovalRequestViewModel::class.java)
+
+        viewModel.deliveryRegistered.observe(this, Observer {
+            val infoSnackbar = Snackbar.make(
+                root,
+                if (it) R.string.delivery_success else R.string.delivery_failed,
+                Snackbar.LENGTH_LONG
+            )
+            infoSnackbar.show()
+        })
+
         val cameraView = root.findViewById<SurfaceView>(R.id.cameraView)
 
         val display: Display? = activity?.windowManager?.defaultDisplay
@@ -38,8 +53,9 @@ class DeliveryApprovalRequest : Fragment() {
 
         val cameraSource = CameraSource.Builder(context, barcodeDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
-            .setRequestedPreviewSize((size.x / 1.8).roundToInt(), (size.y / 1.8).roundToInt())
+            .setRequestedPreviewSize((size.x / 1.5).roundToInt(), (size.y / 1.5).roundToInt())
             .setRequestedFps(15.0f)
+            .setAutoFocusEnabled(true)
             .build()
 
         barcodeDetector.setProcessor(
@@ -91,7 +107,8 @@ class DeliveryApprovalRequest : Fragment() {
                     .forEach { barcode -> detectedValues.add(barcode.displayValue) }
 
                 activity?.runOnUiThread {
-                    scanResult.text = "Results:\n${detectedValues.reduce { acc, s -> acc + "\n" + s }}"
+                    //scanResult.text = "Results:\n${detectedValues.reduce { acc, s -> acc + "\n" + s }}"
+                    viewModel.deliverPackage(detectedValues[0])
                     barcodeDetector.release()
                     cameraSource.release()
                     cameraView.visibility = View.GONE

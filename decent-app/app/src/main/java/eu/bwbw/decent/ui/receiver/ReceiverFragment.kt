@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.navigation.NavigationView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 import eu.bwbw.decent.databinding.FragmentReceiverBinding
+
 
 class ReceiverFragment : Fragment() {
 
@@ -32,6 +35,14 @@ class ReceiverFragment : Fragment() {
             ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ReceiverViewModel::class.java)
         binding.lifecycleOwner = this
         binding.viewModel = receiverViewModel
+
+        activity?.let {
+            val navigationView =
+                it.findViewById<View>(R.id.nav_view) as NavigationView
+            val headerView = navigationView.getHeaderView(0)
+            headerView.findViewById<TextView>(R.id.walletAddress).text =
+                getString(R.string.my_eth_address, receiverViewModel.getAddress())
+        }
 
         return binding.root
     }

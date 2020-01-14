@@ -50,7 +50,7 @@ class ToolsFragment : Fragment() {
         }
 
         withdrawMoney.setOnClickListener {
-            viewModel.withDrawMoney()
+            viewModel.withdrawMoney()
             val infoSnackbar = Snackbar.make(
                 it,
                 R.string.withdraw_confirmation,

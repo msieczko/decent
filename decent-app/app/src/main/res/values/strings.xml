@@ -33,13 +33,15 @@
     <string name="add">Add</string>
     <string name="action_refresh">Refresh</string>
     <string name="invalid_key">Invalid key</string>
-    <string name="my_eth_address">My Eth address:\n %1$s</string>
+    <string name="my_eth_address">My address:\n%1$s</string>
     <string name="transaction_in_progress">Transaction in progress</string>
     <string name="qr_code_content_description">QR code</string>
     <string name="withdraw_money">Withdraw money</string>
     <string name="sign_out">Sign out</string>
     <string name="menu_tools">Tools</string>
     <string name="withdraw_confirmation">Money withdrawal request has been registered</string>
+    <string name="delivery_success">Delivery registered successfully</string>
+    <string name="delivery_failed">Delivery registration failed</string>
 
     <string-array name="eth_denominations">
         <item>Ether</item>

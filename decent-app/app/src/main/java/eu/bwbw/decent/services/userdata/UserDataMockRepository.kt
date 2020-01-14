@@ -12,6 +12,8 @@ class UserDataMockRepository(
 
     override fun isUserKeyPresent() = true
 
+    override fun isGeneratedKeyPresent() = false
+
     override fun clearUserData() {
         return
     }

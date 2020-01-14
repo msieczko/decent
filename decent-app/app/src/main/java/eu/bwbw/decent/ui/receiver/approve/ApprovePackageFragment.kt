@@ -9,29 +9,38 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import eu.bwbw.decent.R
-import eu.bwbw.decent.ui.receiver.approve.ApprovePackageFragmentArgs
+import eu.bwbw.decent.ViewModelFactory
 
 
 class ApprovePackageFragment : Fragment() {
+
+    private lateinit var viewModel: ApprovePackageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(
+            ApprovePackageViewModel::class.java
+        )
+
         val root = inflater.inflate(R.layout.fragment_approve_package, container, false)
 
         arguments?.let {
             val safeArgs =
                 ApprovePackageFragmentArgs.fromBundle(it)
-            val text = safeArgs.deliveryTitle
 
             val qrCodeImageView = root.findViewById<ImageView>(R.id.qrCodeImage)
-            showQrCode(text, qrCodeImageView)
+            showQrCode(
+                viewModel.getQrCodeData(safeArgs.deliveryId, safeArgs.deliveryDetailsHash),
+                qrCodeImageView
+            )
         }
         return root
     }

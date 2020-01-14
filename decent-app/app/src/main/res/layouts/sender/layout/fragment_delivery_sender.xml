@@ -48,6 +48,7 @@
         android:textAlignment="textEnd" android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintEnd_toEndOf="@+id/courier_deposit"
         app:layout_constraintTop_toTopOf="@+id/title" tools:text="10h"/>
+
     <Button
         android:id="@+id/deleteDelivery"
         android:layout_width="42dp"
@@ -57,6 +58,9 @@
         android:shadowColor="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/courier_deposit"
         app:layout_constraintStart_toEndOf="@+id/max_delivery_time"
-        app:layout_constraintTop_toTopOf="@+id/max_delivery_time" app:layout_constraintVertical_bias="0.45"/>
+        app:layout_constraintTop_toTopOf="@+id/max_delivery_time"
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import eu.bwbw.decent.domain.errors.transactions.CancelDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.PickupPackageError
 import eu.bwbw.decent.domain.errors.transactions.WithdrawError
+import eu.bwbw.decent.domain.errors.transactions.*
 import eu.bwbw.decent.services.userdata.IUserDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -138,4 +139,24 @@ class CourierServiceRepository(
         }
     }
 
+    suspend fun getBalance(): BigInteger {
+        return withContext(Dispatchers.IO) {
+            return@withContext courierService.pendingWithdrawals(userDataRepository.getCredentials().address).send()
+        }
+    }
+
+    suspend fun deliverPackage(deliveryId: BigInteger, receiverSignature: ByteArray) {
+        try {
+            return withContext(Dispatchers.IO) {
+                val transactionReceipt = courierService.deliverPackage(deliveryId, receiverSignature).send()
+                val packageDeliveredEvents = courierService.getPackageDeliveredEvents(transactionReceipt)
+                if (packageDeliveredEvents.size != 1) {
+                    throw DeliverPackageError("Deliver package event not logged")
+                }
+            }
+        } catch (e: Exception) {
+            throw DeliverPackageError("Deliver package event not logged")
+        }
+
+    }
 }
