@@ -13,7 +13,9 @@ class DeliveriesService(
     private val deliveryDetailsRepository: IDeliveryDetailsRepository
 ) {
 
-    private lateinit var deliveries: List<Delivery>
+    private lateinit var senderDeliveries: List<Delivery>
+    private lateinit var courierDeliveries: List<Delivery>
+    private lateinit var receiverDeliveries: List<Delivery>
     // TODO change to proper method call
 
     suspend fun createDeliveryOrder(sanitizedDelivery: SanitizedDelivery): BigInteger {
@@ -43,18 +45,18 @@ class DeliveriesService(
     suspend fun pickupPackage(deliveryId: BigInteger) = courierServiceRepository.pickupPackage(deliveryId)
 
     suspend fun getSenderDeliveries(): List<Delivery> {
-        deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
-        return deliveries
+        senderDeliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
+        return senderDeliveries
     }
 
     suspend fun getCourierDeliveries(): List<Delivery> {
-        deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
-        return deliveries
+        courierDeliveries = courierServiceRepository.getCourierDeliveries().map { deliveryFromContract(it) }
+        return courierDeliveries
     }
 
     suspend fun getReceiverDeliveries(): List<Delivery> {
-        deliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
-        return deliveries
+        receiverDeliveries = courierServiceRepository.getSenderDeliveries().map { deliveryFromContract(it) }
+        return receiverDeliveries
     }
 
     private suspend fun deliveryFromContract(
@@ -74,6 +76,8 @@ class DeliveriesService(
     }
 
     fun getDelivery(deliveryId: BigInteger): Delivery {
-        return deliveries.first { it.id == deliveryId }
+        return senderDeliveries.firstOrNull { it.id == deliveryId }
+            ?: courierDeliveries.firstOrNull { it.id == deliveryId }
+            ?: receiverDeliveries.first { it.id == deliveryId }
     }
 }
