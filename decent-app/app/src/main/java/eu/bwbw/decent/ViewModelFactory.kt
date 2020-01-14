@@ -42,8 +42,7 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
         web3j,
         userDataRepository
     )
-    private val deliveryDetailsRepository =
-        DeliveryDetailsMemoryRepository()
+    private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
 
     private val deliveriesService = DeliveriesService(
         courierServiceRepository,

@@ -13,11 +13,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.services.userdata.UserDataRepository
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
-import java.security.Provider
-import java.security.Security
 
 class WelcomeFragment : Fragment() {
 
@@ -50,15 +47,6 @@ class WelcomeFragment : Fragment() {
 
         val buttonJustReceive: Button = root.findViewById(R.id.button_just_receive)
         buttonJustReceive.setOnClickListener { view ->
-
-            val provider: Provider = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)
-                ?: throw RuntimeException("Error invalid security provider")
-            if (provider.javaClass.equals(BouncyCastleProvider::class.java)) {
-                throw RuntimeException("Error invalid security provider")
-            }
-
-            Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-            Security.insertProviderAt(BouncyCastleProvider(), 1)
 
             // TODO consider generating keys in a new thread
             val ecKeyPair: ECKeyPair = Keys.createEcKeyPair()
