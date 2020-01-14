@@ -19,6 +19,7 @@ import eu.bwbw.decent.ui.receiver.details.DeliveryDetailsReceiverViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
 import eu.bwbw.decent.ui.sender.addnewdelivery.AddNewDeliveryViewModel
 import eu.bwbw.decent.ui.sender.details.DeliveryDetailsSenderViewModel
+import eu.bwbw.decent.ui.tools.ToolsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,6 +71,10 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
 
                 isAssignableFrom(DeliveryDetailsReceiverViewModel::class.java) ->
                     DeliveryDetailsReceiverViewModel(deliveriesService)
+
+                isAssignableFrom(ToolsViewModel::class.java) ->
+                    ToolsViewModel(courierServiceRepository, userDataRepository)
+
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
