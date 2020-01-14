@@ -13,7 +13,7 @@ class CourierViewModel(
 ) : BaseDeliveriesViewModel(userDataRepository) {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is courier Fragment"
+        value = "Green - offers\nYellow - in delivery"
     }
     val text: LiveData<String> = _text
 

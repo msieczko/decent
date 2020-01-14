@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
 
@@ -39,10 +39,14 @@ class SenderFragment : Fragment() {
             view.findNavController().navigate(directions)
         }
 
-        val textView: TextView = root.findViewById(R.id.text_sender)
-        senderViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
+        activity?.let {
+            val navigationView =
+                it.findViewById<View>(R.id.nav_view) as NavigationView
+            val headerView = navigationView.getHeaderView(0)
+            headerView.findViewById<TextView>(R.id.walletAddress).text =
+                getString(R.string.my_eth_address, senderViewModel.getAddress())
+        }
+
         return root
     }
 }

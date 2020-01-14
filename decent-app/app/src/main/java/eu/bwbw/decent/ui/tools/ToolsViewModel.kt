@@ -13,20 +13,28 @@ class ToolsViewModel(
     private val userDataRepository: IUserDataRepository
 ) : ViewModel() {
 
+    init {
+        updateBalance()
+    }
+
     fun signOut() {
         userDataRepository.clearUserData()
     }
 
-    fun withDrawMoney() {
+    fun withdrawMoney() {
         viewModelScope.launch {
             courierServiceRepository.withdrawMoney()
         }
     }
 
-    private val _walletInfo = MutableLiveData<String>().apply {
-        value = "Eth address: ${userDataRepository.getCredentials().address}"
+    fun updateBalance() {
+        viewModelScope.launch {
+            _balance.value = "Balance: ${courierServiceRepository.getBalance().toString(10)}"
+        }
     }
-    val walletInfo: LiveData<String>
-        get() = _walletInfo
+
+    private val _balance = MutableLiveData<String>()
+    val balance: LiveData<String>
+        get() = _balance
 
 }

@@ -37,4 +37,11 @@ abstract class BaseDeliveriesViewModel(
     }
 
     fun isUserKeyPresent() = userDataRepository.isUserKeyPresent()
+
+    fun getAddress(): String {
+        if (userDataRepository.isGeneratedKeyPresent() || userDataRepository.isUserKeyPresent()) {
+            return userDataRepository.getCredentials().address ?: ""
+        }
+        return ""
+    }
 }

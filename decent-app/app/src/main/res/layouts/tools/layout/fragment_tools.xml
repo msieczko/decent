@@ -45,7 +45,7 @@
             android:layout_width="291dp"
             android:layout_height="wrap_content"
             android:id="@+id/walletInfo"
-            android:text="@{viewModel.walletInfo}"
+            android:text="@{viewModel.balance}"
             tools:text="Wallet: 123"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintTop_toTopOf="parent"

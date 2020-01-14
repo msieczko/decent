@@ -13,8 +13,10 @@ import eu.bwbw.decent.services.deliverydetails.DeliveryDetailsMemoryRepository
 import eu.bwbw.decent.services.userdata.UserDataMockRepository
 import eu.bwbw.decent.services.userdata.UserDataRepository
 import eu.bwbw.decent.ui.courier.CourierViewModel
+import eu.bwbw.decent.ui.courier.deliveryapprovalrequest.DeliveryApprovalRequestViewModel
 import eu.bwbw.decent.ui.courier.details.DeliveryDetailsCourierViewModel
 import eu.bwbw.decent.ui.receiver.ReceiverViewModel
+import eu.bwbw.decent.ui.receiver.approve.ApprovePackageViewModel
 import eu.bwbw.decent.ui.receiver.details.DeliveryDetailsReceiverViewModel
 import eu.bwbw.decent.ui.sender.SenderViewModel
 import eu.bwbw.decent.ui.sender.addnewdelivery.AddNewDeliveryViewModel
@@ -75,6 +77,14 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
                 isAssignableFrom(ToolsViewModel::class.java) ->
                     ToolsViewModel(courierServiceRepository, userDataRepository)
 
+                isAssignableFrom(DeliveryApprovalRequestViewModel::class.java) ->
+                    DeliveryApprovalRequestViewModel(courierServiceRepository)
+
+                isAssignableFrom(ApprovePackageViewModel::class.java) ->
+                    ApprovePackageViewModel(userDataRepository)
+
+                isAssignableFrom(MainActivityViewModel::class.java) ->
+                    MainActivityViewModel()
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
