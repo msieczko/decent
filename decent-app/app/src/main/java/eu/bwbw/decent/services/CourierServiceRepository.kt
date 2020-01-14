@@ -7,6 +7,7 @@ import eu.bwbw.decent.domain.EthAddress
 import eu.bwbw.decent.domain.errors.transactions.CancelDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.CreateDeliveryOrderError
 import eu.bwbw.decent.domain.errors.transactions.PickupPackageError
+import eu.bwbw.decent.domain.errors.transactions.WithdrawError
 import eu.bwbw.decent.services.userdata.IUserDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -124,8 +125,16 @@ class CourierServiceRepository(
     }
 
     suspend fun withdrawMoney() {
-        return withContext(Dispatchers.IO) {
-            val transactionReceipt = courierService.withdraw().send()
+        try {
+            return withContext(Dispatchers.IO) {
+                val transactionReceipt = courierService.withdraw().send()
+                val fundsWithdrawnEvents = courierService.getFundsWithdrawnEvents(transactionReceipt)
+                if (fundsWithdrawnEvents.size != 1) {
+                    throw WithdrawError("Withdraw event not logged")
+                }
+            }
+        } catch (e: Exception) {
+            throw WithdrawError("Withdraw event not logged")
         }
     }
 
