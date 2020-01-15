@@ -24,7 +24,7 @@ jobs:
       - name: Test contracts
         run: yarn workspace @decent/contracts test:nobuild
       - name: Build backend
-      run: yarn workspace @decent/backend build
+        run: yarn workspace @decent/backend build
 
   build-app:
     name: Build Android app
