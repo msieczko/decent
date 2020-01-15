@@ -1,7 +1,13 @@
-import {Config} from '../config/Config';
+import {IDeliveryDetailsStore} from './IDeliveryDetailsStore';
+import {DeliveryDetailsMemoryStore} from './DeliveryDetailsMemoryStore';
 
-export type Services = ReturnType<typeof createServices>
+export interface Services {
+  deliveryDetailsStore: IDeliveryDetailsStore;
+}
 
-export function createServices(config: Config) {
-
+export function createServices(): Services {
+  const deliveryDetailsStore = new DeliveryDetailsMemoryStore();
+  return {
+    deliveryDetailsStore
+  }
 }

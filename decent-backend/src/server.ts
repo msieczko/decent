@@ -4,8 +4,8 @@ import {Config} from './config/Config';
 import {createServices} from './services';
 
 export async function startServer(config: Config) {
-  const services = createServices(config);
-  const app = buildApp(services, config);
+  const services = createServices();
+  const app = buildApp(services);
   const server = app.listen(config.port);
 
   announce(server);
