@@ -99,20 +99,20 @@ class DeliveryApprovalRequest : Fragment() {
         cameraSource: CameraSource,
         barcodeDetector: BarcodeDetector
     ) {
-        val detectedValues = ArrayList<String>()
-        detections?.let {
-            detectedValues.clear()
-            if (it.detectedItems.size() > 0) {
-                it.detectedItems.valueIterator()
-                    .forEach { barcode -> detectedValues.add(barcode.displayValue) }
+        val detectedValue = detections?.run {
+            detectedItems.valueIterator()
+                .asSequence()
+                .map { it.displayValue }
+                .toList()
+                .firstOrNull()
+        }
 
-                activity?.runOnUiThread {
-                    //scanResult.text = "Results:\n${detectedValues.reduce { acc, s -> acc + "\n" + s }}"
-                    viewModel.deliverPackage(detectedValues[0])
-                    barcodeDetector.release()
-                    cameraSource.release()
-                    cameraView.visibility = View.GONE
-                }
+        if (detectedValue != null) {
+            activity?.runOnUiThread {
+                viewModel.deliverPackage(detectedValue)
+                barcodeDetector.release()
+                cameraSource.release()
+                cameraView.visibility = View.GONE
             }
         }
     }
