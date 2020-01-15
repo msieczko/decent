@@ -18,8 +18,14 @@ elif [ $1 = "rk" ]; then
 
 fi
 
+if [ $2 = "l" ]; then
+    device="emulator-5554"
+elif [ $2 = "r" ]; then
+    device="emulator-5556"
+fi
+
 echo $argval
-adb shell input text $argval
+adb -s $device shell input text $argval
 
 
 

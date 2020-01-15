@@ -13,9 +13,9 @@ class DeliveriesService(
     private val deliveryDetailsRepository: IDeliveryDetailsRepository
 ) {
 
-    private lateinit var senderDeliveries: List<Delivery>
-    private lateinit var courierDeliveries: List<Delivery>
-    private lateinit var receiverDeliveries: List<Delivery>
+    private var senderDeliveries: List<Delivery> = ArrayList()
+    private var courierDeliveries: List<Delivery> = ArrayList()
+    private var receiverDeliveries: List<Delivery> = ArrayList()
     // TODO change to proper method call
 
     suspend fun createDeliveryOrder(sanitizedDelivery: SanitizedDelivery): BigInteger {
