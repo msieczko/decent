@@ -202,4 +202,12 @@ class CourierServiceRepository(
             ).send().balance
         }
     }
+
+    suspend fun getDetailsHash(deliveryId: BigInteger): String {
+        val courierService = getCourierService()
+        return withContext(Dispatchers.IO) {
+            val detailsHash = courierService.getDeliveryDetailsHash(deliveryId).send()
+            Numeric.toHexString(detailsHash)
+        }
+    }
 }

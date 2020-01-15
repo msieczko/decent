@@ -55,8 +55,7 @@ class DeliveryDetailsReceiverFragment : Fragment() {
             setOnClickListener {
                 val directions: NavDirections =
                     DeliveryDetailsReceiverFragmentDirections.actionDeliveryDetailsReceiverFragmentToApprovePackage(
-                        viewModel.delivery.value?.title ?: "no title",
-                        viewModel.delivery.value?.id ?: 0.toBigInteger()
+                        viewModel.delivery.value?.id ?: throw Error("This should never happen")
                     )
                 view.findNavController().navigate(directions)
             }
