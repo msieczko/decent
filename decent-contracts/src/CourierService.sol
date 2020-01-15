@@ -149,6 +149,7 @@ contract CourierService {
         uint amount = pendingWithdrawals[msg.sender];
         pendingWithdrawals[msg.sender] = 0;
         msg.sender.transfer(amount);
+        emit FundsWithdrawn(msg.sender, amount);
     }
 
     function getSenderDeliveriesCount(address sender) external view returns (uint) {
