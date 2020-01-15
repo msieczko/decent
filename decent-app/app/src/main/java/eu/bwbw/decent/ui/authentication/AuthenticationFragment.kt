@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -14,6 +15,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.services.userdata.UserDataRepository
+import kotlinx.android.synthetic.main.authentication_fragment.*
 import org.web3j.utils.Numeric
 
 class AuthenticationFragment : Fragment() {
@@ -31,22 +33,21 @@ class AuthenticationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.authentication_fragment, container, false)
+        return inflater.inflate(R.layout.authentication_fragment, container, false)
+    }
 
-        val buttonSendOrDeliver: Button = root.findViewById(R.id.button_save)
-        buttonSendOrDeliver.setOnClickListener { view ->
-            val key = root.findViewById<EditText>(R.id.usersKey).text.toString()
-            val unprefixedKey = Numeric.cleanHexPrefix(key)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        button_save.setOnClickListener { it ->
+            val unprefixedKey = Numeric.cleanHexPrefix(usersKey.text.toString())
             if(viewModel.isUsersKeyValid(unprefixedKey)) {
                 userDataRepository.userPrivateKey = unprefixedKey
+                button_save.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 val directions: NavDirections = AuthenticationFragmentDirections.actionAuthenticationFragmentToSenderFragment()
-                view.findNavController().navigate(directions)
+                it.findNavController().navigate(directions)
             } else {
-                root.findViewById<TextView>(R.id.errorInfo).visibility = View.VISIBLE
+                errorInfo.visibility = View.VISIBLE
             }
         }
-
-        return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
