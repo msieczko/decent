@@ -16,6 +16,9 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import eu.bwbw.decent.R
 import eu.bwbw.decent.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ApprovePackageFragment : Fragment() {
@@ -33,14 +36,14 @@ class ApprovePackageFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_approve_package, container, false)
 
         arguments?.let {
-            val safeArgs =
-                ApprovePackageFragmentArgs.fromBundle(it)
-
+            val safeArgs = ApprovePackageFragmentArgs.fromBundle(it)
             val qrCodeImageView = root.findViewById<ImageView>(R.id.qrCodeImage)
-            showQrCode(
-                viewModel.getQrCodeData(safeArgs.deliveryId, safeArgs.deliveryDetailsHash),
-                qrCodeImageView
-            )
+            CoroutineScope(Dispatchers.Main).launch {
+                showQrCode(
+                    viewModel.getQrCodeData(safeArgs.deliveryId),
+                    qrCodeImageView
+                )
+            }
         }
         return root
     }

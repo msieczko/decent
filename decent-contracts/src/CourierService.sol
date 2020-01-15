@@ -162,7 +162,11 @@ contract CourierService {
     function getReceiverDeliveriesCount(address receiver) external view returns (uint) {
         return receiverDeliveries[receiver].length;
     }
-    
+
+    function getDeliveryDetailsHash(uint deliveryId) external view returns (bytes32) {
+        return deliveries[deliveryId].detailsHash;
+    }
+
     function verifyReceiverSignature(Delivery storage delivery, bytes memory signature) internal view returns (bool) {
         return delivery.detailsHash.toEthSignedMessageHash().recover(signature) == delivery.receiver;
     }

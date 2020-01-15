@@ -55,8 +55,11 @@ class CourierServiceRepository(
                     senderDeposit
                 )
                 val transactionReceipt = createDeliveryOrder.send()
-                val (deliveryCreatedEvent) = courierService.getDeliveryCreatedEvents(transactionReceipt)
-                deliveryCreatedEvent.deliveryId
+                val deliveryCreatedEvents = courierService.getDeliveryCreatedEvents(transactionReceipt)
+                if (deliveryCreatedEvents.size != 1) {
+                    throw CreateDeliveryOrderError("DeliveryCreated event not logged")
+                }
+                deliveryCreatedEvents[0].deliveryId
             }
         } catch (e: Exception) {
             throw CreateDeliveryOrderError(cause = e)
@@ -98,12 +101,42 @@ class CourierServiceRepository(
         }
     }
 
+    suspend fun deliverPackage(deliveryId: BigInteger, receiverSignature: ByteArray) {
+        val courierService = getCourierService()
+        try {
+            return withContext(Dispatchers.IO) {
+                val transactionReceipt = courierService.deliverPackage(deliveryId, receiverSignature).send()
+                val packageDeliveredEvents = courierService.getPackageDeliveredEvents(transactionReceipt)
+                if (packageDeliveredEvents.size != 1) {
+                    throw DeliverPackageError("PackageDelivered event not logged")
+                }
+            }
+        } catch (e: Exception) {
+            throw DeliverPackageError(cause = e)
+        }
+
+    }
+
+    suspend fun withdrawMoney() {
+        val courierService = getCourierService()
+        try {
+            return withContext(Dispatchers.IO) {
+                val transactionReceipt = courierService.withdraw().send()
+                val fundsWithdrawnEvents = courierService.getFundsWithdrawnEvents(transactionReceipt)
+                if (fundsWithdrawnEvents.size != 1) {
+                    throw WithdrawError("FundsWithdrawn event not logged")
+                }
+            }
+        } catch (e: Exception) {
+            throw WithdrawError(cause = e)
+        }
+    }
+
     suspend fun getSenderDeliveries(): List<ContractDelivery> {
         val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
             val senderAddress = userDataRepository.getCredentials().address
             val count = courierService.getSenderDeliveriesCount(senderAddress).send().toInt()
-            println("count Sender: $count")
             (0 until count).asSequence()
                 .map { BigInteger.valueOf(it.toLong()) }
                 .map { courierService.senderDeliveries(senderAddress, it).send() }
@@ -143,7 +176,6 @@ class CourierServiceRepository(
         return withContext(Dispatchers.IO) {
             val receiverAddress = userDataRepository.getCredentials().address
             val count = courierService.getReceiverDeliveriesCount(receiverAddress).send().toInt()
-            println("count Receiver: $count")
             (0 until count).asSequence()
                 .map { BigInteger.valueOf(it.toLong()) }
                 .map { courierService.receiverDeliveries(receiverAddress, it).send() }
@@ -151,21 +183,6 @@ class CourierServiceRepository(
                 .map { ContractDelivery.fromTuple(it) }
                 .filter { it.state == DeliveryState.IN_DELIVERY }
                 .toList()
-        }
-    }
-
-    suspend fun withdrawMoney() {
-        val courierService = getCourierService()
-        try {
-            return withContext(Dispatchers.IO) {
-                val transactionReceipt = courierService.withdraw().send()
-                val fundsWithdrawnEvents = courierService.getFundsWithdrawnEvents(transactionReceipt)
-                if (fundsWithdrawnEvents.size != 1) {
-                    throw WithdrawError("Withdraw event not logged")
-                }
-            }
-        } catch (e: Exception) {
-            throw WithdrawError("Withdraw event not logged")
         }
     }
 
@@ -186,19 +203,11 @@ class CourierServiceRepository(
         }
     }
 
-    suspend fun deliverPackage(deliveryId: BigInteger, receiverSignature: ByteArray) {
+    suspend fun getDetailsHash(deliveryId: BigInteger): String {
         val courierService = getCourierService()
-        try {
-            return withContext(Dispatchers.IO) {
-                val transactionReceipt = courierService.deliverPackage(deliveryId, receiverSignature).send()
-                val packageDeliveredEvents = courierService.getPackageDeliveredEvents(transactionReceipt)
-                if (packageDeliveredEvents.size != 1) {
-                    throw DeliverPackageError("Deliver package event not logged")
-                }
-            }
-        } catch (e: Exception) {
-            throw DeliverPackageError("Deliver package event not logged")
+        return withContext(Dispatchers.IO) {
+            val detailsHash = courierService.getDeliveryDetailsHash(deliveryId).send()
+            Numeric.toHexString(detailsHash)
         }
-
     }
 }

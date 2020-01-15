@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/courierFragment"
         android:name="eu.bwbw.decent.ui.courier.CourierFragment"
-        android:label="Delivery orders">
+        android:label="Courier">
         <action
             android:id="@+id/action_courierFragment_to_deliveryApprovalRequest"
             app:destination="@id/deliveryApprovalRequest"/>
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/receiverFragment"
         android:name="eu.bwbw.decent.ui.receiver.ReceiverFragment"
-        android:label="My incoming deliveries">
+        android:label="Incoming deliveries">
         <action
             android:id="@+id/action_receiverFragment_to_deliveryDetailsReceiverFragment"
             app:destination="@id/deliveryDetailsReceiverFragment"/>
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/senderFragment"
         android:name="eu.bwbw.decent.ui.sender.SenderFragment"
-        android:label="My deliveries">
+        android:label="Sender">
         <action
             android:id="@+id/action_senderFragment_to_addNewDeliveryFragment"
             app:destination="@id/addNewDeliveryFragment"/>
@@ -88,9 +88,6 @@
         android:name="eu.bwbw.decent.ui.receiver.approve.ApprovePackageFragment"
         android:label="Approve package"
         tools:layout="@layout/fragment_approve_package">
-        <argument
-            android:name="deliveryDetailsHash"
-            app:argType="string"/>
         <argument
             android:name="deliveryId"
             app:argType="java.math.BigInteger"/>

@@ -15,7 +15,7 @@ class DeliveryApprovalRequestViewModel(
     private val courierServiceRepository: CourierServiceRepository
 ) : ViewModel() {
 
-    protected val _deliveryRegistered = MutableLiveData<Boolean>()
+    private val _deliveryRegistered = MutableLiveData<Boolean>()
     val deliveryRegistered: LiveData<Boolean>
         get() = _deliveryRegistered
 

@@ -80,7 +80,7 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
                     DeliveryApprovalRequestViewModel(courierServiceRepository)
 
                 isAssignableFrom(ApprovePackageViewModel::class.java) ->
-                    ApprovePackageViewModel(userDataRepository)
+                    ApprovePackageViewModel(courierServiceRepository, userDataRepository)
 
                 isAssignableFrom(MainActivityViewModel::class.java) ->
                     MainActivityViewModel(courierServiceRepository)
