@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.bwbw.decent.services.CourierServiceRepository
 import eu.bwbw.decent.services.userdata.IUserDataRepository
+import eu.bwbw.decent.utils.weiToString
 import kotlinx.coroutines.launch
 
 class ToolsViewModel(
@@ -29,7 +30,8 @@ class ToolsViewModel(
 
     fun updateBalance() {
         viewModelScope.launch {
-            _balance.value = "Pending withdrawal: ${courierServiceRepository.getWithdrawal().toString(10)}"
+            val pendingWithdrawal = courierServiceRepository.getWithdrawal().toBigDecimal()
+            _balance.value = "Pending withdrawal: ${weiToString(pendingWithdrawal)}"
         }
     }
 
