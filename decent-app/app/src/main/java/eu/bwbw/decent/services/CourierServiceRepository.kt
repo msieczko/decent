@@ -134,7 +134,7 @@ class CourierServiceRepository(
                 .map { ContractDelivery.fromTuple(it) }
                 .filter { it.state != DeliveryState.DELIVERED }
 
-            currentDeliveryOffers + handledDeliveries
+            handledDeliveries + currentDeliveryOffers
         }
     }
 
