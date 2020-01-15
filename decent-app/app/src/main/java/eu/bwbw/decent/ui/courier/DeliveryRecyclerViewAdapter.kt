@@ -49,8 +49,8 @@ class DeliveryRecyclerViewAdapter(
         holder.view.setBackgroundColor(
             Color.parseColor(
                 when (item.state) {
-                    DeliveryState.OFFER -> "#2C4EDF35"
-                    DeliveryState.IN_DELIVERY -> "#51FFEB3B"
+                    DeliveryState.OFFER -> "#8B03A9F4" // blue
+                    DeliveryState.IN_DELIVERY -> "#51FFEB3B" // yellow
                     else -> "#FFFFFFFF"
                 }
             )

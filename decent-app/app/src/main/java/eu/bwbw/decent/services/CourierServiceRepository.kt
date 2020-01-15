@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
+import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.tx.gas.DefaultGasProvider
 import org.web3j.utils.Numeric
 import java.math.BigInteger
@@ -120,9 +121,10 @@ class CourierServiceRepository(
             val allCreatedIds = courierService.extractDeliveryCreatedEvents(logs).map { it.deliveryId }
             val allCanceledIds = courierService.extractDeliveryCanceledEvents(logs).map { it.deliveryId }
             val allPickedUpIds = courierService.extractPackagePickedUpEvents(logs).map { it.deliveryId }
-            val currentDeliveryOffers = allCreatedIds.filter { !allCanceledIds.contains(it) && !allPickedUpIds.contains(it) }
-                .map { courierService.deliveries(it).send() }
-                .map { ContractDelivery.fromTuple(it) }
+            val currentDeliveryOffers =
+                allCreatedIds.filter { !allCanceledIds.contains(it) && !allPickedUpIds.contains(it) }
+                    .map { courierService.deliveries(it).send() }
+                    .map { ContractDelivery.fromTuple(it) }
 
             val courierAddress = userDataRepository.getCredentials().address
             val count = courierService.getCourierDeliveriesCount(courierAddress).send().toInt()
@@ -130,8 +132,9 @@ class CourierServiceRepository(
                 .map { courierService.courierDeliveries(courierAddress, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
+                .filter { it.state != DeliveryState.DELIVERED }
 
-            currentDeliveryOffers + handledDeliveries
+            handledDeliveries + currentDeliveryOffers
         }
     }
 
@@ -166,10 +169,20 @@ class CourierServiceRepository(
         }
     }
 
-    suspend fun getBalance(): BigInteger {
+    suspend fun getWithdrawal(): BigInteger {
         val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
-            courierService.pendingWithdrawals(userDataRepository.getCredentials().address).send()
+            courierService.pendingWithdrawals(userDataRepository.getCredentials().address)
+                .send()
+        }
+    }
+
+    suspend fun getWalletBalance(): BigInteger {
+        return withContext(Dispatchers.IO) {
+            web3j.ethGetBalance(
+                userDataRepository.getCredentials().address,
+                DefaultBlockParameterName.LATEST
+            ).send().balance
         }
     }
 

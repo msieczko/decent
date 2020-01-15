@@ -44,7 +44,7 @@ class SenderFragment : Fragment() {
                 it.findViewById<View>(R.id.nav_view) as NavigationView
             val headerView = navigationView.getHeaderView(0)
             headerView.findViewById<TextView>(R.id.walletAddress).text =
-                getString(R.string.my_eth_address, senderViewModel.getAddress())
+                getString(R.string.wallet_address, senderViewModel.getAddress())
         }
 
         return root

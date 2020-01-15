@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.ScrollView
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -52,6 +53,8 @@ class AddNewDeliveryFragment : Fragment() {
             if (it.isNotEmpty()) {
                 errorInfo.text = it
                 errorInfo.visibility = View.VISIBLE
+                val scrollView = binding.root.findViewById<ScrollView>(R.id.addNewDeliveryScrollView)
+                scrollView.scrollTo(0, scrollView.top)
             } else {
                 errorInfo.visibility = View.GONE
                 errorInfo.text = ""
@@ -70,7 +73,11 @@ class AddNewDeliveryFragment : Fragment() {
         return binding.root
     }
 
-    private fun bindSpinner(spinnerResourceId: Int, spinnerValuesResourceId: Int, bindFunction: (value: String) -> Unit) {
+    private fun bindSpinner(
+        spinnerResourceId: Int,
+        spinnerValuesResourceId: Int,
+        bindFunction: (value: String) -> Unit
+    ) {
         val spinner = binding.root.findViewById<Spinner>(spinnerResourceId)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

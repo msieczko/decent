@@ -1,6 +1,7 @@
 package eu.bwbw.decent.ui.sender
 
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,17 @@ class DeliveryRecyclerViewAdapter(
             -> secondsToHours(item.deliveryDeadline)
             else -> ""
         }
+
+        holder.view.setBackgroundColor(
+            Color.parseColor(
+                when (item.state) {
+                    DeliveryState.OFFER -> "#8B03A9F4" // blue
+                    DeliveryState.IN_DELIVERY -> "#51FFEB3B" // yellow
+                    DeliveryState.DELIVERED -> "#2C4EDF35" // green
+                    else -> "#FFFFFFFF"
+                }
+            )
+        )
 
         with(holder.deleteDeliveryButton) {
             tag = item

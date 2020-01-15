@@ -83,7 +83,7 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
                     ApprovePackageViewModel(userDataRepository)
 
                 isAssignableFrom(MainActivityViewModel::class.java) ->
-                    MainActivityViewModel()
+                    MainActivityViewModel(courierServiceRepository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
@@ -147,7 +147,9 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
 
         fun getInstance(application: Application? = null): ViewModelFactory {
             return INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory(application ?: throw Exception("Application parameter to ViewModelFactory.getInstance() is null"))
+                INSTANCE ?: ViewModelFactory(
+                    application ?: throw Exception("Application parameter to ViewModelFactory.getInstance() is null")
+                )
                     .also { INSTANCE = it }
             }
         }

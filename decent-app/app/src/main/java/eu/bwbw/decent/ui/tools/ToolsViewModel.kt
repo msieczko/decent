@@ -29,7 +29,7 @@ class ToolsViewModel(
 
     fun updateBalance() {
         viewModelScope.launch {
-            _balance.value = "Balance: ${courierServiceRepository.getBalance().toString(10)}"
+            _balance.value = "Pending withdrawal: ${courierServiceRepository.getWithdrawal().toString(10)}"
         }
     }
 
