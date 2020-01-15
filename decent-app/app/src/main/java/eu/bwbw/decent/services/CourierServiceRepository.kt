@@ -132,6 +132,7 @@ class CourierServiceRepository(
                 .map { courierService.courierDeliveries(courierAddress, it).send() }
                 .map { courierService.deliveries(it).send() }
                 .map { ContractDelivery.fromTuple(it) }
+                .filter { it.state != DeliveryState.DELIVERED }
 
             currentDeliveryOffers + handledDeliveries
         }

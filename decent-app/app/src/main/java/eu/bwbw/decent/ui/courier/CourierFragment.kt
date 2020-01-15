@@ -40,10 +40,6 @@ class CourierFragment : Fragment() {
             view.findNavController().navigate(directions)
         }
 
-        val textView: TextView = root.findViewById(R.id.text_courier)
-        courierViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
         return root
     }
 }

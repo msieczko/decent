@@ -43,6 +43,8 @@
     <string name="withdraw_confirmation">Money withdrawal request has been registered</string>
     <string name="delivery_success">Delivery registered successfully</string>
     <string name="delivery_failed">Delivery registration failed</string>
+    <string name="courier_legend">Blue – offers\nYellow – in delivery</string>
+    <string name="sender_legend">Blue – offers\nYellow – in delivery\nGreen – delivered</string>
 
     <string-array name="eth_denominations">
         <item>Ether</item>
