@@ -13,8 +13,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.services.userdata.UserDataRepository
+import kotlinx.coroutines.*
 import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
+import org.web3j.utils.Numeric
 
 class WelcomeFragment : Fragment() {
 
@@ -47,23 +49,29 @@ class WelcomeFragment : Fragment() {
 
         val buttonJustReceive: Button = root.findViewById(R.id.button_just_receive)
         buttonJustReceive.setOnClickListener { view ->
-
-            // TODO consider generating keys in a new thread
-            val ecKeyPair: ECKeyPair = Keys.createEcKeyPair()
-            userDataRepository.generatedPrivateKey = ecKeyPair.privateKey.toString(16)
-
-            val directions: NavDirections = WelcomeFragmentDirections.actionWelcomeFragmentToReceiverFragment()
-            view.findNavController().navigate(directions)
-            actionBar?.show()
+            CoroutineScope(Dispatchers.Main).launch {
+                generateKeys()
+                val directions: NavDirections = WelcomeFragmentDirections.actionWelcomeFragmentToReceiverFragment()
+                view.findNavController().navigate(directions)
+                actionBar?.show()
+            }
         }
 
         val buttonSendOrDeliver: Button = root.findViewById(R.id.button_send_or_deliver)
         buttonSendOrDeliver.setOnClickListener { view ->
-            val directions: NavDirections = WelcomeFragmentDirections.actionWelcomeFragmentToAuthenticationFragment()
+            val directions: NavDirections =
+                WelcomeFragmentDirections.actionWelcomeFragmentToAuthenticationFragment()
             view.findNavController().navigate(directions)
             actionBar?.show()
         }
 
         return root
+    }
+
+    private suspend fun generateKeys() {
+        withContext(Dispatchers.Default) {
+            val ecKeyPair: ECKeyPair = Keys.createEcKeyPair()
+            userDataRepository.generatedPrivateKey = Numeric.toHexStringNoPrefix(ecKeyPair.privateKey)
+        }
     }
 }
