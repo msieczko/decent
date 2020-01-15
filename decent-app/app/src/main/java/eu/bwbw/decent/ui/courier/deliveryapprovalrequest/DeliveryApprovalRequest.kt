@@ -7,6 +7,7 @@ import androidx.core.util.valueIterator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
@@ -113,6 +114,7 @@ class DeliveryApprovalRequest : Fragment() {
                 barcodeDetector.release()
                 cameraSource.release()
                 cameraView.visibility = View.GONE
+                findNavController().popBackStack()
             }
         }
     }
