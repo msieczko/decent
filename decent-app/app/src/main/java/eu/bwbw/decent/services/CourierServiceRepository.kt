@@ -8,6 +8,7 @@ import eu.bwbw.decent.domain.errors.transactions.*
 import eu.bwbw.decent.services.userdata.IUserDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.tx.gas.DefaultGasProvider
 import org.web3j.utils.Numeric
@@ -26,15 +27,19 @@ class CourierServiceRepository(
     private val web3j: Web3j,
     private val userDataRepository: IUserDataRepository
 ) {
-    private val previousCredentials = userDataRepository.getCredentials()
-    private val courierService: DecentCourierService =
-        DecentCourierService(contractAddress, web3j, userDataRepository.getCredentials(), DefaultGasProvider())
-        get() {
-            return if (previousCredentials == userDataRepository.getCredentials()) field
-            else DecentCourierService(contractAddress, web3j, userDataRepository.getCredentials(), DefaultGasProvider())
+    private var previousCredentials: Credentials? = null
+    private var _courierService: DecentCourierService? = null
+    private fun getCourierService(): DecentCourierService {
+        val currentCredentials = userDataRepository.getCredentials()
+        if (previousCredentials != currentCredentials) {
+            previousCredentials = currentCredentials
+            _courierService = DecentCourierService(contractAddress, web3j, currentCredentials, DefaultGasProvider())
         }
+        return _courierService ?: throw Error("This should never happen")
+    }
 
     suspend fun createDeliveryOrder(delivery: DeliveryOrder): BigInteger {
+        val courierService = getCourierService()
         try {
             val (receiver, courierDeposit, courierAward, maxDeliveryTime, detailsHash) = delivery
             val senderDeposit = courierDeposit.div(BigInteger.valueOf(2)).add(courierAward)
@@ -58,6 +63,7 @@ class CourierServiceRepository(
     }
 
     suspend fun cancelDeliveryOrder(deliveryId: BigInteger) {
+        val courierService = getCourierService()
         try {
             withContext(Dispatchers.IO) {
                 val transactionReceipt = courierService.cancelDeliveryOrder(deliveryId).send()
@@ -72,6 +78,7 @@ class CourierServiceRepository(
     }
 
     suspend fun pickupPackage(deliveryId: BigInteger) {
+        val courierService = getCourierService()
         try {
             withContext(Dispatchers.IO) {
                 val delivery = courierService.deliveries(deliveryId).send()
@@ -91,6 +98,7 @@ class CourierServiceRepository(
     }
 
     suspend fun getSenderDeliveries(): List<ContractDelivery> {
+        val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
             val senderAddress = userDataRepository.getCredentials().address
             val count = courierService.getSenderDeliveriesCount(senderAddress).send().toInt()
@@ -106,6 +114,7 @@ class CourierServiceRepository(
     }
 
     suspend fun getCourierDeliveries(): List<ContractDelivery> {
+        val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
             val logs = courierService.getAllLogs()
             val allCreatedIds = courierService.extractDeliveryCreatedEvents(logs).map { it.deliveryId }
@@ -127,6 +136,7 @@ class CourierServiceRepository(
     }
 
     suspend fun getReceiverDeliveries(): List<ContractDelivery> {
+        val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
             val receiverAddress = userDataRepository.getCredentials().address
             val count = courierService.getReceiverDeliveriesCount(receiverAddress).send().toInt()
@@ -142,6 +152,7 @@ class CourierServiceRepository(
     }
 
     suspend fun withdrawMoney() {
+        val courierService = getCourierService()
         try {
             return withContext(Dispatchers.IO) {
                 val transactionReceipt = courierService.withdraw().send()
@@ -156,12 +167,14 @@ class CourierServiceRepository(
     }
 
     suspend fun getBalance(): BigInteger {
+        val courierService = getCourierService()
         return withContext(Dispatchers.IO) {
             courierService.pendingWithdrawals(userDataRepository.getCredentials().address).send()
         }
     }
 
     suspend fun deliverPackage(deliveryId: BigInteger, receiverSignature: ByteArray) {
+        val courierService = getCourierService()
         try {
             return withContext(Dispatchers.IO) {
                 val transactionReceipt = courierService.deliverPackage(deliveryId, receiverSignature).send()
