@@ -10,7 +10,6 @@ import okhttp3.Request
 import okhttp3.Request.Builder
 import okhttp3.RequestBody.Companion.toRequestBody
 
-
 class DeliveryDetailsBackendRepository(
     private val backendUrl: String
 ) : IDeliveryDetailsRepository {
@@ -23,6 +22,7 @@ class DeliveryDetailsBackendRepository(
         val body = detailsJson.toRequestBody()
         val request: Request = Builder()
             .url(backendUrl + DELIVERY_DETAILS_ENDPOINT)
+            .addHeader("Content-Type", "application/json")
             .post(body)
             .build()
 
@@ -31,9 +31,10 @@ class DeliveryDetailsBackendRepository(
             if (response.code != 201) {
                 throw Exception("server did not save delivery details")
             }
-            response.body?.string() ?: throw Exception("no hash response from server")
+            val string = response.body?.string()
+            string ?: throw Exception("no hash response from server")
             val deliveryDetailsHash =
-                gson.fromJson<DeliveryDetailsHash>(response.body?.string(), DeliveryDetailsHash::class.java)
+                gson.fromJson<DeliveryDetailsHash>(string, DeliveryDetailsHash::class.java)
             deliveryDetailsHash.detailsHash
         }
     }
@@ -46,9 +47,7 @@ class DeliveryDetailsBackendRepository(
         return withContext(Dispatchers.IO) {
             val response = client.newCall(request).execute()
             when (response.code) {
-                201 -> throw Exception("server did not return delivery details")
-                404 -> throw Exception("delivery details not found")
-                else -> {
+                200 -> {
                     val deliveryDetailsDto: DeliveryDetailsDto =
                         gson.fromJson<DeliveryDetailsDto>(response.body?.string(), DeliveryDetailsDto::class.java)
                     DeliveryDetails(
@@ -58,6 +57,8 @@ class DeliveryDetailsBackendRepository(
                     )
 
                 }
+                404 -> throw Exception("delivery details not found")
+                else -> throw Exception("server did not return delivery details")
             }
         }
 

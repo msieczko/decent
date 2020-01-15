@@ -44,7 +44,7 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
     )
     //private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
     private val deliveryDetailsRepository = DeliveryDetailsBackendRepository(
-        "http://localhost:3000/"
+        "http://10.0.2.2:3000"
     )
 
     private val deliveriesService = DeliveriesService(

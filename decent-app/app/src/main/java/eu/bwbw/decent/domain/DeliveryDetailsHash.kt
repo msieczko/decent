@@ -1,6 +1,6 @@
 package eu.bwbw.decent.domain
 
-class DeliveryDetailsHash(
+data class DeliveryDetailsHash(
     val detailsHash: String
 )
 
