@@ -14,6 +14,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.services.userdata.UserDataRepository
+import org.web3j.utils.Numeric
 
 class AuthenticationFragment : Fragment() {
 
@@ -35,8 +36,9 @@ class AuthenticationFragment : Fragment() {
         val buttonSendOrDeliver: Button = root.findViewById(R.id.button_save)
         buttonSendOrDeliver.setOnClickListener { view ->
             val key = root.findViewById<EditText>(R.id.usersKey).text.toString()
-            if(viewModel.isUsersKeyValid(key)) {
-                userDataRepository.userPrivateKey = key
+            val unprefixedKey = Numeric.cleanHexPrefix(key)
+            if(viewModel.isUsersKeyValid(unprefixedKey)) {
+                userDataRepository.userPrivateKey = unprefixedKey
                 val directions: NavDirections = AuthenticationFragmentDirections.actionAuthenticationFragmentToSenderFragment()
                 view.findNavController().navigate(directions)
             } else {

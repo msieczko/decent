@@ -40,6 +40,7 @@ contract CourierService {
     Delivery[] public deliveries; // all deliveries
     mapping(address => uint[]) public senderDeliveries; // senderAddress => list of ids of deliveries he's involved in
     mapping(address => uint[]) public courierDeliveries; // courierAddress => list of ids of deliveries he's involved in
+    mapping(address => uint[]) public receiverDeliveries; // receiverAddress => list of ids of deliveries he's involved in
     mapping(address => uint) public pendingWithdrawals;
 
     event DeliveryCreated(uint indexed deliveryId);
@@ -94,6 +95,7 @@ contract CourierService {
             courier: address(0)
         }));
         senderDeliveries[msg.sender].push(deliveryId);
+        receiverDeliveries[receiver].push(deliveryId);
         emit DeliveryCreated(deliveryId);
     }
 
@@ -157,17 +159,10 @@ contract CourierService {
         return courierDeliveries[courier].length;
     }
 
-    function getReceiverDeliveries(address receiver) external view returns (uint[] memory) {
-        uint[] memory receiverDeliveries = new uint[](deliveries.length);
-        uint rLen = 0;
-        for (uint i = 1; i < deliveries.length; ++i) {
-            if (deliveries[i].state == DeliveryState.IN_DELIVERY && deliveries[i].receiver == receiver) {
-                receiverDeliveries[rLen++] = i;
-            }
-        }
-        return receiverDeliveries;
+    function getReceiverDeliveriesCount(address receiver) external view returns (uint) {
+        return receiverDeliveries[receiver].length;
     }
-
+    
     function verifyReceiverSignature(Delivery storage delivery, bytes memory signature) internal view returns (bool) {
         return delivery.detailsHash.toEthSignedMessageHash().recover(signature) == delivery.receiver;
     }
