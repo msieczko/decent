@@ -12,6 +12,7 @@ export function detailsRouter(deliveryDetailsStore: IDeliveryDetailsStore) {
       body: asDeliveryDetails,
     }),
     async ({body}) => {
+      console.log("POST", body, "\n");
       const detailsHash = await deliveryDetailsStore.save(body);
       return responseOf({detailsHash}, 201);
     },
@@ -22,6 +23,7 @@ export function detailsRouter(deliveryDetailsStore: IDeliveryDetailsStore) {
       detailsHash: asNonEmptyString
     }),
     async ({detailsHash}) => {
+      console.log("GET", detailsHash, "\n");
       const deliveryDetails = await deliveryDetailsStore.get(detailsHash);
       if (deliveryDetails === undefined) {
         return responseOf({error: 'NOT_FOUND'}, 404);

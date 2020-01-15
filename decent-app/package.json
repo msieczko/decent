@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start:dev": "ts-node scripts/runDevEnvironment.ts",
-    "paste:unix": "scripts/adb_paste.sh"
+    "paste:unix": "scripts/adb_paste.sh",
+    "paste": "scripts/paste.sh"
   },
   "devDependencies": {
     "@decent/contracts": "0.0.1",

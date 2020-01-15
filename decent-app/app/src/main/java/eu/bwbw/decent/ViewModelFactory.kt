@@ -9,7 +9,7 @@ import eu.bwbw.decent.services.CourierServiceRepository
 import eu.bwbw.decent.services.DeliveriesService
 import eu.bwbw.decent.services.DeliveryOrder
 import eu.bwbw.decent.services.deliverydetails.DeliveryDetails
-import eu.bwbw.decent.services.deliverydetails.DeliveryDetailsMemoryRepository
+import eu.bwbw.decent.services.deliverydetails.DeliveryDetailsBackendRepository
 import eu.bwbw.decent.services.userdata.UserDataMockRepository
 import eu.bwbw.decent.services.userdata.UserDataRepository
 import eu.bwbw.decent.ui.courier.CourierViewModel
@@ -42,7 +42,10 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
         web3j,
         userDataRepository
     )
-    private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
+    //private val deliveryDetailsRepository = DeliveryDetailsMemoryRepository()
+    private val deliveryDetailsRepository = DeliveryDetailsBackendRepository(
+        "http://10.0.2.2:3000"
+    )
 
     private val deliveriesService = DeliveriesService(
         courierServiceRepository,
@@ -98,12 +101,12 @@ class ViewModelFactory private constructor(application: Application) : ViewModel
 
     private suspend fun loadSampleData() {
         val sampleDeliveryDetails01 = DeliveryDetails(
-            "Zlecenie przewozu kota v2",
+            "Zlecenie przewozu kota",
             "Duży, rudy w koszu",
             "ul. Kwiatowa 14/12, Warszawa"
         )
         val sampleDeliveryDetails02 = DeliveryDetails(
-            "Zlecenie przewozu dużego dzika v2",
+            "Zlecenie przewozu dużego dzika",
             "Duży, dziki w koszu",
             "ul. Andaluzyjska 11/1, Warszawa"
         )

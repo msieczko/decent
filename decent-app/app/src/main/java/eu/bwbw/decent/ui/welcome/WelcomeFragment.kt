@@ -13,10 +13,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eu.bwbw.decent.R
 import eu.bwbw.decent.services.userdata.UserDataRepository
-import kotlinx.coroutines.*
-import org.web3j.crypto.ECKeyPair
-import org.web3j.crypto.Keys
-import org.web3j.utils.Numeric
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.web3j.crypto.Credentials
 
 class WelcomeFragment : Fragment() {
 
@@ -70,8 +71,10 @@ class WelcomeFragment : Fragment() {
 
     private suspend fun generateKeys() {
         withContext(Dispatchers.Default) {
-            val ecKeyPair: ECKeyPair = Keys.createEcKeyPair()
-            userDataRepository.generatedPrivateKey = Numeric.toHexStringNoPrefix(ecKeyPair.privateKey)
+            val demoHardcodedReceiverKey = "706618637b8ca922f6290ce1ecd4c31247e9ab75cf0530a0ac95c0332173d7c5"
+            println("Receiver address = ${Credentials.create(demoHardcodedReceiverKey).address}")
+            println("Receiver private key = $demoHardcodedReceiverKey")
+            userDataRepository.generatedPrivateKey = demoHardcodedReceiverKey
         }
     }
 }
