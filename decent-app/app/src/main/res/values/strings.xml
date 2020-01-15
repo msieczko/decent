@@ -33,7 +33,8 @@
     <string name="add">Add</string>
     <string name="action_refresh">Refresh</string>
     <string name="invalid_key">Invalid key</string>
-    <string name="my_eth_address">My address:\n%1$s</string>
+    <string name="wallet_address">Wallet address:\n%1$s</string>
+    <string name="my_wallet_balance">Wallet balance:\n%1$s</string>
     <string name="transaction_in_progress">Transaction in progress</string>
     <string name="qr_code_content_description">QR code</string>
     <string name="withdraw_money">Withdraw money</string>
