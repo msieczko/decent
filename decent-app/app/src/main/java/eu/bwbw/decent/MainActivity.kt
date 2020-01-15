@@ -1,12 +1,15 @@
 package eu.bwbw.decent
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -55,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             .get(MainActivityViewModel::class.java)
 
         setupListeners(navView)
+        askForPermissions(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -73,5 +77,24 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+    }
+
+    private fun askForPermissions(activity: AppCompatActivity) {
+        if (
+            ContextCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(Manifest.permission.CAMERA),
+                APP_PERMISSIONS_REQUEST_CAMERA
+            )
+        }
+    }
+
+    companion object {
+        const val APP_PERMISSIONS_REQUEST_CAMERA = 200
     }
 }
