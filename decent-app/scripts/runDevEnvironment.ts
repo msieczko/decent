@@ -3,6 +3,7 @@ import {defaultAccounts, getWallets} from 'ethereum-waffle';
 import {promisify} from 'util';
 import {JsonRpcProvider} from 'ethers/providers';
 import {Wallet} from 'ethers';
+import {parseEther} from 'ethers/utils';
 
 const Ganache = require('ganache-core');
 
@@ -14,7 +15,11 @@ export async function runDevEnvironment() {
 }
 
 async function startGanache(port) {
-    const options: any = {accounts: defaultAccounts};
+    const accounts = defaultAccounts.map((account) => {
+        account.balance = parseEther("10").toString();
+        return account;
+    });
+    const options: any = {accounts};
     const server = Ganache.server(options);
     const listenPromise = promisify(server.listen);
     await listenPromise(port);
