@@ -17,182 +17,192 @@
         android:layout_height="match_parent">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.sender.addnewdelivery.AddNewDeliveryFragment"
-            android:alpha="@{viewModel.savingData ? 0.15f : 1f}">
-
-            <TextView
-                android:id="@+id/form_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/new_delivery"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TextView
-                android:id="@+id/errorInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@android:color/holo_red_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/form_title"
-                tools:text="invalid title"/>
-
-            <EditText
-                android:id="@+id/input_title"
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/title"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:text="@={viewModel.title}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.32"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/errorInfo"/>
-
-            <EditText
-                android:id="@+id/input_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/description"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:text="@={viewModel.description}"
-                app:layout_constraintEnd_toEndOf="@+id/input_title"
-                app:layout_constraintStart_toStartOf="@+id/input_title"
-                app:layout_constraintTop_toBottomOf="@+id/input_title"
-                />
-
-            <EditText
-                android:id="@+id/input_receiver_eth_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/receiver_ethereum_address"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:text="@={viewModel.receiverEthAddress}"
-                app:layout_constraintEnd_toEndOf="@+id/input_title"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/input_title"
-                app:layout_constraintTop_toBottomOf="@+id/input_description"/>
-
-            <EditText
-                android:id="@+id/input_receiver_postal_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/receiver_postal_address"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:text="@={viewModel.receiverPostalAddress}"
-                app:layout_constraintEnd_toEndOf="@+id/input_title"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/input_title"
-                app:layout_constraintTop_toBottomOf="@+id/input_receiver_eth_address"/>
-
-            <EditText
-                android:id="@+id/input_courier_deposit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/courier_deposit"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal"
-                android:text="@={viewModel.courierDeposit}"
-                app:layout_constraintStart_toStartOf="@+id/input_title"
-                app:layout_constraintTop_toBottomOf="@+id/input_receiver_postal_address"/>
-
-            <Spinner
-                android:id="@+id/spinner_courier_deposit_units"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:entries="@array/eth_denominations"
-                app:layout_constraintBottom_toBottomOf="@+id/input_courier_deposit"
-                app:layout_constraintEnd_toEndOf="@+id/input_title"
-                app:layout_constraintStart_toEndOf="@+id/input_courier_deposit"
-                app:layout_constraintTop_toBottomOf="@+id/input_receiver_postal_address"/>
-
-            <EditText
-                android:id="@+id/input_courier_award"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/courier_award"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal"
-                android:text="@={viewModel.courierAward}"
-                app:layout_constraintStart_toStartOf="@+id/input_title"
-                app:layout_constraintTop_toBottomOf="@+id/input_courier_deposit"/>
-
-            <Spinner
-                android:id="@+id/spinner_courier_award_units"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:entries="@array/eth_denominations"
-                app:layout_constraintBottom_toBottomOf="@+id/input_courier_award"
-                app:layout_constraintEnd_toEndOf="@+id/input_title"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/input_courier_award"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_courier_deposit_units"/>
-
-            <EditText
-                android:id="@+id/input_max_delivery_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/max_delivery_time"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:text="@={viewModel.maxDeliveryTime}"
-                app:layout_constraintStart_toStartOf="@+id/input_title"
-                app:layout_constraintTop_toBottomOf="@+id/input_courier_award"/>
-
-            <Spinner
-                android:id="@+id/spinner_max_delivery_time_units"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:entries="@array/time_units"
-                app:layout_constraintBottom_toBottomOf="@+id/input_max_delivery_time"
-                app:layout_constraintEnd_toEndOf="@+id/input_title"
-                app:layout_constraintStart_toEndOf="@+id/input_max_delivery_time"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_courier_award_units"/>
-
-            <Button
-                android:id="@+id/button_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/add"
-                app:layout_constraintStart_toStartOf="@+id/input_description"
-                app:layout_constraintTop_toBottomOf="@+id/input_max_delivery_time"/>
+            android:id="@+id/addNewDeliveryScrollView">
 
 
-            <androidx.constraintlayout.widget.Group
-                android:visibility="@{viewModel.savingData ? View.GONE : View.VISIBLE}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/hiddenWhenSaving"
-                app:constraint_referenced_ids="button_add"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.sender.addnewdelivery.AddNewDeliveryFragment"
+                android:alpha="@{viewModel.savingData ? 0.15f : 1f}">
+
+                <TextView
+                    android:id="@+id/form_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/new_delivery"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/errorInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/holo_red_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/form_title"
+                    tools:text="invalid title"/>
+
+                <EditText
+                    android:id="@+id/input_title"
+                    android:layout_width="330dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/title"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.32"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/errorInfo"/>
+
+                <EditText
+                    android:id="@+id/input_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/description"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:text="@={viewModel.description}"
+                    app:layout_constraintEnd_toEndOf="@+id/input_title"
+                    app:layout_constraintStart_toStartOf="@+id/input_title"
+                    app:layout_constraintTop_toBottomOf="@+id/input_title"
+                    />
+
+                <EditText
+                    android:id="@+id/input_receiver_eth_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/receiver_ethereum_address"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:text="@={viewModel.receiverEthAddress}"
+                    app:layout_constraintEnd_toEndOf="@+id/input_title"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/input_title"
+                    app:layout_constraintTop_toBottomOf="@+id/input_description"/>
+
+                <EditText
+                    android:id="@+id/input_receiver_postal_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/receiver_postal_address"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:text="@={viewModel.receiverPostalAddress}"
+                    app:layout_constraintEnd_toEndOf="@+id/input_title"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/input_title"
+                    app:layout_constraintTop_toBottomOf="@+id/input_receiver_eth_address"/>
+
+                <EditText
+                    android:id="@+id/input_courier_deposit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/courier_deposit"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:text="@={viewModel.courierDeposit}"
+                    app:layout_constraintStart_toStartOf="@+id/input_title"
+                    app:layout_constraintTop_toBottomOf="@+id/input_receiver_postal_address"/>
+
+                <Spinner
+                    android:id="@+id/spinner_courier_deposit_units"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:entries="@array/eth_denominations"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_courier_deposit"
+                    app:layout_constraintEnd_toEndOf="@+id/input_title"
+                    app:layout_constraintStart_toEndOf="@+id/input_courier_deposit"
+                    app:layout_constraintTop_toBottomOf="@+id/input_receiver_postal_address"/>
+
+                <EditText
+                    android:id="@+id/input_courier_award"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/courier_award"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:text="@={viewModel.courierAward}"
+                    app:layout_constraintStart_toStartOf="@+id/input_title"
+                    app:layout_constraintTop_toBottomOf="@+id/input_courier_deposit"/>
+
+                <Spinner
+                    android:id="@+id/spinner_courier_award_units"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:entries="@array/eth_denominations"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_courier_award"
+                    app:layout_constraintEnd_toEndOf="@+id/input_title"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/input_courier_award"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_courier_deposit_units"/>
+
+                <EditText
+                    android:id="@+id/input_max_delivery_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/max_delivery_time"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:text="@={viewModel.maxDeliveryTime}"
+                    app:layout_constraintStart_toStartOf="@+id/input_title"
+                    app:layout_constraintTop_toBottomOf="@+id/input_courier_award"/>
+
+                <Spinner
+                    android:id="@+id/spinner_max_delivery_time_units"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:entries="@array/time_units"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_max_delivery_time"
+                    app:layout_constraintEnd_toEndOf="@+id/input_title"
+                    app:layout_constraintStart_toEndOf="@+id/input_max_delivery_time"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_courier_award_units"/>
+
+                <Button
+                    android:id="@+id/button_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/add"
+                    app:layout_constraintStart_toStartOf="@+id/input_description"
+                    app:layout_constraintTop_toBottomOf="@+id/input_max_delivery_time"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"/>
+
+
+                <androidx.constraintlayout.widget.Group
+                    android:visibility="@{viewModel.savingData ? View.GONE : View.VISIBLE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hiddenWhenSaving"
+                    app:constraint_referenced_ids="button_add"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
         <ProgressBar
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
