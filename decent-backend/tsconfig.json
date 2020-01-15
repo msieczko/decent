@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "downlevelIteration": true,
+    "lib": [
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "sourceMap": true,
+    "target": "es6"
+  },
+  "include": [
+    "src"
+  ]
+}

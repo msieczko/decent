@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   build-test-contracts:
-    name: Build and test decent-contracts
+    name: Build and test contracts and backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -23,9 +23,11 @@ jobs:
         run: yarn workspace @decent/contracts build
       - name: Test contracts
         run: yarn workspace @decent/contracts test:nobuild
+      - name: Build backend
+        run: yarn workspace @decent/backend build
 
   build-app:
-    name: Build decent-app
+    name: Build Android app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
